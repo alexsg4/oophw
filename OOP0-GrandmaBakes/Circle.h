@@ -1,9 +1,12 @@
 #pragma once
 #include "shape.h"
-#define PI 3.14
+
 class Circle :
 	public Shape
 {
+private:
+	const double PI = 3.14;
+
 public:
 	Circle();
 	Circle(int radius, int height);
