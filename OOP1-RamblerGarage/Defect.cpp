@@ -46,20 +46,21 @@ double Defect::getDamage() const {	return damage;	}
 
 unsigned Defect::getManHours() const {	return manHours; }
 
+//TODO possible need to overload [] for simpler syntax
 void Defect::displaySpareCost()
 {
-	if (cost[Spare::SCREW])
+	if (cost[(unsigned)Spare::SCREW])
 	{
-		std::cout << cost[Spare::SCREW] << " suruburi\n";
+		std::cout << cost[(unsigned)Spare::SCREW] << " suruburi\n";
 	}
 
-	if (cost[Spare::OIL])
+	if (cost[(unsigned)Spare::OIL])
 	{
-		std::cout << cost[Spare::SCREW] << " ml ulei\n";
+		std::cout << cost[(unsigned)Spare::SCREW] << " ml ulei\n";
 	}
 
-	if (cost[Spare::WIRE])
+	if (cost[(unsigned)Spare::WIRE])
 	{
-		std::cout << cost[Spare::WIRE] << " cm fire\n";
+		std::cout << cost[(unsigned)Spare::WIRE] << " cm fire\n";
 	}
 }

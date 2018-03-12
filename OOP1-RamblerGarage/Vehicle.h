@@ -14,7 +14,7 @@ protected:
 
 public:
 	Vehicle();
-	Vehicle(std::string make, std::string model, unsigned year = 1990);
+	Vehicle(std::string make, std::string model, unsigned year = 1950);
 
 	~Vehicle();
 
