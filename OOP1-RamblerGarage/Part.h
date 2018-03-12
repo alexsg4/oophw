@@ -1,28 +1,42 @@
 #pragma once
-#include <string>
 
 class Defect; 
 
 class Part
 {
-private:
-	unsigned maxDefects;
-	unsigned numDefects;
-	std::string type;
-	std::string vehicle;
-	std::string mount; //i.e front/rear/left/right
-	double condition;
-	Defect** defects;
+public:
+	//Might need renaming
+	enum class Type
+	{
+		WHEEL, ENGINE, SUSPENSION, TRANSMISSION, CHASSIS, INTERIOR, BRAKE, ECU,
+		SCREW, WIRE, OIL, PLATE
+	
+	};
 
+	enum class Vehicle { ANY, CAR, BIKE, MOTO };
+	enum class Position { ANY, LEFT, RIGHT, FRONT, REAR, FRONTLT, FRONTRT, REARLT, REARRT };
+
+
+private:
+	//Parts always start in "pristine" condition
+	double condition = 100.;
+	const unsigned maxDefects = 20;
+	unsigned numDefects = 0;
+	Type type;
+	Vehicle vehicle;
+	Position position;
+	Defect** defects;
 
 public:
 	Part();
+	Part(Type t, Vehicle v, Position pos);
+		
 	~Part();
 
-	const std::string getType() const;
-	const std::string getVehicle() const;
-	const std::string getMount() const;
-	const double getCondition() const;
+	Type getType() const;
+	Vehicle getVehicle() const;
+	Position getMount() const;
+	double getCondition() const;
 
 
 };

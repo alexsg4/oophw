@@ -18,10 +18,10 @@ public:
 
 	~Vehicle();
 
-	const std::string getMake() const;
-	const std::string getModel() const;
-	const unsigned int getYear() const;
-	const double getCondition() const;
+	std::string getMake() const;
+	std::string getModel() const;
+	unsigned int getYear() const;
+	double getCondition() const;
 
 	//TODO add Parts specific functions incl. constructor
 };

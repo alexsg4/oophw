@@ -5,14 +5,21 @@
 
 Part::Part()
 {
-	maxDefects = 20; //TODO change accordingly 
 	numDefects = 0;
-	condition = 100;
+	type = Type::SCREW;
+	vehicle = Vehicle::ANY;
+	position = Position::ANY;
 
 	defects = new Defect*[maxDefects];
 	for (int i = 0; i < maxDefects; i++){ defects[i] = nullptr; }
+
 }
 
+Part::Part(Type t, Vehicle v, Position pos) : type(t), vehicle(v), position(pos)
+{
+	defects = new Defect*[maxDefects];
+	for (int i = 0; i < maxDefects; i++) { defects[i] = nullptr; }
+}
 
 Part::~Part()
 {
@@ -23,22 +30,23 @@ Part::~Part()
 	delete[] defects;
 }
 
-const std::string Part::getType() const
+Part::Type Part::getType() const
 {
 	return type;
 }
 
-const std::string Part::getVehicle() const
+Part::Vehicle Part::getVehicle() const
 {
-	return type;
+	return vehicle;
 }
 
-const std::string Part::getMount() const
+Part::Position Part::getMount() const
 {
-	return mount;
+	return position;
 }
 
-const double Part::getCondition() const
+
+double Part::getCondition() const
 {
 	return condition;
 }
