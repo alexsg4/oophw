@@ -8,9 +8,7 @@ public:
 	//Might need renaming
 	enum class Type
 	{
-		WHEEL, ENGINE, SUSPENSION, TRANSMISSION, CHASSIS, INTERIOR, BRAKE, ECU,
-		SCREW, WIRE, OIL, PLATE
-	
+		ANY, WHEEL, ENGINE, SUSPENSION, TRANSMISSION, CHASSIS, INTERIOR, BRAKE, ECU
 	};
 
 	enum class Vehicle { ANY, CAR, BIKE, MOTO };

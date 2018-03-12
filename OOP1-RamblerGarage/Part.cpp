@@ -6,7 +6,7 @@
 Part::Part()
 {
 	numDefects = 0;
-	type = Type::SCREW;
+	type = Type::ANY;
 	vehicle = Vehicle::ANY;
 	position = Position::ANY;
 
