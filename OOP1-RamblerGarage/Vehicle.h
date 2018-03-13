@@ -5,6 +5,7 @@ class Vehicle
 {
 protected:
 	unsigned totalParts;
+	unsigned numParts = 0;
 	std::string make;
 	std::string model;
 	unsigned int year;
@@ -24,5 +25,8 @@ public:
 	double getCondition() const;
 
 	//TODO add Parts specific functions incl. constructor
+	void addPart(Part::Type t, Part::Vehicle v, Part::Position p);
+
+
 };
 

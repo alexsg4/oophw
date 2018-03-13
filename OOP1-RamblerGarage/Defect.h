@@ -13,12 +13,12 @@ private:
 	const unsigned spares = 3;
 	std::string name;
 	double damage = 1.;
-	unsigned manHours = 1.;
+	double manHours = 1.;
 	unsigned *cost = nullptr;
 
 public:
 	Defect();
-	Defect(std::string n, double d, int h, int *&def);
+	Defect(std::string n, double d, double h, int *&def);
 
 	~Defect();
 

@@ -1,7 +1,5 @@
 #pragma once
 
-class Defect; 
-
 class Part
 {
 public:
@@ -23,7 +21,7 @@ private:
 	Type type;
 	Vehicle vehicle;
 	Position position;
-	Defect** defects;
+	int* defectMarker = nullptr;
 
 public:
 	Part();

@@ -8,9 +8,10 @@ Defect::Defect()
 	for (int i = 0; i < spares; i++) { cost[i] = 0; }
 }
 
-Defect::Defect(std::string n, double d, int h, int *&def)
-	: name(n)
+Defect::Defect(std::string n, double d, double h, int *&def)
 {
+	name = n;
+
 	if (d > 0)
 	{
 		if (d > 100.){	d = 100.; }
@@ -56,7 +57,7 @@ void Defect::displaySpareCost()
 
 	if (cost[(unsigned)Spare::OIL])
 	{
-		std::cout << cost[(unsigned)Spare::SCREW] << " ml ulei\n";
+		std::cout << cost[(unsigned)Spare::OIL] << " ml ulei\n";
 	}
 
 	if (cost[(unsigned)Spare::WIRE])

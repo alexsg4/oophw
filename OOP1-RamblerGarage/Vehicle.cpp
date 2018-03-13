@@ -28,22 +28,18 @@ Vehicle::~Vehicle()
 	delete[] parts;
 }
 
-std::string Vehicle::getMake() const
-{
-	return make;
-}
+std::string Vehicle::getMake() const { return make; }
 
-std::string Vehicle::getModel() const
-{
-	return model;
-}
+std::string Vehicle::getModel() const { return model; }
 
-unsigned int Vehicle::getYear() const
-{
-	return year;
-}
+unsigned int Vehicle::getYear() const { return year; }
 
-double Vehicle::getCondition() const
+double Vehicle::getCondition() const { return condition;	}
+
+void Vehicle::addPart(Part::Type t, Part::Vehicle v, Part::Position p)
 {
-	return condition;
+	if (numParts < totalParts)
+	{
+		parts[numParts++] = new Part(t, v, p);
+	}
 }

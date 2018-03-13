@@ -1,7 +1,5 @@
 #include "stdafx.h"
 #include "Part.h"
-#include "Defect.h"
-
 
 Part::Part()
 {
@@ -10,24 +8,19 @@ Part::Part()
 	vehicle = Vehicle::ANY;
 	position = Position::ANY;
 
-	defects = new Defect*[maxDefects];
-	for (int i = 0; i < maxDefects; i++){ defects[i] = nullptr; }
-
+	defectMarker = new int[maxDefects];
+	for (int i = 0; i < maxDefects; i++) { defectMarker[i] = 0; }
 }
 
 Part::Part(Type t, Vehicle v, Position pos) : type(t), vehicle(v), position(pos)
 {
-	defects = new Defect*[maxDefects];
-	for (int i = 0; i < maxDefects; i++) { defects[i] = nullptr; }
+	defectMarker = new int[maxDefects];
+	for (int i = 0; i < maxDefects; i++) { defectMarker[i] = 0; }
 }
 
 Part::~Part()
 {
-	for (int i = 0; i < maxDefects; i++)
-	{
-		delete defects[i];
-	}
-	delete[] defects;
+	delete[] defectMarker;
 }
 
 Part::Type Part::getType() const
