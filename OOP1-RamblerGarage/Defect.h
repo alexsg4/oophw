@@ -10,15 +10,15 @@ public:
 
 private:
 	//types of spare parts 
-	const unsigned spares = 3;
-	std::string name;
+	static const unsigned spares = 3;
+	std::string name = "generic defect";
 	double damage = 1.;
 	double manHours = 1.;
 	unsigned *cost = nullptr;
 
 public:
 	Defect();
-	Defect(std::string n, double d, double h, int *&def);
+	Defect(std::string n, double d, double h, int *def);
 
 	~Defect();
 

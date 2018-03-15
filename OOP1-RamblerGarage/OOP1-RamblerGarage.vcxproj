@@ -267,6 +267,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Car.h" />
     <ClInclude Include="Defect.h" />
     <ClInclude Include="Part.h" />
     <ClInclude Include="resource.h" />
@@ -275,6 +276,7 @@
     <ClInclude Include="Vehicle.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Car.cpp" />
     <ClCompile Include="Defect.cpp" />
     <ClCompile Include="OOP1-RamblerGarage.cpp" />
     <ClCompile Include="Part.cpp" />

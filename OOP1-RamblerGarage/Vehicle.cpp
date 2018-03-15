@@ -1,22 +1,16 @@
 #include "stdafx.h"
 #include "Vehicle.h"
+#include <ctime>
 
-//TODO modify if necessary
 Vehicle::Vehicle()
 {
-	condition = 100.;
-	totalParts = 10; // TODO change accordingly 
-	parts = new Part*[totalParts];
-	for (unsigned i = 0; i < totalParts; i++) { parts[i] = nullptr; }
 }
 
-Vehicle::Vehicle(std::string make, std::string model, unsigned year)
-	: make(make), model(model) 
+Vehicle::Vehicle(std::string make, std::string model, unsigned year, unsigned tParts)
+	: make(make), model(model), totalParts(tParts)
 {
 	if (year >= 1950 && year < 2100) { year = year; }
 	
-	condition = 100.;
-	totalParts = 10; // TODO change accordingly 
 	parts = new Part*[totalParts];
 	for (unsigned i = 0; i < totalParts; i++) { parts[i] = nullptr; }
 
@@ -36,10 +30,22 @@ unsigned int Vehicle::getYear() const { return year; }
 
 double Vehicle::getCondition() const { return condition;	}
 
-void Vehicle::addPart(Part::Type t, Part::Vehicle v, Part::Position p)
+void Vehicle::addPart(Part::Type t, Part::Position p)
 {
 	if (numParts < totalParts)
 	{
-		parts[numParts++] = new Part(t, v, p);
+		parts[numParts++] = new Part(Part::Mount::ANY, t, p);
 	}
 }
+
+//TODO implement
+void Vehicle::applyRandomDamage()
+{
+	srand((int)time(0));
+	
+	for (unsigned i = 0; i < numParts; i++)
+	{
+		//parts[i].
+	}
+}
+

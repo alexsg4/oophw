@@ -8,7 +8,7 @@ Defect::Defect()
 	for (int i = 0; i < spares; i++) { cost[i] = 0; }
 }
 
-Defect::Defect(std::string n, double d, double h, int *&def)
+Defect::Defect(std::string n, double d, double h, int *def)
 {
 	name = n;
 

@@ -3,36 +3,44 @@
 class Part
 {
 public:
-	//Might need renaming
+	//TODO remove string-referencing
 	enum class Type
 	{
-		ANY, WHEEL, ENGINE, SUSPENSION, TRANSMISSION, CHASSIS, INTERIOR, BRAKE, ECU
+		WHEEL, CHASSIS, ENGINE, BRAKE, SUSPENSION, TRANSMISSION, INTERIOR, ECU, ANY
 	};
 
-	enum class Vehicle { ANY, CAR, BIKE, MOTO };
-	enum class Position { ANY, LEFT, RIGHT, FRONT, REAR, FRONTLT, FRONTRT, REARLT, REARRT };
-
+	enum class Mount { CAR, MOTO, BIKE, ANY };
+	enum class Position { LEFT, RIGHT, FRONT, REAR, FRONTLT, FRONTRT, REARLT, REARRT, ANY };
 
 private:
 	//Parts always start in "pristine" condition
 	double condition = 100.;
-	const unsigned maxDefects = 20;
+	static const unsigned maxDefects = 20;
 	unsigned numDefects = 0;
 	Type type;
-	Vehicle vehicle;
+	Mount mount;
 	Position position;
-	int* defectMarker = nullptr;
+
+	static const unsigned vehicleTypes = 3;
+	static const unsigned partTypes = 8;
+	
+	static Defect* defects[vehicleTypes][partTypes][maxDefects];
+	bool *defectMarker;
 
 public:
 	Part();
-	Part(Type t, Vehicle v, Position pos);
+	Part(Mount v, Type t,  Position pos);
 		
 	~Part();
 
 	Type getType() const;
-	Vehicle getVehicle() const;
-	Position getMount() const;
+	Mount getMount() const;
+	Position getPosition() const;
 	double getCondition() const;
+	unsigned getMaxDefects() const;
+	
+	void loadDefects();
+	void loadDefects(std::string s);
 
 
 };
