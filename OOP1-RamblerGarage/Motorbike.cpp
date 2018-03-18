@@ -21,7 +21,6 @@ Motorbike::Motorbike(std::string m, std::string mod, unsigned year)
 	addPart(Part::Type::ECU, Part::Position::ANY);
 	addPart(Part::Type::SUSPENSION, Part::Position::ANY);
 	addPart(Part::Type::BODY, Part::Position::ANY);
-	addPart(Part::Type::INTERIOR, Part::Position::ANY);
 
 	addPart(Part::Type::WHEEL, Part::Position::FRONT);
 	addPart(Part::Type::WHEEL, Part::Position::REAR);
