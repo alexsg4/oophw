@@ -1,30 +1,31 @@
 #pragma once
+#include "Defect.h"
+#include <string>
 
 class Part
 {
 public:
-	//TODO remove string-referencing
 	enum class Type
 	{
-		WHEEL, CHASSIS, ENGINE, BRAKE, SUSPENSION, TRANSMISSION, INTERIOR, ECU, ANY
+		ANY, WHEEL, ENGINE, BRAKE, SUSPENSION, TRANSMISSION, INTERIOR, ECU, BODY, DOOR
 	};
 
-	enum class Mount { CAR, MOTO, BIKE, ANY };
-	enum class Position { LEFT, RIGHT, FRONT, REAR, FRONTLT, FRONTRT, REARLT, REARRT, ANY };
+	enum class Mount { ANY, CAR, MOTO, BIKE };
+	enum class Position { ANY, LEFT, RIGHT, FRONT, REAR, FRONTLT, FRONTRT, REARLT, REARRT };
 
 private:
 	//Parts always start in "pristine" condition
 	double condition = 100.;
-	static const unsigned maxDefects = 20;
+	static constexpr unsigned maxDefects = 20;
 	unsigned numDefects = 0;
 	Type type;
 	Mount mount;
 	Position position;
 
-	static const unsigned vehicleTypes = 3;
-	static const unsigned partTypes = 8;
+	static constexpr unsigned vehicleTypes = 3;
+	static constexpr unsigned partTypes = 8;
 	
-	static Defect* defects[vehicleTypes][partTypes][maxDefects];
+	Defect** dTable;
 	bool *defectMarker;
 
 public:
@@ -38,8 +39,9 @@ public:
 	Position getPosition() const;
 	double getCondition() const;
 	unsigned getMaxDefects() const;
+
+	std::string & getDefectsFile();
 	
-	void loadDefects();
 	void loadDefects(std::string s);
 
 

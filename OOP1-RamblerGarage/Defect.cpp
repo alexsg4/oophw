@@ -5,10 +5,10 @@
 Defect::Defect()
 {
 	cost = new unsigned[spares];
-	for (int i = 0; i < spares; i++) { cost[i] = 0; }
+	for (unsigned i = 0; i < spares; i++) { cost[i] = 0; }
 }
 
-Defect::Defect(std::string n, double d, double h, int *def)
+Defect::Defect(std::string n, double d, double h, const int *def)
 {
 	name = n;
 
@@ -22,16 +22,31 @@ Defect::Defect(std::string n, double d, double h, int *def)
 
 	cost = new unsigned[spares];
 	
-	//TODO test
-	//TODO display spares amount when adding defects 
 	if (def)
 	{
 		for (int i = 0; i < spares; i++)
 		{
-			if (def[i]) { cost[i] = def[i]; }
+			if (def[i]>0) { cost[i] = def[i]; }
 			else { cost[i] = 0; }
 		}
 	}
+}
+
+Defect::Defect(std::string n, double d, double h)
+{
+	name = n;
+
+	if (d > 0)
+	{
+		if (d > 100.) { d = 100.; }
+		damage = d;
+	}
+
+	if (h > 0) { manHours = h; }
+
+	cost = new unsigned[spares];
+
+	for (int i = 0; i < spares; i++){ cost[i] = 0; }
 }
 
 Defect::~Defect()
@@ -39,7 +54,7 @@ Defect::~Defect()
 	delete[] cost;
 }
 
-unsigned Defect::getSpares() const {	return spares;	}
+unsigned Defect::getSpares() {	return spares;	}
 
 std::string Defect::getName() const {	return name;	}
 
@@ -50,6 +65,11 @@ unsigned Defect::getManHours() const {	return manHours; }
 //TODO possible need to overload [] for simpler syntax
 void Defect::displaySpareCost()
 {
+	if (cost[(unsigned)Spare::REPLACE])
+	{
+		std::cout << "Componenta trebuie inlocuita. \n";
+	}
+
 	if (cost[(unsigned)Spare::SCREW])
 	{
 		std::cout << cost[(unsigned)Spare::SCREW] << " suruburi\n";
@@ -57,11 +77,30 @@ void Defect::displaySpareCost()
 
 	if (cost[(unsigned)Spare::OIL])
 	{
-		std::cout << cost[(unsigned)Spare::OIL] << " ml ulei\n";
+		std::cout << cost[(unsigned)Spare::OIL] << " l ulei\n";
 	}
 
 	if (cost[(unsigned)Spare::WIRE])
 	{
 		std::cout << cost[(unsigned)Spare::WIRE] << " cm fire\n";
 	}
+
+	if (cost[(unsigned)Spare::PAINT])
+	{
+		std::cout << cost[(unsigned)Spare::WIRE] << " l vopsea\n";
+	}
 }
+
+void Defect::loadCost(const unsigned* dCost)
+{
+	for (unsigned i = 0; i < spares; i++)
+	{
+		if (dCost[i] > 0)
+		{
+			cost[i] = dCost[i];
+		}
+	}
+
+}
+
+void Defect::displayName() { std::cout << name; }
