@@ -101,7 +101,7 @@ std::string& Part::getDefectsFile()
 		break;
 	}
 
-	file = file + "in";
+	file = file + ".in";
 }
 
 void Part::loadDefects(std::string s)
@@ -143,37 +143,39 @@ void Part::displayName()
 	case Part::Type::ANY:
 		break;
 	case Part::Type::WHEEL:
-		name = "Roata ";
+		name = "Roata";
 		break;
 	case Part::Type::ENGINE:
-		name = "Motor ";
+		name = "Motor";
 		break;
 	case Part::Type::BRAKE:
-		name = "Frana ";
+		name = "Frana";
 		break;
 	case Part::Type::SUSPENSION:
-		name = "Suspensie ";
+		name = "Suspensie";
 		break;
 	case Part::Type::TRANSMISSION:
-		if(mount == Mount::BIKE) { name = "Ansamblu lant-pedale-directie "; }
-		else { name = "Transmisie "; }
+		if(mount == Mount::BIKE) { name = "Ansamblu lant-pedale-directie"; }
+		else { name = "Transmisie"; }
 		break;
 	case Part::Type::INTERIOR:
-		if(mount == Mount::CAR){ name = "Habitaclu "; }
-		else { name = "Sa "; }
+		if(mount == Mount::CAR){ name = "Habitaclu"; }
 		break;
 	case Part::Type::ECU:
-		name = "Unitate control motor ";
+		name = "Unitate control motor";
 		break;
 	case Part::Type::BODY:
-		name = "Caroserie ";
+		if (mount == Mount::CAR) { name = "Caroserie"; }
+		else { name = "Cadru"; }
 		break;
 	case Part::Type::DOOR:
-		name = "Usa ";
+		name = "Usa";
 		break;
 	default:
 		break;
 	}
+
+	name += " ";
 
 	switch (position)
 	{

@@ -267,8 +267,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Bike.h" />
     <ClInclude Include="Car.h" />
     <ClInclude Include="Defect.h" />
+    <ClInclude Include="Motorbike.h" />
     <ClInclude Include="Part.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -276,8 +278,10 @@
     <ClInclude Include="Vehicle.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Bike.cpp" />
     <ClCompile Include="Car.cpp" />
     <ClCompile Include="Defect.cpp" />
+    <ClCompile Include="Motorbike.cpp" />
     <ClCompile Include="OOP1-RamblerGarage.cpp" />
     <ClCompile Include="Part.cpp" />
     <ClCompile Include="stdafx.cpp">
