@@ -46,7 +46,7 @@ double Part::getCondition() const{	return condition;	}
 
 unsigned Part::getMaxDefects() const{	return maxDefects;	}
 
-std::string& Part::getDefectsFile()
+std::string Part::getDefectsFile()
 {
 	std::string file;
 	switch (mount)
@@ -102,6 +102,8 @@ std::string& Part::getDefectsFile()
 	}
 
 	file = file + ".in";
+	
+	return file;
 }
 
 void Part::loadDefects(std::string s)
@@ -134,7 +136,7 @@ void Part::loadDefects(std::string s)
 	fin.close();
 }
 
-void Part::displayName()
+const std::string Part::generateName()
 {
 	std::string name;
 
@@ -208,6 +210,8 @@ void Part::displayName()
 	default:
 		break;
 	}
+
+	return name;
 }
 
 void Part::diagnose()
@@ -216,7 +220,7 @@ void Part::diagnose()
 	{
 		if (defectMarker[i])
 		{
-			dTable[i]->displayName;
+			dTable[i]->displayName();
 			std::cout << "\n";
 			dTable[i]->displaySpareCost();
 		}
@@ -229,9 +233,12 @@ void Part::applyDamage(unsigned marker)
 	if (defectMarker[marker]) { return; }
 	else 
 	{
+		//TODO adjust formatting
 		defectMarker[marker] = true;
 		condition -= dTable[marker]->getDamage();
-		std::cout << "Componentei " << displayName() << " i-a fost aplicata defectiunea: " << dTable[marker]->displayName();
+		std::cout << "Componentei " << generateName() << " i-a fost aplicata defectiunea: "; 
+		dTable[marker]->displayName();
+		std::cout << "\n";
 	}
 }
 

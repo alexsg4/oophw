@@ -41,12 +41,12 @@ public:
 	unsigned getMaxDefects() const;
 
 	//generate file name for defect file
-	std::string & getDefectsFile();
+	std::string getDefectsFile();
 	
 	//assumes file is present for defect loading
 	void loadDefects(std::string s);
 
-	void displayName();
+	const std::string generateName();
 
 	void diagnose();
 
