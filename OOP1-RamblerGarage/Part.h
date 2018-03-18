@@ -44,6 +44,12 @@ public:
 	
 	void loadDefects(std::string s);
 
+	void displayName();
+
+	void diagnose();
+
+	void applyDamage(unsigned marker);
+
 
 };
 

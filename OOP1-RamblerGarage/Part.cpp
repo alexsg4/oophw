@@ -134,3 +134,102 @@ void Part::loadDefects(std::string s)
 	fin.close();
 }
 
+void Part::displayName()
+{
+	std::string name;
+
+	switch (type)
+	{
+	case Part::Type::ANY:
+		break;
+	case Part::Type::WHEEL:
+		name = "Roata ";
+		break;
+	case Part::Type::ENGINE:
+		name = "Motor ";
+		break;
+	case Part::Type::BRAKE:
+		name = "Frana ";
+		break;
+	case Part::Type::SUSPENSION:
+		name = "Suspensie ";
+		break;
+	case Part::Type::TRANSMISSION:
+		if(mount == Mount::BIKE) { name = "Ansamblu lant-pedale-directie "; }
+		else { name = "Transmisie "; }
+		break;
+	case Part::Type::INTERIOR:
+		if(mount == Mount::CAR){ name = "Habitaclu "; }
+		else { name = "Sa "; }
+		break;
+	case Part::Type::ECU:
+		name = "Unitate control motor ";
+		break;
+	case Part::Type::BODY:
+		name = "Caroserie ";
+		break;
+	case Part::Type::DOOR:
+		name = "Usa ";
+		break;
+	default:
+		break;
+	}
+
+	switch (position)
+	{
+	case Part::Position::ANY:
+		break;
+	case Part::Position::LEFT:
+		name += "stanga";
+		break;
+	case Part::Position::RIGHT:
+		name += "dreapta";
+		break;
+	case Part::Position::FRONT:
+		name += "fata";
+		break;
+	case Part::Position::REAR:
+		name += "spate";
+		break;
+	case Part::Position::FRONTLT:
+		name += "fata-stanga";
+		break;
+	case Part::Position::FRONTRT:
+		name += "fata-dreapta";
+		break;
+	case Part::Position::REARLT:
+		name += "spate-stanga";
+		break;
+	case Part::Position::REARRT:
+		name += "spate-dreapta";
+		break;
+	default:
+		break;
+	}
+}
+
+void Part::diagnose()
+{
+	for (unsigned i = 0; i < numDefects; i++)
+	{
+		if (defectMarker[i])
+		{
+			dTable[i]->displayName;
+			std::cout << "\n";
+			dTable[i]->displaySpareCost();
+		}
+	}
+
+}
+
+void Part::applyDamage(unsigned marker)
+{
+	if (defectMarker[marker]) { return; }
+	else 
+	{
+		defectMarker[marker] = true;
+		condition -= dTable[marker]->getDamage();
+		std::cout << "Componentei " << displayName() << " i-a fost aplicata defectiunea: " << dTable[marker]->displayName();
+	}
+}
+
