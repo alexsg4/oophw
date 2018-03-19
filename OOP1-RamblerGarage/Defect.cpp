@@ -87,7 +87,7 @@ void Defect::showSpareCost()
 
 	if (cost[(unsigned)Spare::PAINT])
 	{
-		std::cout << cost[(unsigned)Spare::WIRE] << " l vopsea\n";
+		std::cout << cost[(unsigned)Spare::PAINT] << " l vopsea\n";
 	}
 }
 

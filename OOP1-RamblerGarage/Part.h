@@ -60,7 +60,7 @@ public:
 
 	void diagnose();
 
-	void applyDamage(unsigned marker);
+	void applyDamage(unsigned marker, bool verbose=false);
 
 	void showPossibleDefects();
 

@@ -27,9 +27,10 @@ public:
 	std::string getModel() const;
 	unsigned int getYear() const;
 	double getCondition() const;
-	void applyRandomDamage();
+	void applyRandomDamage(bool verbose = false);
 	void showPartsList();
-	void applySpecificDamage(); 
+	void applySpecificDamage(bool verbose = false);
+	void DBG_showLoadedDefects();
+	void diagnose();
 
 };
-

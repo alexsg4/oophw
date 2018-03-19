@@ -115,7 +115,8 @@ void Part::loadDefectsFromFile(std::string s)
 	if (fin.is_open())
 	{
 		unsigned n = Defect::getSpareTypes();
-		do
+		
+		while (!fin.eof() && numDefects < maxDefects)
 		{
 			std::string name;
 			double hours = 0., damage = 0.;
@@ -123,25 +124,15 @@ void Part::loadDefectsFromFile(std::string s)
 
 			std::getline(fin, name, '/');
 			
-
-			//ignore invalid lines 
-			//TODO ignore new-lines
-			/*
-			if (!name.compare(0,1,ignored))
-			{ 
-				fin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			}
-			*/
-			
 			fin >> damage >> hours;
 			for (unsigned i = 0; i < n; i++) { fin >> cost[i]; }
+			fin.ignore(); //ignore rest of the line (usually just '\n'
 
 			dTable[numDefects++] = new Defect(name, damage, hours);
 			dTable[numDefects - 1]->loadCost(cost);
 
 			delete[] cost; 
-
-		} while (!fin.eof() && numDefects < maxDefects);
+		} 
 	}
 	else
 	{
@@ -232,27 +223,42 @@ std::string Part::generateName()const
 
 void Part::diagnose()
 {
+	std::cout << generateName() << ":\n";
 	for (unsigned i = 0; i < numDefects; i++)
 	{
 		if (defectMarker[i])
 		{
-			if(!dTable[i]) 
-			{ 
+			if (!dTable[i])
+			{
 				std::cout << "Nu se poate diagnostica defectul!\n";
 				return;
 			}
 			std::cout << dTable[i]->getName() << ":\n";
-			dTable[i]->showSpareCost();
+			if (dTable[i]->getDamage() < 100.)
+			{
+				dTable[i]->showSpareCost();
+				unsigned h = dTable[i]->getManHours();
+
+				if (h == 1)
+				{
+					std::cout << "Reparatia necesita o ora de munca\n";
+				}
+				else if (h > 1)
+				{
+					std::cout << "Reparatia necesita " << dTable[i]->getManHours() << " ore de munca\n";
+				}
+			}
+			else { std::cout << "Defectul e ireparabil!\n"; }
 		}
 	}
-
+	std::cout << "\n";
 }
 
-void Part::applyDamage(unsigned marker)
+void Part::applyDamage(unsigned marker, bool verbose)
 {
 	//part already has this defect or defect is not on the list
 	if (defectMarker[marker] || marker >= numDefects) { return; }
-	else 
+	else
 	{
 		if (!dTable[marker])
 		{
@@ -263,7 +269,10 @@ void Part::applyDamage(unsigned marker)
 		//TODO adjust formatting
 		defectMarker[marker] = true;
 		condition -= dTable[marker]->getDamage();
-		std::cout << "Componentei " << generateName() << " i-a fost aplicata defectiunea: " << dTable[marker]->getName() << ". \n";
+		if (verbose)
+		{
+			std::cout << "Componentei " << generateName() << " i-a fost aplicata defectiunea: " << dTable[marker]->getName() << ". \n";
+		}
 	}
 }
 

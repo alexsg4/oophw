@@ -38,13 +38,13 @@ void Vehicle::addPart(Part::Type t, Part::Position p)
 	}
 }
 
-void Vehicle::applyRandomDamage()
+void Vehicle::applyRandomDamage(bool verbose)
 {
-	srand((int)time(0));
+	srand((unsigned)time(0));
 	
 	for (unsigned i = 0; i < numParts; i++)
 	{
-		parts[i]->applyDamage( (unsigned) (rand() % parts[i]->getNumDefects()) );
+		parts[i]->applyDamage( (rand() % parts[i]->getNumDefects()), verbose);
 	}
 }
 
@@ -58,7 +58,7 @@ void Vehicle::showPartsList()
 	std::cout << "\n";
 }
 
-void Vehicle::applySpecificDamage()
+void Vehicle::applySpecificDamage(bool verbose)
 {
 	//TODO display choice in main()
 	unsigned part = 0, defect = 0;
@@ -74,7 +74,24 @@ void Vehicle::applySpecificDamage()
 	std::cin >> defect;
 	defect--;
 
-	parts[part]->applyDamage(defect);
+	parts[part]->applyDamage(defect, verbose);
 
+}
+
+void Vehicle::DBG_showLoadedDefects()
+{
+	for (unsigned i = 0; i < numParts; i++)
+	{
+		std::cout << parts[i]->generateName() << ": \n";
+		parts[i]->showPossibleDefects();
+	}
+}
+
+void Vehicle::diagnose()
+{
+	for (unsigned i = 0; i < numParts; i++)
+	{
+		parts[i]->diagnose();
+	}
 }
 
