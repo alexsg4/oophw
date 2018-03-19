@@ -38,14 +38,43 @@ void Vehicle::addPart(Part::Type t, Part::Position p)
 	}
 }
 
-//TODO implement
 void Vehicle::applyRandomDamage()
 {
 	srand((int)time(0));
 	
 	for (unsigned i = 0; i < numParts; i++)
 	{
-		//TODO implement
+		parts[i]->applyDamage( (unsigned) (rand() % parts[i]->getNumDefects()) );
 	}
+}
+
+void Vehicle::showPartsList()
+{
+	//totalParts from derivate classes is used
+	for (unsigned i = 0; i < numParts; i++)
+	{
+		std::cout <<i+1<<". "<<parts[i]->generateName() << "\n";
+	}
+	std::cout << "\n";
+}
+
+void Vehicle::applySpecificDamage()
+{
+	//TODO display choice in main()
+	unsigned part = 0, defect = 0;
+	showPartsList();
+	std::cout << "Alegeti componenta: ";
+	std::cin >> part;
+	part--;
+
+	//TODO validate input
+
+	parts[part]->showPossibleDefects();
+	std::cout << "Alegeti defectiunea: ";
+	std::cin >> defect;
+	defect--;
+
+	parts[part]->applyDamage(defect);
+
 }
 

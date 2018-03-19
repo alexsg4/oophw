@@ -48,18 +48,21 @@ public:
 	Position getPosition() const;
 	double getCondition() const;
 	unsigned getMaxDefects() const;
+	unsigned getNumDefects() const;
 
 	//generate file name for defect file
 	std::string getDefectsFile();
 	
 	//assumes file is present for defect loading
-	void loadDefects(std::string s);
+	void loadDefectsFromFile(std::string s);
 
-	const std::string generateName();
+	std::string generateName() const;
 
 	void diagnose();
 
 	void applyDamage(unsigned marker);
+
+	void showPossibleDefects();
 
 
 };

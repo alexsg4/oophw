@@ -28,12 +28,9 @@ public:
 	std::string getName() const;
 	double getDamage() const;
 	unsigned getManHours() const;
-	void displaySpareCost();
+	void showSpareCost();
 
 	void loadCost(const unsigned* dCost);
-
-	void displayName();
-
 
 };
 

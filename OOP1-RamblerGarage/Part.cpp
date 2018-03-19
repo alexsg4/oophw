@@ -28,7 +28,7 @@ Part::Part(Mount v, Type t, Position pos) : mount(v), type(t), position(pos)
 	dTable = new Defect*[maxDefects];
 	for (unsigned i = 0; i < maxDefects; i++) { dTable[i] = nullptr; }
 
-	loadDefects(DDIR+getDefectsFile());
+	loadDefectsFromFile(DDIR+getDefectsFile());
 }
 
 Part::~Part()
@@ -45,6 +45,8 @@ Part::Position Part::getPosition() const{	return position;	}
 double Part::getCondition() const{	return condition;	}
 
 unsigned Part::getMaxDefects() const{	return maxDefects;	}
+
+unsigned Part::getNumDefects() const {	return numDefects;	}
 
 std::string Part::getDefectsFile()
 {
@@ -106,25 +108,38 @@ std::string Part::getDefectsFile()
 	return file;
 }
 
-void Part::loadDefects(std::string s)
+void Part::loadDefectsFromFile(std::string s)
 {
 	std::ifstream fin(s);
+	char ignored[10]= { '\n' };
 	if (fin.is_open())
 	{
-		//create temporary variables for a defect
-		std::string name;
-		double hours = 0.;
-		double damage = 0.;
-		unsigned* cost = new unsigned[Defect::getSpareTypes()]();
+		unsigned n = Defect::getSpareTypes();
 		do
 		{
-			unsigned i = 0;
+			std::string name;
+			double hours = 0., damage = 0.;
+			unsigned* cost = new unsigned[n]();
+
 			std::getline(fin, name, '/');
+			
+
+			//ignore invalid lines 
+			//TODO ignore new-lines
+			/*
+			if (!name.compare(0,1,ignored))
+			{ 
+				fin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			}
+			*/
+			
 			fin >> damage >> hours;
-			while (fin >> cost[i++]);
+			for (unsigned i = 0; i < n; i++) { fin >> cost[i]; }
 
 			dTable[numDefects++] = new Defect(name, damage, hours);
 			dTable[numDefects - 1]->loadCost(cost);
+
+			delete[] cost; 
 
 		} while (!fin.eof() && numDefects < maxDefects);
 	}
@@ -136,7 +151,7 @@ void Part::loadDefects(std::string s)
 	fin.close();
 }
 
-const std::string Part::generateName()
+std::string Part::generateName()const
 {
 	std::string name;
 
@@ -182,6 +197,7 @@ const std::string Part::generateName()
 	switch (position)
 	{
 	case Part::Position::ANY:
+		name.pop_back();
 		break;
 	case Part::Position::LEFT:
 		name += "stanga";
@@ -220,9 +236,13 @@ void Part::diagnose()
 	{
 		if (defectMarker[i])
 		{
-			dTable[i]->displayName();
-			std::cout << "\n";
-			dTable[i]->displaySpareCost();
+			if(!dTable[i]) 
+			{ 
+				std::cout << "Nu se poate diagnostica defectul!\n";
+				return;
+			}
+			std::cout << dTable[i]->getName() << ":\n";
+			dTable[i]->showSpareCost();
 		}
 	}
 
@@ -230,15 +250,28 @@ void Part::diagnose()
 
 void Part::applyDamage(unsigned marker)
 {
-	if (defectMarker[marker]) { return; }
+	//part already has this defect or defect is not on the list
+	if (defectMarker[marker] || marker >= numDefects) { return; }
 	else 
 	{
+		if (!dTable[marker])
+		{
+			std::cout << "Nu se poate aplica defectul. !\n";
+			return;
+		}
+
 		//TODO adjust formatting
 		defectMarker[marker] = true;
 		condition -= dTable[marker]->getDamage();
-		std::cout << "Componentei " << generateName() << " i-a fost aplicata defectiunea: "; 
-		dTable[marker]->displayName();
-		std::cout << "\n";
+		std::cout << "Componentei " << generateName() << " i-a fost aplicata defectiunea: " << dTable[marker]->getName() << ". \n";
+	}
+}
+
+void Part::showPossibleDefects()
+{
+	for (unsigned i = 0; i < numDefects; i++)
+	{
+		if (dTable[i]) { std::cout << i + 1 << ". " << dTable[i]->getName() << " "; }
 	}
 }
 

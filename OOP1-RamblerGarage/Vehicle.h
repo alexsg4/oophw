@@ -28,6 +28,8 @@ public:
 	unsigned int getYear() const;
 	double getCondition() const;
 	void applyRandomDamage();
+	void showPartsList();
+	void applySpecificDamage(); 
 
 };
 

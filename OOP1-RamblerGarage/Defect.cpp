@@ -63,7 +63,7 @@ double Defect::getDamage() const {	return damage;	}
 unsigned Defect::getManHours() const {	return manHours; }
 
 //TODO possible need to overload [] for simpler syntax
-void Defect::displaySpareCost()
+void Defect::showSpareCost()
 {
 	if (cost[(unsigned)Spare::REPLACE])
 	{
@@ -102,5 +102,3 @@ void Defect::loadCost(const unsigned* dCost)
 	}
 
 }
-
-void Defect::displayName() { std::cout << name; }
