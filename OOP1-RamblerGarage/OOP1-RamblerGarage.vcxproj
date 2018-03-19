@@ -302,6 +302,29 @@
   <ItemGroup>
     <Text Include="Requirements.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="defects\bikeBody.in" />
+    <None Include="defects\bikeBrake.in" />
+    <None Include="defects\bikeSuspension.in" />
+    <None Include="defects\bikeTransmission.in" />
+    <None Include="defects\bikeWheel.in" />
+    <None Include="defects\carBody.in" />
+    <None Include="defects\carBrake.in" />
+    <None Include="defects\carDoor.in" />
+    <None Include="defects\carECU.in" />
+    <None Include="defects\carEngine.in" />
+    <None Include="defects\carInterior.in" />
+    <None Include="defects\carSuspension.in" />
+    <None Include="defects\carTransmission.in" />
+    <None Include="defects\carWheel.in" />
+    <None Include="defects\motoBody.in" />
+    <None Include="defects\motoBrake.in" />
+    <None Include="defects\motoECU.in" />
+    <None Include="defects\motoEngine.in" />
+    <None Include="defects\motoSuspension.in" />
+    <None Include="defects\motoTransmission.in" />
+    <None Include="defects\motoWheel.in" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

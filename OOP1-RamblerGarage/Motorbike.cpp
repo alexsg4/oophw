@@ -14,7 +14,7 @@ void Motorbike::addPart(Part::Type t, Part::Position p)
 	}
 }
 
-Motorbike::Motorbike(std::string m, std::string mod, unsigned year)
+Motorbike::Motorbike(std::string m, std::string mod, unsigned year) : Vehicle(m,mod,year, totalParts)
 {
 	addPart(Part::Type::ENGINE, Part::Position::ANY);
 	addPart(Part::Type::TRANSMISSION, Part::Position::ANY);

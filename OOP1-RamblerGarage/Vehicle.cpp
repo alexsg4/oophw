@@ -45,7 +45,7 @@ void Vehicle::applyRandomDamage()
 	
 	for (unsigned i = 0; i < numParts; i++)
 	{
-		//parts[i].
+		//TODO implement
 	}
 }
 

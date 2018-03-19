@@ -4,6 +4,7 @@ class Car : public Vehicle
 {
 private:
 	unsigned doors;
+	static constexpr unsigned totalParts = 18;
 public:
 	Car();
 	virtual void addPart(Part::Type t, Part::Position p = Part::Position::ANY);

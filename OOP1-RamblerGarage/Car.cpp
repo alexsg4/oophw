@@ -14,7 +14,8 @@ void Car::addPart(Part::Type t, Part::Position p)
 	}
 }
 
-Car::Car(std::string m, std::string mod, unsigned year, unsigned doors) : Vehicle (m, mod, year, 14) 
+
+Car::Car(std::string m, std::string mod, unsigned year, unsigned doors) : Vehicle (m, mod, year, totalParts) 
 {
 
 	addPart(Part::Type::ENGINE, Part::Position::ANY);
@@ -29,7 +30,7 @@ Car::Car(std::string m, std::string mod, unsigned year, unsigned doors) : Vehicl
 	
 	//Only 2-4 door vehicles accepted for now
 	//The trunk can be modeled as a REAR door for hatchbacks if necessary
-	doors = doors;
+	this->doors = doors;
 	if(doors == 4)
 	{
 		addPart(Part::Type::DOOR, Part::Position::REARLT);

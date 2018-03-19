@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="defects">
+      <UniqueIdentifier>{b5d8f1d0-b632-4a07-98ea-90f44826e95a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -76,5 +79,70 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Requirements.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="defects\bikeBody.in">
+      <Filter>defects</Filter>
+    </None>
+    <None Include="defects\bikeBrake.in">
+      <Filter>defects</Filter>
+    </None>
+    <None Include="defects\bikeSuspension.in">
+      <Filter>defects</Filter>
+    </None>
+    <None Include="defects\bikeTransmission.in">
+      <Filter>defects</Filter>
+    </None>
+    <None Include="defects\bikeWheel.in">
+      <Filter>defects</Filter>
+    </None>
+    <None Include="defects\carBody.in">
+      <Filter>defects</Filter>
+    </None>
+    <None Include="defects\carBrake.in">
+      <Filter>defects</Filter>
+    </None>
+    <None Include="defects\carDoor.in">
+      <Filter>defects</Filter>
+    </None>
+    <None Include="defects\carECU.in">
+      <Filter>defects</Filter>
+    </None>
+    <None Include="defects\carEngine.in">
+      <Filter>defects</Filter>
+    </None>
+    <None Include="defects\carInterior.in">
+      <Filter>defects</Filter>
+    </None>
+    <None Include="defects\carSuspension.in">
+      <Filter>defects</Filter>
+    </None>
+    <None Include="defects\carTransmission.in">
+      <Filter>defects</Filter>
+    </None>
+    <None Include="defects\carWheel.in">
+      <Filter>defects</Filter>
+    </None>
+    <None Include="defects\motoBody.in">
+      <Filter>defects</Filter>
+    </None>
+    <None Include="defects\motoBrake.in">
+      <Filter>defects</Filter>
+    </None>
+    <None Include="defects\motoECU.in">
+      <Filter>defects</Filter>
+    </None>
+    <None Include="defects\motoEngine.in">
+      <Filter>defects</Filter>
+    </None>
+    <None Include="defects\motoSuspension.in">
+      <Filter>defects</Filter>
+    </None>
+    <None Include="defects\motoTransmission.in">
+      <Filter>defects</Filter>
+    </None>
+    <None Include="defects\motoWheel.in">
+      <Filter>defects</Filter>
+    </None>
   </ItemGroup>
 </Project>
