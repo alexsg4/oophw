@@ -54,7 +54,7 @@ Defect::~Defect()
 	delete[] cost;
 }
 
-unsigned Defect::getSpares() {	return spares;	}
+unsigned Defect::getSpareTypes() {	return spares;	}
 
 std::string Defect::getName() const {	return name;	}
 

@@ -24,7 +24,7 @@ public:
 
 	~Defect();
 
-	static unsigned getSpares();
+	static unsigned getSpareTypes();
 	std::string getName() const;
 	double getDamage() const;
 	unsigned getManHours() const;

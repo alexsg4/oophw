@@ -2,6 +2,15 @@
 #include "Defect.h"
 #include <string>
 
+#ifdef _WIN32
+#define DDIR "defects\\" 
+#endif // _WIN32
+
+#ifdef linux
+#define DDIR "defects/"
+#endif // linux
+
+
 class Part
 {
 public:

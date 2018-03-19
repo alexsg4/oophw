@@ -28,7 +28,7 @@ Part::Part(Mount v, Type t, Position pos) : mount(v), type(t), position(pos)
 	dTable = new Defect*[maxDefects];
 	for (unsigned i = 0; i < maxDefects; i++) { dTable[i] = nullptr; }
 
-	loadDefects(getDefectsFile());
+	loadDefects(DDIR+getDefectsFile());
 }
 
 Part::~Part()
@@ -115,7 +115,7 @@ void Part::loadDefects(std::string s)
 		std::string name;
 		double hours = 0.;
 		double damage = 0.;
-		unsigned cost[100];
+		unsigned* cost = new unsigned[Defect::getSpareTypes()]();
 		do
 		{
 			unsigned i = 0;
