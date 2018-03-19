@@ -89,6 +89,10 @@ void Vehicle::DBG_showLoadedDefects()
 
 void Vehicle::diagnose()
 {
+	//here, the vehicle "type" is given by its Parts
+	//TODO consider adding vehicle type member and scrap inheritance 
+	if(year<2000 && parts[0]->getMount()!= Part::Mount::BIKE) {	std::cout<<"Vehiculul este anterior anului 2000\n"; }
+	
 	for (unsigned i = 0; i < numParts; i++)
 	{
 		parts[i]->diagnose();
