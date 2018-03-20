@@ -9,7 +9,7 @@ Vehicle::Vehicle()
 Vehicle::Vehicle(std::string make, std::string model, unsigned year, unsigned tParts)
 	: make(make), model(model), totalParts(tParts)
 {
-	if (year >= 1950 && year < 2100) { year = year; }
+	if (year >= 1950 && year < 2100) { this->year = year; }
 	
 	parts = new Part*[totalParts];
 	for (unsigned i = 0; i < totalParts; i++) { parts[i] = nullptr; }
@@ -58,21 +58,13 @@ void Vehicle::showPartsList()
 	std::cout << "\n";
 }
 
-void Vehicle::applySpecificDamage(bool verbose)
+void Vehicle::applySpecificDamage(unsigned part, unsigned defect, bool verbose)
 {
-	//TODO display choice in main()
-	unsigned part = 0, defect = 0;
-	showPartsList();
-	std::cout << "Alegeti componenta: ";
-	std::cin >> part;
-	part--;
-
-	//TODO validate input
-
-	parts[part]->showPossibleDefects();
-	std::cout << "Alegeti defectiunea: ";
-	std::cin >> defect;
-	defect--;
+	if (!parts[part]) 
+	{ 
+		std::cout << "Nu se pot aplica defecte componentei selectate.\n"; 
+		return;
+	}
 
 	parts[part]->applyDamage(defect, verbose);
 
@@ -89,6 +81,7 @@ void Vehicle::DBG_showLoadedDefects()
 
 void Vehicle::diagnose()
 {
+	double newCondition = 0.;
 	//here, the vehicle "type" is given by its Parts
 	//TODO consider adding vehicle type member and scrap inheritance 
 	if(year<2000 && parts[0]->getMount()!= Part::Mount::BIKE) {	std::cout<<"Vehiculul este anterior anului 2000\n"; }
@@ -96,6 +89,11 @@ void Vehicle::diagnose()
 	for (unsigned i = 0; i < numParts; i++)
 	{
 		parts[i]->diagnose();
+		newCondition += parts[i]->getCondition();
 	}
+
+	if (numParts && newCondition >= 0){	condition = newCondition / numParts; }
+	else if (newCondition / 18 < 0) { condition = 0.; }
+
 }
 

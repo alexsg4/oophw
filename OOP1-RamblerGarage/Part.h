@@ -31,7 +31,7 @@ private:
 	Mount mount;
 	Position position;
 
-	static constexpr unsigned vehicleTypes = 3;
+	static constexpr unsigned mountTypes = 3;
 	static constexpr unsigned partTypes = 8;
 	
 	Defect** dTable;
@@ -49,6 +49,7 @@ public:
 	double getCondition() const;
 	unsigned getMaxDefects() const;
 	unsigned getNumDefects() const;
+	static unsigned getMountTypes();
 
 	//generate file name for defect file
 	std::string getDefectsFile();

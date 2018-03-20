@@ -29,8 +29,15 @@ public:
 	double getCondition() const;
 	void applyRandomDamage(bool verbose = false);
 	void showPartsList();
-	void applySpecificDamage(bool verbose = false);
+	void applySpecificDamage(unsigned part, unsigned defect, bool verbose = false);
 	void DBG_showLoadedDefects();
 	void diagnose();
 
+	Part& operator[] (const unsigned x)
+	{
+		if (x < numParts && parts[x])
+		{
+			return *parts[x];
+		}
+	}
 };

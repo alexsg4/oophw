@@ -48,6 +48,11 @@ unsigned Part::getMaxDefects() const{	return maxDefects;	}
 
 unsigned Part::getNumDefects() const {	return numDefects;	}
 
+unsigned Part::getMountTypes()
+{
+	return mountTypes;
+}
+
 std::string Part::getDefectsFile()
 {
 	std::string file;
@@ -223,34 +228,49 @@ std::string Part::generateName()const
 
 void Part::diagnose()
 {
-	std::cout << generateName() << ":\n";
+	//check if there are defects
+	bool hasDefects = false;
 	for (unsigned i = 0; i < numDefects; i++)
 	{
 		if (defectMarker[i])
 		{
-			if (!dTable[i])
-			{
-				std::cout << "Nu se poate diagnostica defectul!\n";
-				return;
-			}
-			std::cout << dTable[i]->getName() << ":\n";
-			if (dTable[i]->getDamage() < 100.)
-			{
-				dTable[i]->showSpareCost();
-				unsigned h = dTable[i]->getManHours();
-
-				if (h == 1)
-				{
-					std::cout << "Reparatia necesita o ora de munca\n";
-				}
-				else if (h > 1)
-				{
-					std::cout << "Reparatia necesita " << dTable[i]->getManHours() << " ore de munca\n";
-				}
-			}
-			else { std::cout << "Defectul e ireparabil!\n"; }
+			hasDefects = true;
+			break;
 		}
 	}
+	std::cout << generateName() << ": ";
+	if (hasDefects)
+	{
+		std::cout << "\n";
+		for (unsigned i = 0; i < numDefects; i++)
+		{
+			if (defectMarker[i])
+			{
+				if (!dTable[i])
+				{
+					std::cout << "Nu se poate diagnostica defectul!\n";
+					return;
+				}
+				std::cout << dTable[i]->getName() << ":\n";
+				if (dTable[i]->getDamage())
+				{
+					dTable[i]->showSpareCost();
+					unsigned h = dTable[i]->getManHours();
+
+					if (h == 1)
+					{
+						std::cout << "Reparatia necesita o ora de munca\n";
+					}
+					else if (h > 1)
+					{
+						std::cout << "Reparatia necesita " << dTable[i]->getManHours() << " ore de munca\n";
+					}
+				}
+				else { std::cout << "Defectul e ireparabil!\n"; }
+			}
+		}
+	}
+	else { std::cout << "componenta nu are defecte"; }
 	std::cout << "\n";
 }
 
