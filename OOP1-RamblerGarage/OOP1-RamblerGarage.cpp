@@ -73,6 +73,7 @@ int main()
 			CLEAR
 			addVehicle(fleet, fleetCapacity);
 			break;
+		
 		case MenuItem::DIAG:
 			CLEAR
 			if (fleet.empty())
@@ -81,8 +82,18 @@ int main()
 				break;
 			}
 			
+			//TODO fix 
 			fleet.back()->diagnose();
-			WAIT(3)
+			printDivider();
+			std::cout << "Apasati <Enter> a contiua...\n";
+			
+			//flush cin
+			std::cin.clear();
+			std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+			
+			//wait for user input
+			while (!std::cin.get()) {}
+
 			break;
 
 		case MenuItem::DIAGA:
@@ -235,7 +246,7 @@ void populateFleet(std::queue<Vehicle*> &fleet, const unsigned capacity, unsigne
 {
 	if (fleet.size() + elementsToAdd <= capacity && elementsToAdd)
 	{
-		srand((unsigned)time(0));
+		srand((int)time(0));
 		std::string s = GDIR;
 		
 		//open vehicle type generators for make and model
@@ -283,8 +294,8 @@ void populateFleet(std::queue<Vehicle*> &fleet, const unsigned capacity, unsigne
 			mod.clear();
 
 			//random select lines for make and model
-			mi = rand() % mLines;
-			modi = rand() % modLines;
+			mi = (rand() + elementsToAdd + 312341) % mLines + 1;
+			modi = (rand() + elementsToAdd + 54837) % modLines + 1;
 
 			//extract from files
 			for (unsigned i = 0; i < mi; i++)
@@ -344,19 +355,19 @@ void addVehicle(std::queue<Vehicle*> &fleet, const unsigned capacity)
 		unsigned year = 0, doors = 0, temp = 0;
 		Part::Mount type;
 
-		std::cout << "Tipuri de vehicule disponibile: ";
+		std::cout << "Tipuri de vehicule disponibile: \n";
 		for (unsigned i = 0; i <= Part::getMountTypes(); i++)
 		{
 			switch ((Part::Mount)i)
 			{
 			case Part::Mount::CAR:
-				std::cout << i << ". Masina ";
+				std::cout << i << ". Masina \n";
 				break;
 			case Part::Mount::MOTO:
-				std::cout << i << ". Motocicleta ";
+				std::cout << i << ". Motocicleta \n";
 				break;
 			case Part::Mount::BIKE:
-				std::cout << i << ". Bicicleta ";
+				std::cout << i << ". Bicicleta \n";
 				break;
 			default:
 				break;
@@ -365,13 +376,11 @@ void addVehicle(std::queue<Vehicle*> &fleet, const unsigned capacity)
 
 		std::cout << "\nAti ales: ";
 
-		while (!(std::cin >> temp) && (temp < 0 || temp > 3))
+		while (!(std::cin >> temp) || (temp <= 0 || temp > 3))
 		{
 			std::cin.clear();
 			std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
 			std::cout << "Tip vehicul invalid. Incercati din nou. \n";
-			WAIT(1)
-			CLEAR
 		}
 
 		type = (Part::Mount)temp;
@@ -401,6 +410,7 @@ void addVehicle(std::queue<Vehicle*> &fleet, const unsigned capacity)
 			break;
 		default:
 			std::cout << "Ne pare rau. Nu putem repara acest tip de vehicul\n";
+			WAIT(2)
 			break;
 		}
 	}
