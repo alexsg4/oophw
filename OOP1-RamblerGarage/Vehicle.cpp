@@ -58,13 +58,26 @@ void Vehicle::showPartsList()
 	std::cout << "\n";
 }
 
-void Vehicle::applySpecificDamage(unsigned part, unsigned defect, bool verbose)
+void Vehicle::applySpecificDamage(bool verbose)
 {
+	std::cout << make << " " << model << " " << year << " ";
+	showPartsList();
+
+	//TODO validate
+	unsigned part = 0;
+	std::cout << "\nAlegeti componenta: ";
+
 	if (!parts[part]) 
 	{ 
 		std::cout << "Nu se pot aplica defecte componentei selectate.\n"; 
 		return;
 	}
+
+	parts[part]->showPossibleDefects();
+	unsigned defect = 0;
+	std::cout << "Alegeti defectul: ";
+	//TODO validate
+	std::cin >> defect;
 
 	parts[part]->applyDamage(defect, verbose);
 
