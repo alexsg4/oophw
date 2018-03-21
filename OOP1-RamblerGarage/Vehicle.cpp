@@ -62,10 +62,15 @@ void Vehicle::applySpecificDamage(bool verbose)
 	std::cout << make << " " << model << " " << year << "\n";
 	showPartsList();
 
-	//TODO validate
 	unsigned part = 0;
-	std::cout << "\nAlegeti componenta: ";
-	std::cin >> part;
+	while ((std::cout << "Alegeti componenta: " && !(std::cin >> part))
+		|| (part > numParts))
+	{
+		std::cin.clear();
+		std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+		std::cout << "Componenta nu este pe lista. Incercati din nou.\n";
+	}
+	part--;
 
 	if (!parts[part]) 
 	{ 
@@ -74,10 +79,17 @@ void Vehicle::applySpecificDamage(bool verbose)
 	}
 
 	parts[part]->showPossibleDefects();
+	
 	unsigned defect = 0;
-	std::cout << "Alegeti defectul: ";
-	//TODO validate
-	std::cin >> defect;
+	while ((std::cout << "Alegeti defectul: " && !(std::cin >> defect)) 
+		|| (defect > parts[part]->getNumDefects()))
+	{
+		std::cin.clear();
+		std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+		std::cout << "Defectul nu este pe lista. Incercati din nou.\n";
+	}
+
+	defect--;
 
 	parts[part]->applyDamage(defect, verbose);
 
@@ -94,11 +106,29 @@ void Vehicle::DBG_showLoadedDefects()
 
 void Vehicle::diagnose()
 {
-	double newCondition = 0.;
 	//here, the vehicle "type" is given by its Parts
 	//TODO consider adding vehicle type member and scrap inheritance 
-	if(year<2000 && parts[0]->getMount()!= Part::Mount::BIKE) {	std::cout<<"Vehiculul este anterior anului 2000\n"; }
+	switch (parts[0]->getMount())
+	{
+	case Part::Mount::CAR:
+		std::cout << "Automobil ";
+		break;
+	case Part::Mount::MOTO:
+		std::cout << "Motocicleta ";
+		break;
+	case Part::Mount::BIKE:
+		std::cout << "Bicicleta ";
+		break;
+	default:
+		break;
+	}
+
+	std::cout << make + " " + model + " din " << year << " :\n";
 	
+	if(year<2000 && parts[0]->getMount()!= Part::Mount::BIKE) 
+	{	std::cout<<"Vehiculul este anterior anului 2000\n"; }
+
+	double newCondition = 0.;
 	for (unsigned i = 0; i < numParts; i++)
 	{
 		parts[i]->diagnose();
@@ -106,7 +136,7 @@ void Vehicle::diagnose()
 	}
 
 	if (numParts && newCondition >= 0){	condition = newCondition / numParts; }
-	else if (newCondition / 18 < 0) { condition = 0.; }
+	else if (newCondition / numParts < 0) { condition = 0.; }
 
 }
 
