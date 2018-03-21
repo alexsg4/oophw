@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "Vehicle.h"
 #include <ctime>
 
@@ -60,12 +59,13 @@ void Vehicle::showPartsList()
 
 void Vehicle::applySpecificDamage(bool verbose)
 {
-	std::cout << make << " " << model << " " << year << " ";
+	std::cout << make << " " << model << " " << year << "\n";
 	showPartsList();
 
 	//TODO validate
 	unsigned part = 0;
 	std::cout << "\nAlegeti componenta: ";
+	std::cin >> part;
 
 	if (!parts[part]) 
 	{ 

@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "Part.h"
 #include "Defect.h"
 #include <fstream>
@@ -300,7 +299,7 @@ void Part::showPossibleDefects()
 {
 	for (unsigned i = 0; i < numDefects; i++)
 	{
-		if (dTable[i]) { std::cout << i + 1 << ". " << dTable[i]->getName() << " "; }
+		if (dTable[i]) { std::cout << i + 1 << ". " << dTable[i]->getName() << "\n"; }
 	}
 }
 
