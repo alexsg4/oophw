@@ -5,8 +5,7 @@ Vehicle::Vehicle()
 {
 }
 
-Vehicle::Vehicle(std::string make, std::string model, unsigned year, unsigned tParts)
-	: make(make), model(model), totalParts(tParts)
+Vehicle::Vehicle(std::string make, std::string model, unsigned year, unsigned tParts) : make(make), model(model), totalParts(tParts)
 {
 	if (year >= 1950 && year < 2100) { this->year = year; }
 	
@@ -104,6 +103,7 @@ void Vehicle::DBG_showLoadedDefects()
 	}
 }
 
+//TODO ensure output is displayed correctly
 void Vehicle::diagnose()
 {
 	//here, the vehicle "type" is given by its Parts
@@ -123,7 +123,7 @@ void Vehicle::diagnose()
 		break;
 	}
 
-	std::cout << make + " " + model + " din " << year << " :\n";
+	std::cout << make + " " + model + " din " << year << " :\n\n";
 	
 	if(year<2000 && parts[0]->getMount()!= Part::Mount::BIKE) 
 	{	std::cout<<"Vehiculul este anterior anului 2000\n"; }

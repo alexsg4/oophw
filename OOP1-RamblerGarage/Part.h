@@ -6,9 +6,9 @@
 #define DDIR "defects\\" 
 #endif // _WIN32
 
-#ifdef linux
+#ifdef __linux__
 #define DDIR "defects/"
-#endif // linux
+#endif // __linux__
 
 
 class Part
@@ -27,9 +27,9 @@ private:
 	double condition = 100.;
 	static constexpr unsigned maxDefects = 20;
 	unsigned numDefects = 0;
-	Type type;
-	Mount mount;
-	Position position;
+	Type type = Type::ANY;
+	Mount mount = Mount::ANY;
+	Position position = Position::ANY;
 
 	static constexpr unsigned mountTypes = 3;
 	static constexpr unsigned partTypes = 8;

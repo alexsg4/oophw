@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include "Part.h"
+#include <limits>
 
 class Vehicle
 {
@@ -19,7 +20,7 @@ protected:
 
 public:
 	Vehicle();
-	Vehicle(std::string make, std::string model, unsigned year, unsigned parts);
+	Vehicle(std::string make, std::string model, unsigned year, unsigned tParts);
 
 	virtual ~Vehicle();
 

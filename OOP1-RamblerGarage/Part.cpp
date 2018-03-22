@@ -115,7 +115,6 @@ std::string Part::getDefectsFile()
 void Part::loadDefectsFromFile(std::string s)
 {
 	std::ifstream fin(s);
-	char ignored[10]= { '\n' };
 	if (fin.is_open())
 	{
 		unsigned n = Defect::getSpareTypes();

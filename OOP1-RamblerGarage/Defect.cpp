@@ -23,7 +23,7 @@ Defect::Defect(std::string n, double d, double h, const int *def)
 	
 	if (def)
 	{
-		for (int i = 0; i < spares; i++)
+		for (unsigned i = 0; i < spares; i++)
 		{
 			if (def[i]>0) { cost[i] = def[i]; }
 			else { cost[i] = 0; }
@@ -45,7 +45,7 @@ Defect::Defect(std::string n, double d, double h)
 
 	cost = new unsigned[spares];
 
-	for (int i = 0; i < spares; i++){ cost[i] = 0; }
+	for (unsigned i = 0; i < spares; i++){ cost[i] = 0; }
 }
 
 Defect::~Defect()

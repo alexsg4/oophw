@@ -24,18 +24,20 @@
 
 #endif // _WIN32
 
-#ifdef linux
+#ifdef __linux__
 #include <unistd.h>
 #define CLEAR system("clear");
 #define WAIT(n) sleep(n);
 #define GDIR "generators/"
 #define ADIR "ascii/"
+#define TERMSIZE ;
 
-#endif // linux
+#endif // __linux__
 
 enum class MenuItem { WAIT, ADD, DIAG, DIAGA, DISP, DAMAGE, QUIT};
 
 void showArt(const std::string file, const size_t width = COLS, const std::string alternate="");
+void waitUserInput();
 void init(std::queue<Vehicle*> & fleet, unsigned &capacity);
 void showMenuEntry(const unsigned num, const std::string s, const unsigned cols = COLS);
 void showMenu();
@@ -43,6 +45,17 @@ void populateFleet(std::queue<Vehicle*> &fleet, const unsigned capacity, unsigne
 void addVehicle(std::queue<Vehicle*> &fleet, const unsigned capacity);
 void diagnoseFleet(std::queue<Vehicle*> &fleet);
 void printDivider(const char c = '=', const unsigned len = COLS);
+
+void waitUserInput()
+{
+	std::cout << "Apasati <Enter> a contiua...\n";
+	//flush cin
+	std::cin.clear();
+	std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+
+	//wait for user input
+	while (!std::cin.get()) {}
+}
 
 int main()
 {
@@ -85,14 +98,8 @@ int main()
 			//TODO fix 
 			fleet.back()->diagnose();
 			printDivider();
-			std::cout << "Apasati <Enter> a contiua...\n";
 			
-			//flush cin
-			std::cin.clear();
-			std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
-			
-			//wait for user input
-			while (!std::cin.get()) {}
+			waitUserInput();
 
 			break;
 
@@ -107,7 +114,7 @@ int main()
 				break;
 			}
 			std::cout << fleet.back()->getMake() << " " << fleet.back()->getModel() << " " << fleet.back()->getYear() << "\n";
-			WAIT(2)
+			waitUserInput();
 			break;
 		
 		case MenuItem::DAMAGE:
@@ -119,6 +126,7 @@ int main()
 			}
 			fleet.back()->applySpecificDamage(true);
 			break;
+
 		case MenuItem::QUIT:
 			CLEAR
 			std::cout << "La revedere...\n\n";
@@ -435,8 +443,7 @@ void diagnoseFleet(std::queue<Vehicle*> &fleet)
 		{
 			fleet.front()->diagnose();
 			printDivider();
-			std::cout << "Apasati o tasta pentru a contiua...\n";
-			std::cin.ignore();
+			waitUserInput();
 			CLEAR;
 			
 			delete fleet.front();
