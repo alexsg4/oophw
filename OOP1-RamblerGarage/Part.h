@@ -1,5 +1,4 @@
 #pragma once
-#include "Defect.h"
 #include <string>
 
 #ifdef _WIN32
@@ -10,6 +9,7 @@
 #define DDIR "defects/"
 #endif // __linux__
 
+class Defect;
 
 class Part
 {
