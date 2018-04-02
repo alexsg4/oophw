@@ -28,6 +28,15 @@ Motorbike::Motorbike(std::string m, std::string mod, unsigned year) : Vehicle(m,
 	addPart(Part::Type::BRAKE, Part::Position::REAR);
 }
 
+Motorbike::Motorbike(const Motorbike & src) : Vehicle(src)
+{
+}
+
+Motorbike & Motorbike::operator=(const Motorbike & src)
+{
+	static_cast<Vehicle>(*this) = static_cast<Vehicle>(src);
+	return *this;
+}
 
 Motorbike::~Motorbike()
 {

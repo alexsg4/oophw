@@ -34,6 +34,8 @@
 
 #endif // __linux__
 
+//TODO Add Drag Strip class (distance = 402m)
+
 enum class MenuItem { WAIT, ADD, DIAG, DIAGA, DISP, DAMAGE, QUIT};
 
 void showArt(const std::string file, const size_t width = COLS, const std::string alternate="");
@@ -95,7 +97,6 @@ int main()
 				break;
 			}
 			
-			//TODO fix 
 			fleet.back()->diagnose();
 			printDivider();
 			
@@ -138,8 +139,6 @@ int main()
 			std::cout << "BAD STUFF\n";
 			break;
 		}
-
-
 	}
 
     return 0;

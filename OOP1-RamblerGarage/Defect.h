@@ -19,8 +19,10 @@ private:
 public:
 	Defect();
 	Defect(std::string n, double d, double h, const int *def);
-
 	Defect(std::string n, double d, double h);
+
+	Defect(const Defect& src);
+	Defect& operator=(const Defect& src);
 
 	~Defect();
 

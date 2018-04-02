@@ -1,6 +1,5 @@
 #include "Car.h"
 
-//
 Car::Car()
 {
 }
@@ -12,7 +11,6 @@ void Car::addPart(Part::Type t, Part::Position p)
 		parts[numParts++] = new Part(Part::Mount::CAR, t, p);
 	}
 }
-
 
 Car::Car(std::string m, std::string mod, unsigned year, unsigned doors) : Vehicle (m, mod, year, totalParts) 
 {
@@ -48,6 +46,17 @@ Car::Car(std::string m, std::string mod, unsigned year, unsigned doors) : Vehicl
 	
 }
 
+Car::Car(const Car & src) : Vehicle(src)
+{
+	doors = src.doors;
+}
+
+Car & Car::operator=(const Car & src) 
+{
+	static_cast<Vehicle>(*this) = static_cast<Vehicle>(src);
+	doors = src.doors;
+	return *this;
+}
 
 Car::~Car()
 {

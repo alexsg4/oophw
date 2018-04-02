@@ -25,21 +25,23 @@ public:
 private:
 	//Parts always start in "pristine" condition
 	double condition = 100.;
-	static constexpr unsigned maxDefects = 20;
 	unsigned numDefects = 0;
 	Type type = Type::ANY;
 	Mount mount = Mount::ANY;
 	Position position = Position::ANY;
 
+	static constexpr unsigned maxDefects = 20;
 	static constexpr unsigned mountTypes = 3;
 	static constexpr unsigned partTypes = 8;
 	
-	Defect** dTable;
+	Defect* dTable[maxDefects];
 	bool *defectMarker;
 
 public:
 	Part();
 	Part(Mount v, Type t,  Position pos);
+	Part(const Part& src);
+	Part& operator=(const Part& src);
 		
 	~Part();
 

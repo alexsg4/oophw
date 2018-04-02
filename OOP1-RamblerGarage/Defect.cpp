@@ -48,6 +48,32 @@ Defect::Defect(std::string n, double d, double h)
 	for (unsigned i = 0; i < spares; i++){ cost[i] = 0; }
 }
 
+Defect::Defect(const Defect & src)
+{
+	name = src.name;
+	damage = src.damage;
+	manHours = src.manHours;
+
+	if (cost && src.cost)
+	{
+		for (unsigned i = 0; i < spares; i++){	cost[i] = src.cost[i];	}
+	}
+}
+
+Defect & Defect::operator=(const Defect & src)
+{
+	name = src.name;
+	damage = src.damage;
+	manHours = src.manHours;
+
+	if (cost && src.cost)
+	{
+		for (unsigned i = 0; i < spares; i++){	cost[i] = src.cost[i];	}
+	}
+
+	return *this;
+}
+
 Defect::~Defect()
 {
 	delete[] cost;

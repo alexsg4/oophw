@@ -11,7 +11,6 @@ Part::Part()
 	defectMarker = new bool[maxDefects];
 	for (unsigned i = 0; i < maxDefects; i++) { defectMarker[i] = false; }
 
-	dTable = new Defect*[maxDefects];
 	for (unsigned i = 0; i < maxDefects; i++) { dTable[i] = nullptr; }
 
 }
@@ -24,14 +23,72 @@ Part::Part(Mount v, Type t, Position pos) : mount(v), type(t), position(pos)
 		defectMarker[i] = false; 
 	}
 
-	dTable = new Defect*[maxDefects];
 	for (unsigned i = 0; i < maxDefects; i++) { dTable[i] = nullptr; }
 
 	loadDefectsFromFile(DDIR+getDefectsFile());
 }
 
+Part::Part(const Part & src)
+{
+	condition = src.condition;
+	type = src.type;
+	mount = src.mount;
+	position = src.position;
+
+	for (unsigned i = 0; i < maxDefects; i++) { dTable[i] = nullptr; }
+	defectMarker = new bool[maxDefects];
+
+	if (src.dTable)
+	{
+		numDefects = src.numDefects;
+
+		for (unsigned i = 0; i < numDefects; i++)
+		{
+			dTable[i] = new Defect(*(src.dTable[i]));
+		}
+
+		for (unsigned i = 0; i < maxDefects; i++)
+		{
+			defectMarker[i] = src.defectMarker[i];
+		}
+	}
+}
+
+Part & Part::operator=(const Part & src)
+{
+	condition = src.condition;
+	type = src.type;
+	mount = src.mount;
+	position = src.position;
+
+	for (unsigned i = 0; i < maxDefects; i++) { dTable[i] = nullptr; }
+	defectMarker = new bool[maxDefects];
+
+	if (src.dTable)
+	{
+		numDefects = src.numDefects;
+
+		for (unsigned i = 0; i < numDefects; i++)
+		{
+			dTable[i] = new Defect(*(src.dTable[i]));
+		}
+
+		for (unsigned i = 0; i < maxDefects; i++)
+		{
+			defectMarker[i] = src.defectMarker[i];
+		}
+	}
+
+	return *this;
+}
+
 Part::~Part()
 {
+	for (unsigned i = 0; i < maxDefects; i++)
+	{
+		delete dTable[i];
+	}
+
 	delete[] defectMarker;
 }
 

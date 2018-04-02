@@ -14,6 +14,76 @@ Vehicle::Vehicle(std::string make, std::string model, unsigned year, unsigned tP
 
 }
 
+Vehicle::Vehicle(const Vehicle & src)
+{
+	make = src.make;
+	model = src.model;
+	year = src.year;
+	condition = src.condition;
+
+	for (unsigned i = 0; i < numParts; i++)
+	{
+		delete parts[i];
+	}
+	delete[] parts;
+
+	totalParts = src.totalParts;
+	numParts = src.numParts;
+	parts = new Part*[totalParts];
+
+	for (unsigned i = 0; i < numParts; i++)
+	{
+		if (parts && src.parts[i] != nullptr)
+		{
+			parts[i] = new Part(*src.parts[i]);
+		}
+	}
+
+	if (src.stats)
+	{
+		for (unsigned i = 0; i < (unsigned)Stats::NUM; i++)
+		{
+			stats[i] = src.stats[i];
+		}
+	}
+}
+
+Vehicle & Vehicle::operator=(const Vehicle & src)
+{
+	make = src.make;
+	model = src.model;
+	year = src.year;
+	condition = src.condition;
+
+	for (unsigned i = 0; i < numParts; i++)
+	{
+		delete parts[i];
+	}
+	delete[] parts;
+
+	totalParts = src.totalParts;
+	numParts = src.numParts;
+	parts = new Part*[totalParts];
+
+	for (unsigned i = 0; i < numParts; i++)
+	{
+		if (parts && src.parts[i] != nullptr)
+		{
+			parts[i] = new Part(*src.parts[i]);
+		}
+	}
+
+	if (src.stats)
+	{
+		for (unsigned i = 0; i < (unsigned)Stats::NUM; i++)
+		{
+			stats[i] = src.stats[i];
+		}
+	}
+
+	return *this;
+}
+
 Vehicle::~Vehicle()
 {
 	for (unsigned i = 0; i < totalParts; i++) { delete parts[i]; }
@@ -94,6 +164,7 @@ void Vehicle::applySpecificDamage(bool verbose)
 
 }
 
+//TODO soon to be removed
 void Vehicle::DBG_showLoadedDefects()
 {
 	for (unsigned i = 0; i < numParts; i++)
@@ -140,3 +211,18 @@ void Vehicle::diagnose()
 
 }
 
+std::istream & operator>>(std::istream & in,  Vehicle & src)
+{
+	in >> src.make >> src.model >> src.year;
+	
+	//TODO validate input
+	//in.setstate(std::ios::failbit);
+
+	return in;
+}
+
+std::ostream & operator<<(std::ostream & out, const Vehicle & src)
+{
+	out << src.make + " " + src.model + " din " << src.year << " ";
+	return out;
+}
