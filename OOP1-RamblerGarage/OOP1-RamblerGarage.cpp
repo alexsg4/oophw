@@ -1,10 +1,8 @@
 // OOP1-RamblerGarage.cpp : Defines the entry point for the console application.
 
-#include "Car.h"
-#include "Bike.h"
-#include "Motorbike.h"
+
+#include "Fleet.h"
 #include <cstdlib>
-#include <queue>
 #include <fstream>
 #include <limits>
 #include <ctime>
@@ -40,17 +38,14 @@ enum class MenuItem { WAIT, ADD, DIAG, DIAGA, DISP, DAMAGE, QUIT};
 
 void showArt(const std::string file, const size_t width = COLS, const std::string alternate="");
 void waitUserInput();
-void init(std::queue<Vehicle*> & fleet, unsigned &capacity);
+void init(Fleet<Vehicle*> & fleet, unsigned &capacity);
 void showMenuEntry(const unsigned num, const std::string s, const unsigned cols = COLS);
 void showMenu();
-void populateFleet(std::queue<Vehicle*> &fleet, const unsigned capacity, unsigned elementsToAdd);
-void addVehicle(std::queue<Vehicle*> &fleet, const unsigned capacity);
-void diagnoseFleet(std::queue<Vehicle*> &fleet);
 void printDivider(const char c = '=', const unsigned len = COLS);
 
 void waitUserInput()
 {
-	std::cout << "Apasati <Enter> a contiua...\n";
+	std::cout << "Apasati <Enter> a continua...\n";
 	//flush cin
 	std::cin.clear();
 	std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
@@ -61,9 +56,15 @@ void waitUserInput()
 
 int main()
 {
+
+	//TODO add a stopwatch function
 	//sensible default
 	static unsigned fleetCapacity = 10;
-	std::queue<Vehicle*> fleet;
+	static unsigned fleetSize = 0;
+	
+	//std::queue<Vehicle*> fleet;
+	Vehicle** vehicles = new Vehicle*[fleetCapacity];
+
 	
 	init(fleet, fleetCapacity);
 	int temp = 0;
