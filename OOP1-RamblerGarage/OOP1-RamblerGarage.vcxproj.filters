@@ -42,7 +42,7 @@
     <ClInclude Include="Bike.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Fleet.h">
+    <ClInclude Include="RArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

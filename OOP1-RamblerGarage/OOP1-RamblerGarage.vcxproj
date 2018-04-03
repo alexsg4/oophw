@@ -270,7 +270,7 @@
     <ClInclude Include="Bike.h" />
     <ClInclude Include="Car.h" />
     <ClInclude Include="Defect.h" />
-    <ClInclude Include="Fleet.h" />
+    <ClInclude Include="RArray.h" />
     <ClInclude Include="Motorbike.h" />
     <ClInclude Include="Part.h" />
     <ClInclude Include="resource.h" />
