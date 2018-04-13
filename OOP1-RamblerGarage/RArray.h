@@ -43,7 +43,7 @@ public:
 	RArray& operator+(const RArray& src);
 	
 	//removes an element by it's position
-	void removeById(const unsigned id, bool list = false);
+	void removeById(const unsigned id);
 
 	// TODO
 	//adds a pre-built element
@@ -198,15 +198,13 @@ RArray<T>& RArray<T>::operator+(const RArray& src)
 }
 
 template<class T>
-void RArray<T>::removeById(const unsigned id, bool list)
+void RArray<T>::removeById(const unsigned id)
 {
 	if(m_size <= id) 
 	{
 		std::cout << "Nu se poate sterge elementul de pe pozitia " << id << ". \n";
 		return;
 	}
-
-	if (list){	display();	}
 
 	delete members[id];
 	for (unsigned i = 0; i < m_size-1; i++)

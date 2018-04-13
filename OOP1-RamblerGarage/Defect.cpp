@@ -45,9 +45,7 @@ Defect::Defect(std::string n, double d, double h)
 
 	if (h > 0) { manHours = h; }
 	unsigned spares = static_cast<unsigned>(Spare::TYPES);
-	cost = new unsigned[spares];
-
-	for (unsigned i = 0; i < spares; i++){ cost[i] = 0; }
+	cost = new unsigned[spares]();
 }
 
 Defect::Defect(const Defect & src)
@@ -57,7 +55,9 @@ Defect::Defect(const Defect & src)
 	manHours = src.manHours;
 	unsigned spares = static_cast<unsigned>(Spare::TYPES);
 
-	if (cost && src.cost)
+	if (!cost) { cost = new unsigned[spares](); }
+
+	if (src.cost)
 	{
 		for (unsigned i = 0; i < spares; i++){	cost[i] = src.cost[i];	}
 	}
@@ -69,10 +69,12 @@ Defect & Defect::operator=(const Defect & src)
 	damage = src.damage;
 	manHours = src.manHours;
 
-	if (cost && src.cost)
+	unsigned spares = static_cast<unsigned>(Spare::TYPES);
+	if (!cost) { cost = new unsigned[spares](); }
+
+	if (src.cost)
 	{
-		unsigned spares = static_cast<unsigned>(Spare::TYPES);
-		for (unsigned i = 0; i < spares; i++){	cost[i] = src.cost[i];	}
+		for (unsigned i = 0; i < spares; i++){ cost[i] = src.cost[i]; }
 	}
 
 	return *this;
@@ -96,32 +98,32 @@ double Defect::getDamage() const {	return damage;	}
 unsigned Defect::getManHours() const {	return static_cast<unsigned>(manHours); }
 
 //TODO possible need to overload [] for simpler syntax
-void Defect::showSpareCost()
+void Defect::showSpareCost(std::ostream& out)
 {
 	if (!cost) { throw"NO COST ARRAY"; }
 	if (cost[(unsigned)Spare::REPLACE])
 	{
-		std::cout << "Componenta trebuie inlocuita. \n";
+		out << "Componenta trebuie inlocuita. \n";
 	}
 
 	if (cost[(unsigned)Spare::SCREW])
 	{
-		std::cout << cost[(unsigned)Spare::SCREW] << " suruburi\n";
+		out << cost[(unsigned)Spare::SCREW] << " suruburi\n";
 	}
 
 	if (cost[(unsigned)Spare::OIL])
 	{
-		std::cout << cost[(unsigned)Spare::OIL] << " l ulei\n";
+		out << cost[(unsigned)Spare::OIL] << " l ulei\n";
 	}
 
 	if (cost[(unsigned)Spare::WIRE])
 	{
-		std::cout << cost[(unsigned)Spare::WIRE] << " cm fire\n";
+		out << cost[(unsigned)Spare::WIRE] << " cm fire\n";
 	}
 
 	if (cost[(unsigned)Spare::PAINT])
 	{
-		std::cout << cost[(unsigned)Spare::PAINT] << " l vopsea\n";
+		out << cost[(unsigned)Spare::PAINT] << " l vopsea\n";
 	}
 }
 
@@ -136,4 +138,28 @@ void Defect::loadCost(const unsigned* dCost)
 		}
 	}
 
+}
+
+std::ostream& operator<<(std::ostream& out, Defect& src)
+{
+	out << src.name << " " << src.manHours << "Ore necesare reparatie\n";
+	src.showSpareCost(out);
+
+	return out;
+}
+
+std::istream& operator>>(std::istream& in, Defect& src)
+{
+	std::getline(in, src.name, '/');
+	in >> src.damage >> src.manHours;
+	for (unsigned i = 0; i < src.getSpareTypes(); i++)
+	{
+		if (!src.cost)
+		{
+			throw"NO COST ARRAY";
+		}
+			in >> src.cost[i];
+	}
+
+	return in;
 }

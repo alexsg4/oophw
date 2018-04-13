@@ -88,7 +88,7 @@ Part::~Part()
 	{
 		delete dTable[i];
 	}
-
+	//delete[] dTable;
 	delete[] defectMarker;
 }
 
@@ -178,20 +178,12 @@ void Part::loadDefectsFromFile(std::string s)
 		
 		while (!fin.eof() && numDefects < maxDefects)
 		{
-			std::string name;
-			double hours = 0., damage = 0.;
-			unsigned* cost = new unsigned[n]();
-
-			std::getline(fin, name, '/');
-			
-			fin >> damage >> hours;
-			for (unsigned i = 0; i < n; i++) { fin >> cost[i]; }
+			Defect temp;
+			fin >> temp;
+			//TODO test, might not be needed
 			fin.ignore(); //ignore rest of the line (usually just '\n'
 
-			dTable[numDefects++] = new Defect(name, damage, hours);
-			dTable[numDefects - 1]->loadCost(cost);
-
-			delete[] cost; 
+			dTable[numDefects++] = new Defect(temp);
 		} 
 	}
 	else

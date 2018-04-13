@@ -3,7 +3,7 @@
 class Bike : public Vehicle
 {
 private:
-	static constexpr unsigned totalParts = 7;
+	static const unsigned totalParts = 7;
 public:
 	Bike();
 	virtual void addPart(Part::Type t, Part::Position p = Part::Position::ANY) override;

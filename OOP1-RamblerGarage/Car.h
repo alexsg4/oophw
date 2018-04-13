@@ -4,7 +4,7 @@ class Car : public Vehicle
 {
 private:
 	unsigned doors = 2;
-	static constexpr unsigned totalParts = 18;
+	static const unsigned totalParts = 18;
 public:
 	Car();
 	virtual void addPart(Part::Type t, Part::Position p = Part::Position::ANY) override;

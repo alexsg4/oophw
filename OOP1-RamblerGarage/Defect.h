@@ -29,11 +29,15 @@ public:
 	std::string getName() const;
 	double getDamage() const;
 	unsigned getManHours() const;
-	void showSpareCost();
+	void showSpareCost(std::ostream& out = std::cout);
 
 	void loadCost(const unsigned* dCost);
 
 	//TODO overload << and >> 
+
+	friend std::ostream& operator<<(std::ostream& out, Defect& src);
+	friend std::istream& operator>>(std::istream& in, Defect& src);
+
 
 };
 

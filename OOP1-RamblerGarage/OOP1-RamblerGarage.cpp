@@ -14,6 +14,8 @@
 
 #define COLS 155
 #define ROWS 50
+#define GDIR "generators/"
+#define ADIR "ascii/"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -21,8 +23,6 @@
 #define CLEAR system("cls");
 #define WAIT(n) Sleep((n*1000));
 #define TERMSIZE system("MODE CON COLS=155 LINES=50");
-#define GDIR "generators\\"
-#define ADIR "ascii\\"
 
 #endif // _WIN32
 
@@ -30,14 +30,11 @@
 #include <unistd.h>
 #define CLEAR system("clear");
 #define WAIT(n) sleep(n);
-#define GDIR "generators/"
-#define ADIR "ascii/"
 #define TERMSIZE ;
 
 #endif // __linux__
 
 //TODO Add Drag Strip class (distance = 402m)
-
 
 //Menu specifics
 enum class MenuItem { WAIT, ADD, DIAG, DIAGA, DISP, DAMAGE, REM, CLR, QUIT};
@@ -251,18 +248,13 @@ void printDivider(const char c, const unsigned len)
 
 void addVehicle(RArray<Vehicle*> &fleet)
 {
-	//ask user for type, make, model, year
-	std::string make, model;
-	unsigned year = 0, doors = 0, temp = 0;
-	Part::Mount type;
-
 	std::cout << "Tipuri de vehicule disponibile: \n";
 	for (unsigned i = 0; i <= Part::getMountTypes(); i++)
 	{
 		switch ((Part::Mount)i)
 		{
 		case Part::Mount::CAR:
-			std::cout << i << ". Masina \n";
+			std::cout << i << ". Automobil \n";
 			break;
 		case Part::Mount::MOTO:
 			std::cout << i << ". Motocicleta \n";
@@ -270,10 +262,13 @@ void addVehicle(RArray<Vehicle*> &fleet)
 		case Part::Mount::BIKE:
 			std::cout << i << ". Bicicleta \n";
 			break;
-		default:
-			break;
 		}
 	}
+
+	//ask user for type, make, model, year
+	std::string make, model;
+	unsigned year = 0, doors = 0, temp = 0;
+	Part::Mount type;
 
 	std::cout << "\nAti ales: ";
 
@@ -293,11 +288,6 @@ void addVehicle(RArray<Vehicle*> &fleet)
 		std::cout << "Dati numarul de usi [2 sau 4]: ";
 		std::cin >> doors;
 	}
-
-	//expand fleet if necessary
-	unsigned size = fleet.size();
-	unsigned capacity = fleet.capacity();
-	if (size >= capacity) { fleet.expand(capacity + 1); }
 
 	Vehicle* toAdd = nullptr;
 	//create vehicle and add it to fleet if possible
@@ -325,7 +315,6 @@ void addVehicle(RArray<Vehicle*> &fleet)
 	}
 
 	fleet.add(toAdd);
-
 }
 
 void diagnoseFleet(RArray<Vehicle*> &fleet)

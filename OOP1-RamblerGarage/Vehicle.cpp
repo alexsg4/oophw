@@ -88,6 +88,8 @@ Vehicle::~Vehicle()
 {
 	for (unsigned i = 0; i < totalParts; i++) { delete parts[i]; }
 	delete[] parts;
+
+	//TODO remove stats as well
 }
 
 std::string Vehicle::getMake() const { return make; }
@@ -175,29 +177,17 @@ void Vehicle::DBG_showLoadedDefects()
 }
 
 //TODO ensure output is displayed correctly
-void Vehicle::diagnose()
+void Vehicle::diagnose(std::ostream& out)
 {
 	//here, the vehicle "type" is given by its Parts
 	//TODO consider adding vehicle type member and scrap inheritance 
-	switch (parts[0]->getMount())
-	{
-	case Part::Mount::CAR:
-		std::cout << "Automobil ";
-		break;
-	case Part::Mount::MOTO:
-		std::cout << "Motocicleta ";
-		break;
-	case Part::Mount::BIKE:
-		std::cout << "Bicicleta ";
-		break;
-	default:
-		break;
-	}
 
-	std::cout << make + " " + model + " din " << year << " :\n\n";
+	out << *this<<"\n";
 	
 	if(year<2000 && parts[0]->getMount()!= Part::Mount::BIKE) 
-	{	std::cout<<"Vehiculul este anterior anului 2000\n"; }
+	{	
+		out<<"Vehiculul este anterior anului 2000\n"; 
+	}
 
 	double newCondition = 0.;
 	for (unsigned i = 0; i < numParts; i++)
@@ -223,6 +213,18 @@ std::istream & operator>>(std::istream & in,  Vehicle & src)
 
 std::ostream & operator<<(std::ostream & out, const Vehicle & src)
 {
+	switch (src.parts[0]->getMount())
+	{
+	case Part::Mount::CAR:
+		out << "Automobil ";
+		break;
+	case Part::Mount::MOTO:
+		out << "Motocicleta ";
+		break;
+	case Part::Mount::BIKE:
+		out << "Bicicleta ";
+		break;
+	}
 	out << src.make + " " + src.model + " din " << src.year << " ";
 	return out;
 }

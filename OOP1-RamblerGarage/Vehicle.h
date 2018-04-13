@@ -58,6 +58,6 @@ public:
 	void showPartsList();
 	void applySpecificDamage(bool verbose = false);
 	void DBG_showLoadedDefects();
-	void diagnose();
+	void diagnose(std::ostream& out = std::cout);
 
 };

@@ -1,14 +1,6 @@
 #pragma once
 #include <string>
 
-#ifdef _WIN32
-#define DDIR "defects\\" 
-#endif // _WIN32
-
-#ifdef __linux__
-#define DDIR "defects/"
-#endif // __linux__
-
 class Defect;
 
 class Part
@@ -30,9 +22,10 @@ private:
 	Mount mount = Mount::ANY;
 	Position position = Position::ANY;
 
-	static constexpr unsigned maxDefects = 20;
-	static constexpr unsigned mountTypes = 3;
-	static constexpr unsigned partTypes = 8;
+	static const unsigned maxDefects = 20;
+	static const unsigned mountTypes = 3;
+	static const unsigned partTypes = 8;
+	const std::string DDIR = "defects/";
 	
 	Defect* dTable[maxDefects];
 	bool *defectMarker;
