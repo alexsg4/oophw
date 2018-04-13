@@ -443,7 +443,7 @@ void displayFleet(RArray<Vehicle*> &fleet)
 	unsigned size = fleet.size();
 	for (unsigned i = 0; i < size; i++)
 	{
-		if (fleet[i]) { std::cout << i + 1 << ". " << *fleet[i] << " "; }
+		if (fleet[i]) { std::cout << i + 1 << ". " << *fleet[i] << "\n"; }
 	}
 	std::cout << "\n";
 }
