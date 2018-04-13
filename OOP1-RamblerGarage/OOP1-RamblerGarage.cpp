@@ -49,19 +49,34 @@ void showMenu();
 void printDivider(const char c = '=', const unsigned len = COLS);
 
 //fleet wrappers
-void addVehicle(RArray<Vehicle> &fleet);
-void diagnoseFleet(RArray<Vehicle> &fleet);
-void populateFleet(RArray<Vehicle> &fleet, unsigned elementsToAdd);
+void addVehicle(RArray<Vehicle*> &fleet);
+void diagnoseFleet(RArray<Vehicle*> &fleet);
+void populateFleet(RArray<Vehicle*> &fleet, unsigned elementsToAdd);
+void displayFleet(RArray <Vehicle*> &fleet);
 
 //initialise program
-void init(RArray<Vehicle> &fleet);
+void init(RArray<Vehicle*> &fleet);
 
 int main()
 {
 
 	//TODO add a stopwatch function
 
-	RArray<Vehicle> fleet;
+	//TODO Remove
+	//TESTING $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+	/* Works 
+	RArray<Vehicle*> testFleet;
+	Vehicle* c1 = new Car("Test", "TestME");
+	c1->applyRandomDamage();
+	testFleet.add(c1);
+	testFleet.display();
+	testFleet[0]->diagnose();
+	*/
+
+	//TESTING END $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+	RArray<Vehicle*> fleet;
 	static unsigned selection = 0;
 
 	init(fleet);
@@ -96,7 +111,9 @@ int main()
 				break;
 			}
 
-			fleet.display();
+			displayFleet(fleet);
+			//fleet.display(); TODO test and remove afterwards
+
 			printDivider();
 			while ( (std::cout << "Alegerea dvs. [1-"<<fleet.size()<<"]: ") && !(std::cin >> selection) )
 			{
@@ -105,7 +122,7 @@ int main()
 				std::cout << "Optiunea nu exista. Incercati din nou\n";
 			}
 			
-			fleet[selection-1].diagnose();
+			fleet[selection-1]->diagnose();
 			printDivider();
 			waitUserInput();
 
@@ -122,7 +139,7 @@ int main()
 				std::cout << "Nu se pot afisa detalii despre vehiculul selectat. \n";
 				break;
 			}
-			std::cout << fleet[selection];
+			std::cout << *fleet[selection] << "\n";
 			waitUserInput();
 			break;
 		
@@ -133,8 +150,8 @@ int main()
 				std::cout << "Momentan, atelierul este gol. \n";
 				break;
 			}
-			
-			fleet.display();
+			displayFleet(fleet);
+			//fleet.display(); TODO remove
 			printDivider();
 			while ((std::cout << "Alegerea dvs. [1-" << fleet.size() << "]: ") && !(std::cin >> selection))
 			{
@@ -143,7 +160,7 @@ int main()
 				std::cout << "Optiunea nu exista. Incercati din nou\n";
 			}
 
-			fleet[selection-1].applySpecificDamage(true);
+			fleet[selection-1]->applySpecificDamage(true);
 			break;
 
 		case MenuItem::QUIT:
@@ -232,7 +249,7 @@ void printDivider(const char c, const unsigned len)
 
 //###################################################################################
 
-void addVehicle(RArray<Vehicle> &fleet)
+void addVehicle(RArray<Vehicle*> &fleet)
 {
 	//ask user for type, make, model, year
 	std::string make, model;
@@ -277,8 +294,13 @@ void addVehicle(RArray<Vehicle> &fleet)
 		std::cin >> doors;
 	}
 
-	//create vehicle and add it to fleet if possible
+	//expand fleet if necessary
+	unsigned size = fleet.size();
+	unsigned capacity = fleet.capacity();
+	if (size >= capacity) { fleet.expand(capacity + 1); }
+
 	Vehicle* toAdd = nullptr;
+	//create vehicle and add it to fleet if possible
 	switch (type)
 	{
 	case Part::Mount::CAR:
@@ -302,11 +324,11 @@ void addVehicle(RArray<Vehicle> &fleet)
 		break;
 	}
 
-	fleet.add(*toAdd);
-	delete toAdd;
+	fleet.add(toAdd);
+
 }
 
-void diagnoseFleet(RArray<Vehicle> &fleet)
+void diagnoseFleet(RArray<Vehicle*> &fleet)
 {
 	if (fleet.isEmpty())
 	{
@@ -316,14 +338,14 @@ void diagnoseFleet(RArray<Vehicle> &fleet)
 
 	for (unsigned i=0; i<fleet.size(); i++)
 	{
-		fleet[i].diagnose();
+		fleet[i]->diagnose();
 		printDivider();
 		waitUserInput();
 		CLEAR;
 	}
 }
 
-void populateFleet(RArray<Vehicle> &fleet, unsigned elementsToAdd)
+void populateFleet(RArray<Vehicle*> &fleet, unsigned elementsToAdd)
 {
 	if (!elementsToAdd) 
 	{
@@ -415,16 +437,31 @@ void populateFleet(RArray<Vehicle> &fleet, unsigned elementsToAdd)
 		}
 
 		//damage vehicle
-		toAdd->applyRandomDamage();
-		fleet.add(*toAdd);
+		if (toAdd)
+		{
+			toAdd->applyRandomDamage();
 
-		//decrement elements
-		elementsToAdd--;
+			fleet.add(toAdd);
+
+			//decrement elements
+			elementsToAdd--;
+		}
 	}
 }
 
+void displayFleet(RArray<Vehicle*> &fleet)
+{
+	unsigned size = fleet.size();
+	for (unsigned i = 0; i < size; i++)
+	{
+		if (fleet[i]) { std::cout << i + 1 << ". " << *fleet[i] << " "; }
+	}
+	std::cout << "\n";
+}
+
+
 //displays splash screen, sets correct terminal width on windows, gets fleet capacity from user
-void init(RArray<Vehicle> &fleet)
+void init(RArray<Vehicle*> &fleet)
 {
 	//Sensible default
 	static unsigned capacity = 20;

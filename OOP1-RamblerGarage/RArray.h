@@ -27,9 +27,6 @@ public:
 	//Removes all elements and nullify positions
 	void erase();
 
-	//Prints all elements assuming there is an overloaded << for them 
-	void display();
-
 	//Expands list capacity
 	void expand(unsigned newCapacity);
 
@@ -37,18 +34,21 @@ public:
 	inline const unsigned size() const { return m_size; }
 	inline const unsigned capacity() const { return m_capacity; }
 
+	void operator++(int);
+	void operator++();
+
 	~RArray();
 	
-	//concatenates two fleets
+	//concatenates two arrays
 	RArray& operator+(const RArray& src);
 	
 	//removes an element by it's position
 	void removeById(const unsigned id, bool list = false);
 
+	// TODO
 	//adds a pre-built element
-	void add(const T& element);
-	RArray& operator+(const T& element);
-
+	void add(T & element);
+	RArray& operator+(T & element); 
 };
 
 
@@ -109,15 +109,12 @@ RArray<T>& RArray<T>::operator=(const RArray& src)
 template <class T>
 T& RArray<T>::operator[](const unsigned id)
 {
-	if (id < m_size && m_size)
+	if (id > m_size || m_size <= 0)
 	{
-		return *members[id];
+		throw "OUT OF BOUNDS!";
 	}
 
-	else
-	{
-		//TODO handle
-	}
+	return *members[id];
 }
 
 template <class T>
@@ -143,16 +140,6 @@ void RArray<T>::erase()
 	m_size = 0;
 }
 
-template <class T>
-void RArray<T>::display()
-{
-	for (unsigned i = 0; i < m_size; i++)
-	{
-		if (members[i]) { std::cout <<i+1<<". "<<members[i] << " "; }
-	}
-	std::cout << "\n";
-}
-
 template<class T>
 void RArray<T>::expand(unsigned newCapacity)
 {
@@ -169,6 +156,20 @@ void RArray<T>::expand(unsigned newCapacity)
 	members = expanded;
 	m_capacity = newCapacity;
 	_initialise(m_size);
+}
+
+template<class T>
+inline void RArray<T>::operator++()
+{
+	if (m_size >= m_capacity) { return; }
+	++m_size;
+}
+
+template<class T>
+inline void RArray<T>::operator++(int)
+{
+	if (m_size >= m_capacity) { return; }
+	m_size++;
 }
 
 template<class T>
@@ -208,35 +209,33 @@ void RArray<T>::removeById(const unsigned id, bool list)
 	if (list){	display();	}
 
 	delete members[id];
-	for (unsigned i = id; i < m_size; i++)
+	for (unsigned i = 0; i < m_size-1; i++)
 	{
 		members[i] = members[i + 1];
 	}
-	shapes[--m_size] = nullptr;
+	members[--m_size] = nullptr;
 }
 
 template<class T>
-void RArray<T>::add(const T & element)
-{
-	//TODO optimise
-	if (m_size >= m_capacity)
-	{
-		expand(m_capacity + 1);
-	}
-
-	//members[++m_size] = new T(element);
-	members[++m_size] = new T(element);
-
-}
-
-template<class T>
-RArray<T>& RArray<T>::operator+(const T& element)
+void RArray<T>::add(T & element)
 {
 	if (m_size >= m_capacity)
 	{
 		expand(m_capacity + 1);
 	}
-	members[++m_size] = new T(element);
+
+	members[m_size++] = new T(element);
+
+}
+
+template<class T>
+RArray<T>& RArray<T>::operator+(T & element)
+{
+	if (m_size >= m_capacity)
+	{
+		expand(m_capacity + 1);
+	}
+	members[m_size++] = new T(element);
 	
 	return *this;
 }

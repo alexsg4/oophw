@@ -6,11 +6,10 @@ class Defect
 {
 public: 
 	//Implementation assumes a small number of Spare part types
-	enum class Spare { SCREW, WIRE, OIL, PAINT, REPLACE };
+	enum class Spare { SCREW, WIRE, OIL, PAINT, REPLACE, TYPES };
 
 private:
 	//types of spare parts 
-	static constexpr unsigned spares = 5;
 	std::string name = "generic defect";
 	double damage = 1.;
 	double manHours = 1.;
@@ -33,6 +32,8 @@ public:
 	void showSpareCost();
 
 	void loadCost(const unsigned* dCost);
+
+	//TODO overload << and >> 
 
 };
 
