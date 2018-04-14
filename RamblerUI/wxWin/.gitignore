@@ -163,59 +163,59 @@
 /include/wx/unix/Makefile.in
 
 # /lib/
-/lib/base
-/lib/based
-/lib/basedll
-/lib/basedlld
-/lib/basedllu
-/lib/basedllud
-/lib/baseu
-/lib/baseud
-/lib/bcc_lib
-/lib/cdef*.res
-/lib/dmc_lib
-/lib/evc_armv4_lib
-/lib/evc_emulator_lib
+# /lib/base
+# /lib/based
+# /lib/basedll
+# /lib/basedlld
+# /lib/basedllu
+# /lib/basedllud
+# /lib/baseu
+# /lib/baseud
+# /lib/bcc_lib
+# /lib/cdef*.res
+# /lib/dmc_lib
+# /lib/evc_armv4_lib
+# /lib/evc_emulator_lib
 # /lib/expat*.lib
-/lib/gcc_lib
-/lib/gcc_lib32
-/lib/gcc_lib64
+# /lib/gcc_lib
+# /lib/gcc_lib32
+# /lib/gcc_lib64
 # /lib/jpeg*.lib
 # /lib/ldef*.res
-/lib/Linux
-/lib/linux
-/lib/linux-gnu
-/lib/msw
-/lib/mswd
-/lib/mswdll
-/lib/mswdlld
-/lib/mswdllu
-/lib/mswdllud
-/lib/mswu
-/lib/mswud
+# /lib/Linux
+# /lib/linux
+# /lib/linux-gnu
+# /lib/msw
+# /lib/mswd
+# /lib/mswdll
+# /lib/mswdlld
+# /lib/mswdllu
+# /lib/mswdllud
+# /lib/mswu
+# /lib/mswud
 # /lib/png*.lib
 # /lib/regex*.lib
 # /lib/shell32_sc.lib
 # /lib/tiff*.lib
-/lib/univ
-/lib/univd
-/lib/univdll
-/lib/univdlld
-/lib/vc_dll
+# /lib/univ
+# /lib/univd
+# /lib/univdll
+# /lib/univdlld
+# /lib/vc_dll
 # /lib/vc_lib
-/lib/vc_x64_dll
+# /lib/vc_x64_dll
 # /lib/vc_x64_lib
 # /lib/wat_lib
 # /lib/winmm32_sc.lib
 # /lib/wsock32_sc.lib
-/lib/wx_*.rsrc
-/lib/wxbase*.dll
-/lib/wxbase*.exp
-/lib/wxbase*.ilk
+# /lib/wx_*.rsrc
+# /lib/wxbase*.dll
+# /lib/wxbase*.exp
+# /lib/wxbase*.ilk
 # /lib/wxbase*.lib
-/lib/wxmsw*.dll
-/lib/wxmsw*.exp
-/lib/wxmsw*.ilk
+# /lib/wxmsw*.dll
+# /lib/wxmsw*.exp
+# /lib/wxmsw*.ilk
 # /lib/wxmsw*.lib
 # /lib/zlib*.lib
 
