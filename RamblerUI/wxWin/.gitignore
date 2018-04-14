@@ -54,7 +54,7 @@
 /build/msw/wx_vc12.sdf
 /build/msw/*.suo
 
-# /demos/
+/demos/
 /demos/*/*.sln
 /demos/*/*.dsw
 /demos/*/vc_msw
@@ -176,12 +176,12 @@
 /lib/dmc_lib
 /lib/evc_armv4_lib
 /lib/evc_emulator_lib
-/lib/expat*.lib
+# /lib/expat*.lib
 /lib/gcc_lib
 /lib/gcc_lib32
 /lib/gcc_lib64
-/lib/jpeg*.lib
-/lib/ldef*.res
+# /lib/jpeg*.lib
+# /lib/ldef*.res
 /lib/Linux
 /lib/linux
 /lib/linux-gnu
@@ -193,31 +193,31 @@
 /lib/mswdllud
 /lib/mswu
 /lib/mswud
-/lib/png*.lib
-/lib/regex*.lib
-/lib/shell32_sc.lib
-/lib/tiff*.lib
+# /lib/png*.lib
+# /lib/regex*.lib
+# /lib/shell32_sc.lib
+# /lib/tiff*.lib
 /lib/univ
 /lib/univd
 /lib/univdll
 /lib/univdlld
 /lib/vc_dll
-/lib/vc_lib
+# /lib/vc_lib
 /lib/vc_x64_dll
-/lib/vc_x64_lib
-/lib/wat_lib
-/lib/winmm32_sc.lib
-/lib/wsock32_sc.lib
+# /lib/vc_x64_lib
+# /lib/wat_lib
+# /lib/winmm32_sc.lib
+# /lib/wsock32_sc.lib
 /lib/wx_*.rsrc
 /lib/wxbase*.dll
 /lib/wxbase*.exp
 /lib/wxbase*.ilk
-/lib/wxbase*.lib
+# /lib/wxbase*.lib
 /lib/wxmsw*.dll
 /lib/wxmsw*.exp
 /lib/wxmsw*.ilk
-/lib/wxmsw*.lib
-/lib/zlib*.lib
+# /lib/wxmsw*.lib
+# /lib/zlib*.lib
 
 # /locale/
 /locale/*.mo
@@ -225,7 +225,7 @@
 # /locale/msw/
 /locale/msw/*.mo
 
-# /misc/
+/misc/
 /misc/system.list
 /misc/bin
 /misc/.gdb_history
@@ -259,7 +259,7 @@
 /misc/stamp-h
 /misc/libtool
 
-# /samples/
+/samples/
 /samples/**/*.sln
 /samples/**/*.dsw
 /samples/**/vc_msw
@@ -355,7 +355,7 @@
 /src/zlib/Debug
 /src/zlib/Release
 
-# /tests/
+/tests/
 /tests/*.sln
 /tests/*.dsw
 /tests/vc_msw
@@ -400,7 +400,7 @@
 /tests/benchmarks/*.sln
 /tests/benchmarks/*.dsw
 
-# /utils/
+/utils/
 /utils/**/vc_mswu
 /utils/**/vc_mswu_x64
 /utils/**/vc_mswud

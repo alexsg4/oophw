@@ -261,3 +261,4 @@ __pycache__/
 *.pyc
 /OOP1-RamblerGarage/Requirements.txt
 /OOP0/*
+/RamblerUI/wxWin/lib/vc_lib/names.txt
