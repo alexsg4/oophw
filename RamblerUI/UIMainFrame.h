@@ -1,15 +1,12 @@
 #pragma once
-#include "wx/wx.h"
+#include "Project.h"
+
+#include "wx/hyperlink.h"
+#include "wx/statline.h"
+#include "wx/stattext.h"
 
 class UIMainFrame : public wxFrame
 {
-
-private:
-	const wxColor colBg = wxColor("#ABD0FF");
-	const wxColor colFg = wxColor("#185CB2");
-	const wxColor colAccent1 = wxColor("#FFB225");
-	const wxColor colAccent2 = wxColor("#FFC864");
-	const wxColor colAccent3 = wxColor("#B27708");
 
 public:
 	UIMainFrame(const wxString& title);
@@ -20,3 +17,11 @@ public:
 	void OnQuit(wxCommandEvent& event);
 };
 
+class dAbout : public wxDialog
+{
+public:
+	dAbout(const wxString& title);
+
+	void OnQuit(wxCommandEvent& event);
+
+};

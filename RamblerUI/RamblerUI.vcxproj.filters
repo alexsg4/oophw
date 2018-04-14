@@ -21,6 +21,9 @@
     <ClInclude Include="UIMain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Project.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UIMainFrame.cpp">

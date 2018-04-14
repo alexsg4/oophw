@@ -5,7 +5,7 @@ IMPLEMENT_APP(UIMain)
 
 bool UIMain::OnInit()
 {
-	UIMainFrame* MainFrame = new UIMainFrame(ATitle + " v" + AVersion);
+	UIMainFrame* MainFrame = new UIMainFrame(ALTitle);
 	MainFrame->Show(true);
 
 
