@@ -143,11 +143,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="dAbout.h" />
     <ClInclude Include="Project.h" />
+    <ClInclude Include="UIGarageFrame.h" />
     <ClInclude Include="UIMain.h" />
     <ClInclude Include="UIMainFrame.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="dAbout.cpp" />
+    <ClCompile Include="UIGarageFrame.cpp" />
     <ClCompile Include="UIMain.cpp" />
     <ClCompile Include="UIMainFrame.cpp" />
   </ItemGroup>

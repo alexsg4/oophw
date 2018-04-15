@@ -24,12 +24,24 @@
     <ClInclude Include="Project.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="UIGarageFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dAbout.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UIMainFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="UIMain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UIGarageFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dAbout.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

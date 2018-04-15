@@ -10,6 +10,13 @@ static const wxString ALTitle = ATitle + wxT(" v") + AVersion;
 static const wxString AAuthor = wxT("Alexandru Stanciu");
 static const wxString AYear = wxT("2018");
 
+//Window
+static const wxSize AMinSize(500, 350);
+
+//IDs
+static const int ID_MAIN = 501;
+static const int ID_GAR = 502;
+
 //Color styles
 static const wxColor colBg = wxColor("#ABD0FF");
 static const wxColor colFg = wxColor("#185CB2");
