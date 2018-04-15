@@ -110,8 +110,7 @@ void Vehicle::addPart(Part::Type t, Part::Position p)
 
 void Vehicle::applyRandomDamage(bool verbose)
 {
-	srand((int)time(0));
-	
+
 	for (unsigned i = 0; i < numParts; i++)
 	{
 		parts[i]->applyDamage( ((rand() + i + 5345) % parts[i]->getNumDefects()) , verbose);

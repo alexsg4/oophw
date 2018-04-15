@@ -14,8 +14,8 @@
 
 #define COLS 155
 #define ROWS 50
-#define GDIR "generators/"
-#define ADIR "ascii/"
+#define GDIR "../Assets/generators/"
+#define ADIR "../Assets/ascii/"
 
 #ifdef _WIN32
 #include <windows.h>

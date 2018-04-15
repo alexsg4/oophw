@@ -25,7 +25,7 @@ private:
 	static const unsigned maxDefects = 20;
 	static const unsigned mountTypes = 3;
 	static const unsigned partTypes = 8;
-	const std::string DDIR = "defects/";
+	const std::string DDIR = "../Assets/defects/";
 	
 	Defect* dTable[maxDefects];
 	bool *defectMarker;

@@ -12,8 +12,10 @@ private:
 	wxMenuBar * menuBar = nullptr;
 	wxMenu* file = nullptr;
 	wxMenu* edit = nullptr;
+	
 	//TODO implement
 	wxMenu* race = nullptr;
+	
 	wxMenu* help = nullptr;
 
 	//Sizers

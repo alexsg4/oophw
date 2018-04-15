@@ -33,8 +33,6 @@ public:
 
 	void loadCost(const unsigned* dCost);
 
-	//TODO overload << and >> 
-
 	friend std::ostream& operator<<(std::ostream& out, Defect& src);
 	friend std::istream& operator>>(std::istream& in, Defect& src);
 
