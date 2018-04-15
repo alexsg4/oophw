@@ -7,10 +7,7 @@ bool UIMain::OnInit()
 	UIMainFrame* MainFrame = new UIMainFrame(ALTitle);
 	MainFrame->Show(true);
 	
-	
-	//TODO testing
-	UIGarageFrame* GarageFrame = new UIGarageFrame(ALTitle);
-	GarageFrame->Show(true);
+	//TODO ensure success before returning true
 
 	return true;
 }

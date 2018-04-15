@@ -1,4 +1,5 @@
 #include "UIMainFrame.h"
+#include "UIGarageFrame.h"
 
 UIMainFrame::UIMainFrame(const wxString& title)
 	: wxFrame(nullptr, wxID_ANY, title, wxDefaultPosition, wxSize(300, 200))
@@ -50,7 +51,12 @@ UIMainFrame::~UIMainFrame()
 
 void UIMainFrame::OnStart(wxCommandEvent & event)
 {	
-	
+	UIGarageFrame* GarageFrame = new UIGarageFrame(ALTitle);
+	if (GarageFrame)
+	{
+		Close(true);
+		GarageFrame->Show(true);
+	}
 }
 
 void UIMainFrame::OnAbout(wxCommandEvent & event)

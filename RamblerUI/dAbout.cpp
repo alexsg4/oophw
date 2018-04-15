@@ -46,7 +46,7 @@ dAbout::dAbout(const wxString & title)
 
 	SetSizer(vBox);
 	ShowModal();
-	Centre();
+	//Centre();
 	Destroy();
 }
 

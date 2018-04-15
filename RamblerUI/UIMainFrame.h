@@ -2,6 +2,8 @@
 #include "Project.h"
 #include "dAbout.h"
 
+class UIGarageFrame;
+
 class UIMainFrame : public wxFrame
 {
 

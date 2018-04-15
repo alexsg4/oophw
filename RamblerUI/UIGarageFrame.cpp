@@ -27,9 +27,13 @@ UIGarageFrame::UIGarageFrame(const wxString & title)
 	race->Append(wxID_ANY, wxT("&Leaderboard..."));
 
 	help = new wxMenu;
-	help->Append(wxID_HELP, wxT("&Conntrols"));
+	help->Append(wxID_HELP, wxT("&Controls"));
 	help->Append(wxID_ABOUT, wxT("&About"));
 
+	menuBar->Append(file, wxT("&File"));
+	menuBar->Append(edit, wxT("&Edit"));
+	menuBar->Append(race, wxT("&Race"));
+	menuBar->Append(help, wxT("&Help"));
 
 
 	//Layout
