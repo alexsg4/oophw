@@ -124,7 +124,7 @@ void Vehicle::applyRandomDamage(std::ostream& out)
 
 void Vehicle::showPartsList(std::ostream& out)
 {
-	out << *this;
+	out << *this << "\n";
 	//totalParts from derivate classes is used
 	for (unsigned i = 0; i < numParts; i++)
 	{

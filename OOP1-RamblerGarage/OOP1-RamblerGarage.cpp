@@ -104,6 +104,34 @@ int main()
 			damageVehicle(fleet[selection]);
 
 			break;
+		case MenuItem::CLR:
+			fleet.erase();
+			std::cout << "Atelier eliberat\n";
+			WAIT(1);
+			break;
+		
+		case MenuItem::REM:
+			CLEAR
+				if (fleet.isEmpty())
+				{
+					std::cout << "Nu mai sunt vehicule in atelier.\n";
+					break;
+				}
+
+			displayFleet(fleet);
+
+			CS_printDivider();
+			while ((std::cout << "Alegerea dvs. [1-" << fleet.size() << "]: ") && !(std::cin >> selection))
+			{
+				std::cin.clear(); //clear bad input flag
+				std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+				std::cout << "Optiunea nu exista. Incercati din nou\n";
+			}
+
+			fleet.removeById(selection - 1);
+			std::cout << "Vehiculul a fost inlaturat\n";
+			
+			break;
 
 		case MenuItem::QUIT:
 			CLEAR

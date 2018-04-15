@@ -2,7 +2,7 @@
 #include <string>
 #include <iostream>
 #include <limits>
-#include "Part.h"
+#include "../OOP1-RamblerGarage/Part.h"
 
 
 class Vehicle
@@ -32,7 +32,7 @@ protected:
 	//Vehicle types come with a pre-defined number of parts;
 	virtual void addPart(Part::Type t, Part::Position p = Part::Position::ANY);
 	
-	//TODO move them inside a separate class which wil
+	//TODO move them inside a separate class
 	//Constants
 	const double toBHP = 1.34102;	//used for kW to BHP conversion
 	const double divPWR = 9549.;	//used for determining engine power

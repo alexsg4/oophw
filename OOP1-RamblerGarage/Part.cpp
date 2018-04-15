@@ -1,5 +1,5 @@
-#include "Part.h"
-#include "Defect.h"
+#include "../OOP1-RamblerGarage/Part.h"
+#include "../OOP1-RamblerGarage/Defect.h"
 #include <fstream>
 
 Part::Part()
@@ -180,7 +180,6 @@ void Part::loadDefectsFromFile(std::string s, std::ostream& out)
 		{
 			Defect temp;
 			fin >> temp;
-			//TODO test, might not be needed
 			fin.ignore(); //ignore rest of the line (usually just '\n'
 
 			dTable[numDefects++] = new Defect(temp);
@@ -333,7 +332,6 @@ void Part::applyDamage(unsigned marker, bool verbose, std::ostream& out)
 			return;
 		}
 
-		//TODO adjust formatting
 		defectMarker[marker] = true;
 		condition -= dTable[marker]->getDamage();
 		if (verbose)

@@ -98,7 +98,6 @@ void CS_showMenuEntry(const unsigned num, const std::string s, const unsigned co
 	std::cout << "\n";
 }
 
-//TODO populate all options
 void CS_showMenu()
 {
 	CLEAR;
@@ -250,7 +249,6 @@ void populateFleet(RArray<Vehicle*> &fleet, unsigned elementsToAdd)
 		}
 	}
 
-	//TODO ensure rand() return different on every iteration 
 	while (elementsToAdd)
 	{
 		//random choose vehicle type

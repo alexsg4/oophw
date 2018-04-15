@@ -43,9 +43,8 @@ public:
 	RArray& operator+(const RArray& src);
 	
 	//removes an element by it's position
-	void removeById(const unsigned id);
+	void removeById(const unsigned id, std::ostream& out = std::cout);
 
-	// TODO
 	//adds a pre-built element
 	void add(T & element);
 	RArray& operator+(T & element); 
@@ -198,11 +197,11 @@ RArray<T>& RArray<T>::operator+(const RArray& src)
 }
 
 template<class T>
-void RArray<T>::removeById(const unsigned id)
+void RArray<T>::removeById(const unsigned id, std::ostream& out)
 {
 	if(m_size <= id) 
 	{
-		std::cout << "Nu se poate sterge elementul de pe pozitia " << id << ". \n";
+		out << "Nu se poate sterge elementul de pe pozitia " << id << ". \n";
 		return;
 	}
 
