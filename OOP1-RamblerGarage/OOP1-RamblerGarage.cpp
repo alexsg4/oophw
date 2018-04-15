@@ -1,7 +1,6 @@
 // OOP1-RamblerGarage.cpp : Defines the entry point for the console application.
 
 #include "Rambler.h"
-#include "OOP1-RamblerGarage.h"
 
 int main()
 {
@@ -29,7 +28,7 @@ int main()
 
 	while (choice != MenuItem::QUIT)
 	{
-		showMenu();	
+		CS_showMenu();	
 		//handle bad input
 		while (std::cout << "Alegerea dvs. : " && !(std::cin >> temp))
 		{
@@ -37,7 +36,7 @@ int main()
 			std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
 			std::cout << "Optiunea nu exista. Incercati din nou\n";
 			WAIT(1)
-			showMenu();
+			CS_showMenu();
 		}
 
 		switch ((MenuItem)temp)
@@ -57,7 +56,7 @@ int main()
 
 			displayFleet(fleet);
 
-			printDivider();
+			CS_printDivider();
 			while ( (std::cout << "Alegerea dvs. [1-"<<fleet.size()<<"]: ") && !(std::cin >> selection) )
 			{
 				std::cin.clear(); //clear bad input flag
@@ -66,8 +65,8 @@ int main()
 			}
 			
 			fleet[selection-1]->diagnose();
-			printDivider();
-			waitUserInput();
+			CS_printDivider();
+			CS_waitUserInput();
 
 			break;
 
@@ -83,7 +82,7 @@ int main()
 				break;
 			}
 			std::cout << *fleet[selection] << "\n";
-			waitUserInput();
+			CS_waitUserInput();
 			break;
 
 		case MenuItem::DAMAGE:
@@ -94,7 +93,7 @@ int main()
 				break;
 			}
 			displayFleet(fleet);
-			printDivider();
+			CS_printDivider();
 			while ((std::cout << "Alegerea dvs. [1-" << fleet.size() << "]: ") && !(std::cin >> selection))
 			{
 				std::cin.clear(); //clear bad input flag

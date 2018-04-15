@@ -6,25 +6,25 @@ UIGarageFrame::UIGarageFrame(const wxString & title)
 	menuBar = new wxMenuBar;
 	file = new wxMenu;
 	
-	file->Append(wxID_EXIT, wxT("&Populate..."));
-	file->Append(wxID_EXIT, wxT("&Clear"));
+	file->Append(wxID_ANY, wxT("&Populate..."));
+	file->Append(wxID_ANY, wxT("&Clear"));
 	file->Append(wxID_EXIT, wxT("&Quit"));
 	
 	edit = new wxMenu;
-	edit->Append(wxID_ANY, wxT("&Add..."));
-	edit->Append(wxID_ANY, wxT("&Remove"));
+	edit->Append(wxID_ADD, wxT("&Add..."));
+	edit->Append(wxID_REMOVE, wxT("&Remove"));
 	edit->AppendSeparator();
-	edit->Append(wxID_ANY, wxT("&Diagnose"));
-	edit->Append(wxID_ANY, wxT("&Fix"));
-	edit->Append(wxID_ANY, wxT("&Upgrade..."));
+	edit->Append(ID_DIAG, wxT("&Diagnose"));
+	edit->Append(ID_FIX, wxT("&Fix"));
+	edit->Append(ID_UPG, wxT("&Upgrade..."));
 	edit->AppendSeparator();
-	edit->Append(wxID_ANY, wxT("&Send to Race"));
+	edit->Append(ID_SRAC, wxT("&Send to Race"));
 
 	race = new wxMenu;
-	race->Append(wxID_ANY, wxT("&Start..."));
-	race->Append(wxID_ANY, wxT("&Clear"));
+	race->Append(ID_RAC, wxT("&Start..."));
+	race->Append(ID_CLRAC, wxT("&Clear"));
 	race->AppendSeparator();
-	race->Append(wxID_ANY, wxT("&Leaderboard..."));
+	race->Append(ID_LRAC, wxT("&Leaderboard..."));
 
 	help = new wxMenu;
 	help->Append(wxID_HELP, wxT("&Controls"));

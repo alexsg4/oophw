@@ -39,11 +39,12 @@
 //Menu specifics
 enum class MenuItem { WAIT, ADD, DIAG, DIAGA, DISP, DAMAGE, REM, CLR, QUIT };
 
-void showArt(const std::string file, const size_t width = COLS, const std::string alternate = "");
-void waitUserInput();
-void showMenuEntry(const unsigned num, const std::string s, const unsigned cols = COLS);
-void showMenu();
-void printDivider(const char c = '=', const unsigned len = COLS);
+//console specifics
+void CS_showArt(const std::string file, const size_t width = COLS, const std::string alternate = "");
+void CS_waitUserInput();
+void CS_showMenuEntry(const unsigned num, const std::string s, const unsigned cols = COLS);
+void CS_showMenu();
+void CS_printDivider(const char c = '=', const unsigned len = COLS);
 
 //fleet wrappers
 void addVehicle(RArray<Vehicle*> &fleet);
@@ -57,7 +58,7 @@ void init(RArray<Vehicle*> &fleet);
 
 //###################################################################################
 
-void showArt(const std::string file, const size_t width, const std::string alternate)
+void CS_showArt(const std::string file, const size_t width, const std::string alternate)
 {
 	std::string s = ADIR;
 	std::ifstream fin(s + file);
@@ -80,7 +81,7 @@ void showArt(const std::string file, const size_t width, const std::string alter
 	fin.close();
 }
 
-void waitUserInput()
+void CS_waitUserInput()
 {
 	std::cout << "Apasati <Enter> a continua...\n";
 	//flush cin
@@ -91,30 +92,30 @@ void waitUserInput()
 	while (!std::cin.get()) {}
 }
 
-void showMenuEntry(const unsigned num, const std::string s, const unsigned cols)
+void CS_showMenuEntry(const unsigned num, const std::string s, const unsigned cols)
 {
 	std::cout << std::setw((cols - s.length() - 4) / 2) << num << ". " + s + ".";
 	std::cout << "\n";
 }
 
 //TODO populate all options
-void showMenu()
+void CS_showMenu()
 {
 	CLEAR;
-	showArt("title.in", 155);
-	showArt("menu.in", 155, "\t\t\t Meniu \t\t\t");
+	CS_showArt("title.in", 155);
+	CS_showArt("menu.in", 155, "\t\t\t Meniu \t\t\t");
 
-	showMenuEntry((unsigned)MenuItem::ADD, "Adaugare vehicul");
-	showMenuEntry((unsigned)MenuItem::DIAG, "Diagnosticare vehicul.");
-	showMenuEntry((unsigned)MenuItem::DIAGA, "Diagnosticarea tuturor vehiculelor");
-	showMenuEntry((unsigned)MenuItem::DISP, "Afisare detalii vehicul");
-	showMenuEntry((unsigned)MenuItem::DAMAGE, "Adaugare defectiuni unui vehicul");
-	showMenuEntry((unsigned)MenuItem::REM, "Inlaturare vehicul");
-	showMenuEntry((unsigned)MenuItem::CLR, "Eliberare atelier");
-	showMenuEntry((unsigned)MenuItem::QUIT, "Iesire");
+	CS_showMenuEntry((unsigned)MenuItem::ADD, "Adaugare vehicul");
+	CS_showMenuEntry((unsigned)MenuItem::DIAG, "Diagnosticare vehicul.");
+	CS_showMenuEntry((unsigned)MenuItem::DIAGA, "Diagnosticarea tuturor vehiculelor");
+	CS_showMenuEntry((unsigned)MenuItem::DISP, "Afisare detalii vehicul");
+	CS_showMenuEntry((unsigned)MenuItem::DAMAGE, "Adaugare defectiuni unui vehicul");
+	CS_showMenuEntry((unsigned)MenuItem::REM, "Inlaturare vehicul");
+	CS_showMenuEntry((unsigned)MenuItem::CLR, "Eliberare atelier");
+	CS_showMenuEntry((unsigned)MenuItem::QUIT, "Iesire");
 }
 
-void printDivider(const char c, const unsigned len)
+void CS_printDivider(const char c, const unsigned len)
 {
 	for (unsigned i = 0; i < len; i++)
 	{
@@ -207,8 +208,8 @@ void diagnoseFleet(RArray<Vehicle*> &fleet)
 	for (unsigned i = 0; i<fleet.size(); i++)
 	{
 		fleet[i]->diagnose();
-		printDivider();
-		waitUserInput();
+		CS_printDivider();
+		CS_waitUserInput();
 		CLEAR;
 	}
 }
@@ -364,7 +365,7 @@ void init(RArray<Vehicle*> &fleet)
 	TERMSIZE;
 
 	//show splash screen
-	showArt("welcome.in", COLS, "Welcome to Rambler Garage!");
+	CS_showArt("welcome.in", COLS, "Welcome to Rambler Garage!");
 
 	unsigned temp = 0;
 	//ask user for fleet capacity

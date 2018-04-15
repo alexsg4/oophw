@@ -1,7 +1,15 @@
 #pragma once
 /* Header containing various info about the app, styles and other global includes*/
 
+//wxIncludes
 #include "wx/wx.h"
+
+//Rambler includes
+#include "../OOP1-RamblerGarage/RArray.h"
+#include "../OOP1-RamblerGarage/Car.h"
+#include "../OOP1-RamblerGarage/Bike.h"
+#include "../OOP1-RamblerGarage/Motorbike.h"
+
 
 //App info
 static const wxString ATitle = wxT("Rambler Garage");
@@ -14,8 +22,18 @@ static const wxString AYear = wxT("2018");
 static const wxSize AMinSize(500, 350);
 
 //IDs
-static const int ID_MAIN = 501;
-static const int ID_GAR = 502;
+	//Windows
+	static const int ID_MAIN = 501;
+	static const int ID_GAR = 502;
+	//Events
+	static const int ID_DIAG = 503;
+	static const int ID_FIX = 504;
+	static const int ID_UPG = 505;
+	static const int ID_SRAC = 600;
+	static const int ID_RAC = 601;
+	static const int ID_CLRAC = 602;
+	static const int ID_LRAC = 603;
+
 
 //Color styles
 static const wxColor colBg = wxColor("#ABD0FF");
