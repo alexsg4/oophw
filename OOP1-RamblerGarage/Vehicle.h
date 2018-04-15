@@ -39,12 +39,16 @@ protected:
 	const double GRAV = 9.8;		//gravitational constant at sea level
 	const double dAIR = 1.225;		//air density 
 
+	//Debug
+	static const bool DBG_Verbose = false;
 
 public:
 	Vehicle();
 	Vehicle(std::string make, std::string model, unsigned year, unsigned tParts);
 	Vehicle(const Vehicle& src);
 	Vehicle& operator= (const Vehicle& src);
+	
+	Part& getPart(const unsigned part);
 	friend std::istream& operator >>(std::istream& in, Vehicle& src);
 	friend std::ostream& operator <<(std::ostream& out, const Vehicle& src);
 
@@ -54,10 +58,10 @@ public:
 	std::string getModel() const;
 	unsigned int getYear() const;
 	double getCondition() const;
-	void applyRandomDamage(bool verbose = false);
-	void showPartsList();
-	void applySpecificDamage(bool verbose = false);
-	void DBG_showLoadedDefects();
+	void applyRandomDamage(std::ostream& out = std::cout);
+	void showPartsList(std::ostream& out = std::cout);
+	void showLoadedDefects(std::ostream& out = std::cout);
 	void diagnose(std::ostream& out = std::cout);
+	unsigned getNumParts() const;
 
 };

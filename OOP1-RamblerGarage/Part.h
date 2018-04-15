@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include <string>
 
 class Defect;
@@ -50,15 +51,15 @@ public:
 	std::string getDefectsFile();
 	
 	//assumes file is present for defect loading
-	void loadDefectsFromFile(std::string s);
+	void loadDefectsFromFile(std::string s, std::ostream& out = std::cout);
 
 	std::string generateName() const;
 
-	void diagnose();
+	void diagnose(std::ostream& out = std::cout);
 
-	void applyDamage(unsigned marker, bool verbose=false);
+	void applyDamage(unsigned marker, bool verbose=false, std::ostream& out = std::cout);
 
-	void showPossibleDefects();
+	void showPossibleDefects(std::ostream& out = std::cout);
 
 
 };

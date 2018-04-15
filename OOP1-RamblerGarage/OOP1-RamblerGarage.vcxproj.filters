@@ -45,6 +45,9 @@
     <ClInclude Include="RArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Rambler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OOP1-RamblerGarage.cpp">

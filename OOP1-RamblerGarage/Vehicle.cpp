@@ -84,12 +84,18 @@ Vehicle & Vehicle::operator=(const Vehicle & src)
 	return *this;
 }
 
+Part& Vehicle::getPart(const unsigned part)
+{
+	if (!parts[part]) { throw"Out of bounds"; }
+	return *parts[part];
+}
+
 Vehicle::~Vehicle()
 {
 	for (unsigned i = 0; i < totalParts; i++) { delete parts[i]; }
 	delete[] parts;
 
-	//TODO remove stats as well
+	delete[] stats;
 }
 
 std::string Vehicle::getMake() const { return make; }
@@ -108,69 +114,30 @@ void Vehicle::addPart(Part::Type t, Part::Position p)
 	}
 }
 
-void Vehicle::applyRandomDamage(bool verbose)
+void Vehicle::applyRandomDamage(std::ostream& out)
 {
-
 	for (unsigned i = 0; i < numParts; i++)
 	{
-		parts[i]->applyDamage( ((rand() + i + 5345) % parts[i]->getNumDefects()) , verbose);
+		parts[i]->applyDamage( ((rand() + i) % parts[i]->getNumDefects()));
 	}
 }
 
-void Vehicle::showPartsList()
+void Vehicle::showPartsList(std::ostream& out)
 {
+	out << *this;
 	//totalParts from derivate classes is used
 	for (unsigned i = 0; i < numParts; i++)
 	{
-		std::cout <<i+1<<". "<<parts[i]->generateName() << "\n";
+		out <<i+1<<". "<<parts[i]->generateName() << "\n";
 	}
-	std::cout << "\n";
+	out << "\n";
 }
 
-void Vehicle::applySpecificDamage(bool verbose)
-{
-	std::cout << make << " " << model << " " << year << "\n";
-	showPartsList();
-
-	unsigned part = 0;
-	while ((std::cout << "Alegeti componenta: " && !(std::cin >> part))
-		|| (part > numParts))
-	{
-		std::cin.clear();
-		std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
-		std::cout << "Componenta nu este pe lista. Incercati din nou.\n";
-	}
-	part--;
-
-	if (!parts[part]) 
-	{ 
-		std::cout << "Nu se pot aplica defecte componentei selectate.\n"; 
-		return;
-	}
-
-	parts[part]->showPossibleDefects();
-	
-	unsigned defect = 0;
-	while ((std::cout << "Alegeti defectul: " && !(std::cin >> defect)) 
-		|| (defect > parts[part]->getNumDefects()))
-	{
-		std::cin.clear();
-		std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
-		std::cout << "Defectul nu este pe lista. Incercati din nou.\n";
-	}
-
-	defect--;
-
-	parts[part]->applyDamage(defect, verbose);
-
-}
-
-//TODO soon to be removed
-void Vehicle::DBG_showLoadedDefects()
+void Vehicle::showLoadedDefects(std::ostream& out)
 {
 	for (unsigned i = 0; i < numParts; i++)
 	{
-		std::cout << parts[i]->generateName() << ": \n";
+		out << parts[i]->generateName() << ": \n";
 		parts[i]->showPossibleDefects();
 	}
 }
@@ -191,13 +158,18 @@ void Vehicle::diagnose(std::ostream& out)
 	double newCondition = 0.;
 	for (unsigned i = 0; i < numParts; i++)
 	{
-		parts[i]->diagnose();
+		parts[i]->diagnose(out);
 		newCondition += parts[i]->getCondition();
 	}
 
 	if (numParts && newCondition >= 0){	condition = newCondition / numParts; }
 	else if (newCondition / numParts < 0) { condition = 0.; }
 
+}
+
+unsigned Vehicle::getNumParts() const
+{
+	return numParts;
 }
 
 std::istream & operator>>(std::istream & in,  Vehicle & src)

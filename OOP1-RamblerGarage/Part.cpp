@@ -169,7 +169,7 @@ std::string Part::getDefectsFile()
 	return file;
 }
 
-void Part::loadDefectsFromFile(std::string s)
+void Part::loadDefectsFromFile(std::string s, std::ostream& out)
 {
 	std::ifstream fin(s);
 	if (fin.is_open())
@@ -188,7 +188,7 @@ void Part::loadDefectsFromFile(std::string s)
 	}
 	else
 	{
-		std::cout << "Eroare: nu s-au putut incarca defectele \n";
+		out << "Eroare: nu s-au putut incarca defectele \n";
 	}
 
 	fin.close();
@@ -273,7 +273,7 @@ std::string Part::generateName()const
 	return name;
 }
 
-void Part::diagnose()
+void Part::diagnose(std::ostream& out)
 {
 	//check if there are defects
 	bool hasDefects = false;
@@ -285,20 +285,20 @@ void Part::diagnose()
 			break;
 		}
 	}
-	std::cout << generateName() << ": ";
+	out << generateName() << ": ";
 	if (hasDefects)
 	{
-		std::cout << "\n";
+		out << "\n";
 		for (unsigned i = 0; i < numDefects; i++)
 		{
 			if (defectMarker[i])
 			{
 				if (!dTable[i])
 				{
-					std::cout << "Nu se poate diagnostica defectul!\n";
+					out << "Nu se poate diagnostica defectul!\n";
 					return;
 				}
-				std::cout << dTable[i]->getName() << ":\n";
+				out << dTable[i]->getName() << ":\n";
 				if (dTable[i]->getDamage())
 				{
 					dTable[i]->showSpareCost();
@@ -306,22 +306,22 @@ void Part::diagnose()
 
 					if (h == 1)
 					{
-						std::cout << "Reparatia necesita o ora de munca\n";
+						out << "Reparatia necesita o ora de munca\n";
 					}
 					else if (h > 1)
 					{
-						std::cout << "Reparatia necesita " << dTable[i]->getManHours() << " ore de munca\n";
+						out << "Reparatia necesita " << dTable[i]->getManHours() << " ore de munca\n";
 					}
 				}
-				else { std::cout << "Defectul e ireparabil!\n"; }
+				else { out << "Defectul e ireparabil!\n"; }
 			}
 		}
 	}
-	else { std::cout << "componenta nu are defecte"; }
-	std::cout << "\n";
+	else { out << "componenta nu are defecte"; }
+	out << "\n";
 }
 
-void Part::applyDamage(unsigned marker, bool verbose)
+void Part::applyDamage(unsigned marker, bool verbose, std::ostream& out)
 {
 	//part already has this defect or defect is not on the list
 	if (defectMarker[marker] || marker >= numDefects) { return; }
@@ -329,7 +329,7 @@ void Part::applyDamage(unsigned marker, bool verbose)
 	{
 		if (!dTable[marker])
 		{
-			std::cout << "Nu se poate aplica defectul. !\n";
+			out << "Nu se poate aplica defectul. !\n";
 			return;
 		}
 
@@ -338,16 +338,16 @@ void Part::applyDamage(unsigned marker, bool verbose)
 		condition -= dTable[marker]->getDamage();
 		if (verbose)
 		{
-			std::cout << "Componentei " << generateName() << " i-a fost aplicata defectiunea: " << dTable[marker]->getName() << ". \n";
+			out << "Componentei " << generateName() << " i-a fost aplicata defectiunea: " << dTable[marker]->getName() << ". \n";
 		}
 	}
 }
 
-void Part::showPossibleDefects()
+void Part::showPossibleDefects(std::ostream& out)
 {
 	for (unsigned i = 0; i < numDefects; i++)
 	{
-		if (dTable[i]) { std::cout << i + 1 << ". " << dTable[i]->getName() << "\n"; }
+		if (dTable[i]) { out << i + 1 << ". " << dTable[i]->getName() << "\n"; }
 	}
 }
 
