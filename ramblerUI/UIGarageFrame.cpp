@@ -133,7 +133,7 @@ void UIGarageFrame::populateFleet(RArray<Vehicle*> &fleet, unsigned elementsToAd
 		while (elementsToAdd)
 	{
 		//random choose vehicle type
-		Part::Mount vehType = (Part::Mount)(rand() % Part::getMountTypes() + 1);
+		Part::Mount vehType = (Part::Mount)(rand() % Part::getPosTypes() + 1);
 
 		//reset file pointers
 		make.clear();

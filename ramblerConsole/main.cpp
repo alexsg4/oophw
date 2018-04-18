@@ -17,6 +17,11 @@ int main()
 	*/
 	//TESTING END $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
+
+	Vehicle* c1 = new Car("Test", "TestME");
+	c1->applyRandomDamage();
+
+
 	RArray<Vehicle*> fleet;
 	static unsigned selection = 0;
 

@@ -142,7 +142,18 @@ void Defect::loadCost(const unsigned* dCost)
 
 std::ostream& operator<<(std::ostream& out, Defect& src)
 {
-	out << src.name << " " << src.manHours << "Ore necesare reparatie\n";
+	out << src.name << " ";
+
+	auto h = src.manHours;
+	if (h == 1)
+	{
+		out << "Reparatia necesita o ora de munca\n";
+	}
+	else if (h > 1)
+	{
+		out << "Reparatia necesita " << src.manHours << " ore de munca\n";
+	}
+
 	src.showSpareCost(out);
 
 	return out;

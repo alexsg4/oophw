@@ -2,95 +2,78 @@
 #include "Defect.h"
 #include <fstream>
 
+RArray<RArray<Defect>> Part::_dTable;
+unsigned Part::dSection[mountTypes - 1];
+bool _isLoaded = false;
+
+
 Part::Part()
 {
-	type = Type::ANY;
-	mount = Mount::ANY;
-	position = Position::ANY;
-
-	defectMarker = new bool[maxDefects];
-	for (unsigned i = 0; i < maxDefects; i++) { defectMarker[i] = false; }
-
-	for (unsigned i = 0; i < maxDefects; i++) { dTable[i] = nullptr; }
-
+	tMount = static_cast<unsigned>(mount);
+	tType = static_cast<unsigned>(type);
 }
 
-Part::Part(Mount v, Type t, Position pos) : mount(v), type(t), position(pos)
+Part::Part(Mount v, Type t, Position p) : mount(v), type(t), position(p)
 {
-	defectMarker = new bool[maxDefects];
-	for (unsigned i = 0; i < maxDefects; i++) 
-	{ 
-		defectMarker[i] = false; 
+
+	tMount = static_cast<unsigned>(mount);
+	tType = static_cast<unsigned>(type);
+	
+	for (unsigned i = 0; i < mountTypes; i++)
+	{
+		dSection[i] = i * (partTypes - 1) + (i != 0);
 	}
 
-	for (unsigned i = 0; i < maxDefects; i++) { dTable[i] = nullptr; }
+	//fill dTable with placeholders
+	for (unsigned i = 0; i < (partTypes - 1)*(mountTypes - 1); i++)
+	{
+		(*dTable).add();
+	}
 
-	std::string DDIR = STR(ASSETS);
-	loadDefectsFromFile(DDIR + "/defects/" + getDefectsFile());
+	if (!_isLoaded)
+	{
+		std::string DDIR = STR(ASSETS);
+		_isLoaded=loadDefectsFromFile(DDIR + "/defects/" + getDefectsFile());
+
+		dMarker.expand(getPossibleDefectsNum());
+		for (unsigned i = 0; i < dMarker.capacity(); i++)
+		{
+			//Mark all possible defects as false
+			auto k = false;
+			dMarker += k;
+		}
+
+	}
 }
 
 Part::Part(const Part & src)
 {
-	condition = src.condition;
-	type = src.type;
 	mount = src.mount;
+	type = src.type;
 	position = src.position;
 
-	for (unsigned i = 0; i < maxDefects; i++) { dTable[i] = nullptr; }
-	defectMarker = new bool[maxDefects];
+	numDefects = src.numDefects;
+	dMarker = src.dMarker;
+	condition = src.condition;
 
-	if (src.dTable)
-	{
-		numDefects = src.numDefects;
-
-		for (unsigned i = 0; i < numDefects; i++)
-		{
-			dTable[i] = new Defect(*(src.dTable[i]));
-		}
-
-		for (unsigned i = 0; i < maxDefects; i++)
-		{
-			defectMarker[i] = src.defectMarker[i];
-		}
-	}
 }
 
 Part & Part::operator=(const Part & src)
 {
-	condition = src.condition;
-	type = src.type;
 	mount = src.mount;
+	type = src.type;
 	position = src.position;
 
-	for (unsigned i = 0; i < maxDefects; i++) { dTable[i] = nullptr; }
-	defectMarker = new bool[maxDefects];
-
-	if (src.dTable)
-	{
-		numDefects = src.numDefects;
-
-		for (unsigned i = 0; i < numDefects; i++)
-		{
-			dTable[i] = new Defect(*(src.dTable[i]));
-		}
-
-		for (unsigned i = 0; i < maxDefects; i++)
-		{
-			defectMarker[i] = src.defectMarker[i];
-		}
-	}
+	numDefects = src.numDefects;
+	dMarker = src.dMarker;
+	condition = src.condition;
 
 	return *this;
 }
 
 Part::~Part()
 {
-	for (unsigned i = 0; i < maxDefects; i++)
-	{
-		delete dTable[i];
-	}
-	//delete[] dTable;
-	delete[] defectMarker;
+	delete dTable;
 }
 
 Part::Type Part::getType() const{	return type;	}
@@ -101,16 +84,14 @@ Part::Position Part::getPosition() const{	return position;	}
 
 double Part::getCondition() const{	return condition;	}
 
-unsigned Part::getMaxDefects() const{	return maxDefects;	}
-
 unsigned Part::getNumDefects() const {	return numDefects;	}
 
-unsigned Part::getMountTypes()
+unsigned Part::getPosTypes()
 {
-	return mountTypes;
+	return posTypes;
 }
 
-std::string Part::getDefectsFile()
+std::string Part::getDefectsFile() const
 {
 	std::string file;
 	switch (mount)
@@ -170,31 +151,31 @@ std::string Part::getDefectsFile()
 	return file;
 }
 
-void Part::loadDefectsFromFile(std::string s, std::ostream& out)
+bool Part::loadDefectsFromFile(std::string s, std::ostream& out)
 {
 	std::ifstream fin(s);
 	if (fin.is_open())
 	{
-		unsigned n = Defect::getSpareTypes();
-		
-		while (!fin.eof() && numDefects < maxDefects)
+		while (!fin.eof())
 		{
 			Defect temp;
 			fin >> temp;
 			fin.ignore(); //ignore rest of the line (usually just '\n'
 
-			dTable[numDefects++] = new Defect(temp);
+			(*dTable)[ dSection[tMount] + tType ].add(temp);
 		} 
 	}
 	else
 	{
 		out << "Eroare: nu s-au putut incarca defectele \n";
+		return false;
 	}
 
 	fin.close();
+	return true;
 }
 
-std::string Part::generateName()const
+std::string Part::generateName()
 {
 	std::string name;
 
@@ -230,8 +211,6 @@ std::string Part::generateName()const
 		break;
 	case Part::Type::DOOR:
 		name = "Usa";
-		break;
-	default:
 		break;
 	}
 
@@ -276,44 +255,18 @@ std::string Part::generateName()const
 void Part::diagnose(std::ostream& out)
 {
 	//check if there are defects
-	bool hasDefects = false;
-	for (unsigned i = 0; i < numDefects; i++)
-	{
-		if (defectMarker[i])
-		{
-			hasDefects = true;
-			break;
-		}
-	}
+	bool hasDefects = !(dMarker.isEmpty());
+
 	out << generateName() << ": ";
 	if (hasDefects)
 	{
 		out << "\n";
-		for (unsigned i = 0; i < numDefects; i++)
+		auto k = (*dTable)[dSection[tMount] + tType].size();
+		for (unsigned i = 0; i <k; i++)
 		{
-			if (defectMarker[i])
+			if (dMarker[i])
 			{
-				if (!dTable[i])
-				{
-					out << "Nu se poate diagnostica defectul!\n";
-					return;
-				}
-				out << dTable[i]->getName() << ":\n";
-				if (dTable[i]->getDamage())
-				{
-					dTable[i]->showSpareCost();
-					unsigned h = dTable[i]->getManHours();
-
-					if (h == 1)
-					{
-						out << "Reparatia necesita o ora de munca\n";
-					}
-					else if (h > 1)
-					{
-						out << "Reparatia necesita " << dTable[i]->getManHours() << " ore de munca\n";
-					}
-				}
-				else { out << "Defectul e ireparabil!\n"; }
+				out << (*dTable)[dSection[tMount] + tType][i];
 			}
 		}
 	}
@@ -324,29 +277,34 @@ void Part::diagnose(std::ostream& out)
 void Part::applyDamage(unsigned marker, bool verbose, std::ostream& out)
 {
 	//part already has this defect or defect is not on the list
-	if (defectMarker[marker] || marker >= numDefects) { return; }
+	if (dMarker[marker] || marker >= numDefects) { return; }
 	else
 	{
-		if (!dTable[marker])
-		{
-			out << "Nu se poate aplica defectul. !\n";
-			return;
-		}
-
-		defectMarker[marker] = true;
-		condition -= dTable[marker]->getDamage();
+		Defect* toAdd = &(*dTable)[dSection[tMount] + tType][marker];
+		
+		dMarker[marker] = true;
+		condition -= toAdd->getDamage();
+		
 		if (verbose)
 		{
-			out << "Componentei " << generateName() << " i-a fost aplicata defectiunea: " << dTable[marker]->getName() << ". \n";
+			out << "Componentei " << generateName() << " i-a fost aplicata defectiunea: " << toAdd->getName() << ". \n";
 		}
 	}
 }
 
 void Part::showPossibleDefects(std::ostream& out)
 {
-	for (unsigned i = 0; i < numDefects; i++)
+	auto k = getPossibleDefectsNum();
+	
+	for (unsigned i = 0; i < k; i++)
 	{
-		if (dTable[i]) { out << i + 1 << ". " << dTable[i]->getName() << "\n"; }
+		Defect* toShow = &(*dTable)[dSection[tMount] + tType][i];
+		out << i + 1 << ". " << toShow->getName() << "\n"; 
 	}
+}
+
+unsigned Part::getPossibleDefectsNum() const
+{
+	return (*dTable)[dSection[tMount] + tType].size();
 }
 

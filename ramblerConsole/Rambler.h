@@ -133,7 +133,7 @@ void CS_printDivider(const char c, const unsigned len)
 void addVehicle(RArray<Vehicle*> &fleet)
 {
 	std::cout << "Tipuri de vehicule disponibile: \n";
-	for (unsigned i = 0; i <= Part::getMountTypes(); i++)
+	for (unsigned i = 0; i <= Part::getPosTypes(); i++)
 	{
 		switch ((Part::Mount)i)
 		{
@@ -266,7 +266,7 @@ void populateFleet(RArray<Vehicle*> &fleet, unsigned elementsToAdd)
 		while (elementsToAdd)
 		{
 			//random choose vehicle type
-			Part::Mount vehType = (Part::Mount)(rand() % Part::getMountTypes() + 1);
+			Part::Mount vehType = (Part::Mount)(rand() % Part::getPosTypes() + 1);
 
 			//reset file pointers
 			make.clear();
@@ -312,8 +312,6 @@ void populateFleet(RArray<Vehicle*> &fleet, unsigned elementsToAdd)
 				break;
 			case Part::Mount::BIKE:
 				toAdd = new Bike(m, mod, year);
-				break;
-			default:
 				break;
 			}
 
@@ -376,7 +374,7 @@ void damageVehicle(Vehicle * vehicle)
 void init(RArray<Vehicle*> &fleet)
 {
 	//Sensible default
-	static unsigned capacity = 20;
+	unsigned capacity = 20;
 
 	//Set correct terminal size on windows
 	TERMSIZE;

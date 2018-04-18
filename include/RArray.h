@@ -6,7 +6,7 @@ template <class T>
 class RArray
 {
 private:
-	unsigned m_capacity = 0;	//maximum capacity
+	unsigned m_capacity = 2;	//maximum capacity
 	unsigned m_size = 0;		//current size 
 	T** members;
 	
@@ -14,7 +14,7 @@ private:
 	void _initialise(const unsigned& from = 0);
 
 public:
-	RArray() {};
+	RArray();
 	RArray(const unsigned cap);
 	RArray(const RArray &src);
 
@@ -34,9 +34,6 @@ public:
 	inline const unsigned size() const { return m_size; }
 	inline const unsigned capacity() const { return m_capacity; }
 
-	void operator++(int);
-	void operator++();
-
 	~RArray();
 	
 	//concatenates two arrays
@@ -45,11 +42,19 @@ public:
 	//removes an element by it's position
 	void removeById(const unsigned id, std::ostream& out = std::cout);
 
-	//adds a pre-built element
+	//add pre-built element
 	void add(T & element);
-	RArray& operator+(T & element); 
+	RArray& operator+=(T & element);
+	//add container
+	void add();
 };
 
+template <class T>
+RArray<T>::RArray()
+{
+	members = new T*[m_capacity];
+	_initialise();
+}
 
 template <class T>
 RArray<T>::RArray(const unsigned cap) : m_capacity(cap)
@@ -98,7 +103,7 @@ RArray<T>& RArray<T>::operator=(const RArray& src)
 		m_size = src.m_size;
 		for (unsigned i = 0; i<m_size; i++)
 		{
-			members[i] = src->members[i];
+			members[i] = src.members[i];
 		}
 	}
 
@@ -108,7 +113,7 @@ RArray<T>& RArray<T>::operator=(const RArray& src)
 template <class T>
 T& RArray<T>::operator[](const unsigned id)
 {
-	if (id > m_size || m_size <= 0)
+	if (id > m_size || id < 0 || m_size == 0)
 	{
 		throw "OUT OF BOUNDS!";
 	}
@@ -163,20 +168,6 @@ void RArray<T>::expand(unsigned newCapacity)
 }
 
 template<class T>
-inline void RArray<T>::operator++()
-{
-	if (m_size >= m_capacity) { return; }
-	++m_size;
-}
-
-template<class T>
-inline void RArray<T>::operator++(int)
-{
-	if (m_size >= m_capacity) { return; }
-	m_size++;
-}
-
-template<class T>
 RArray<T>::~RArray()
 {
 	for (unsigned i = 0; i < m_size; i++) { delete members[i]; }
@@ -224,19 +215,29 @@ void RArray<T>::removeById(const unsigned id, std::ostream& out)
 template<class T>
 void RArray<T>::add(T & element)
 {
-	if (m_size >= m_capacity)
+	if (m_size + 1 > m_capacity)
 	{
 		expand(m_capacity + 1);
 	}
 
 	members[m_size++] = new T(element);
-
 }
 
 template<class T>
-RArray<T>& RArray<T>::operator+(T & element)
+void RArray<T>::add()
 {
-	if (m_size >= m_capacity)
+	if (m_size + 1 > m_capacity)
+	{
+		expand(m_capacity + 1);
+	}
+
+	members[m_size++] = new T();
+}
+
+template<class T>
+RArray<T>& RArray<T>::operator+=(T & element)
+{
+	if (m_size + 1 > m_capacity)
 	{
 		expand(m_capacity + 1);
 	}

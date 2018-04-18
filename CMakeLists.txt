@@ -18,7 +18,6 @@ set(UI_SRC "ramblerUI")
 add_subdirectory(${CONSOLE_SRC})
 add_subdirectory(${UI_SRC})
 
-aux_source_directory( ${LIB}/Vehicles LIB_LIST )
+aux_source_directory( ${PROJECT_SOURCE_DIR}/${LIB}/Vehicles LIB_LIST )
 add_library ( Vehicles STATIC ${LIB_LIST} )
-target_include_directories( Vehicles PUBLIC ${LIB}/Vehicles/include)
-
+target_include_directories( Vehicles PUBLIC ${PROJECT_SOURCE_DIR}/${LIB}/Vehicles/include PUBLIC ${PROJECT_SOURCE_DIR}/${INCLUDES})

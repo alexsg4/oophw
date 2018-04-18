@@ -22,8 +22,8 @@ public:
 protected:
 	unsigned totalParts = 10;
 	unsigned numParts = 0;
-	std::string make;
-	std::string model;
+	std::string make = "Generic Make";
+	std::string model = "Generic Model";
 	unsigned int year = 1950;
 	double condition = 100.;
 	Part** parts = nullptr;
@@ -39,8 +39,6 @@ protected:
 	const double GRAV = 9.8;		//gravitational constant at sea level
 	const double dAIR = 1.225;		//air density 
 
-	//Debug
-	static const bool DBG_Verbose = false;
 
 public:
 	Vehicle();
