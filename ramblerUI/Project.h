@@ -1,5 +1,5 @@
 #pragma once
-/* Header containing various info about the app, styles and other global includes*/
+// Header containing various info about the app, styles and other global includes 
 
 //wxIncludes
 #include <wx/wx.h>
@@ -19,17 +19,28 @@ static const wxString AYear = wxT("2018");
 static const wxSize AMinSize(500, 350);
 
 //IDs
-	//Windows
-	static const int ID_MAIN = 501;
-	static const int ID_GAR = 502;
+	//Frames
+	enum class fID
+	{
+		MAIN = 501, //mainMenu
+		GAR			//garage
+	};
+
 	//Events
-	static const int ID_DIAG = 503;
-	static const int ID_FIX = 504;
-	static const int ID_UPG = 505;
-	static const int ID_SRAC = 600;
-	static const int ID_RAC = 601;
-	static const int ID_CLRAC = 602;
-	static const int ID_LRAC = 603;
+	enum class eID
+	{
+		ADD = 600,		//add vehicle
+		REM,			//remove vehicle
+		POPL,			//populate fleet
+		CLR,			//clear fleet
+		DIAG,			//diagnose vehicle
+		FIX,			//fix vehicle
+		UPG,			//upgrade vehicle
+		SRAC,			//send vehicle to race
+		RAC,			//start race
+		CLRAC,			//clear race starting line
+		LRAC			//show racing leaderboards
+	};
 
 
 //Color styles

@@ -8,10 +8,7 @@
 class dAbout;
 
 //Rambler includes
-#include "RArray.h"
-#include "Car.h"
-#include "Bike.h"
-#include "Motorbike.h"
+#include "RamblerU.h"
 
 class UIGarageFrame : public wxFrame
 {
@@ -35,7 +32,7 @@ private:
 	wxGridSizer* sVehSpecGrid = nullptr;
 
 	//Panels
-
+	//TODO
 	wxPanel* pVehicles = nullptr;
 
 	//Data
@@ -51,9 +48,10 @@ public:
 
 	void OnQuit(wxCommandEvent & event);
 	void OnAbout(wxCommandEvent & event);
+	
+	void OnClear(wxCommandEvent& event);
 
-	// fleet functions
-	void populateFleet(RArray<Vehicle*> &fleet, unsigned elementsToAdd);
+
 
 
 };
