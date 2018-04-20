@@ -19,12 +19,13 @@ static const wxString AYear = wxT("2018");
 static const wxSize AMinSize(500, 350);
 
 //IDs
-	//Frames
+	//Windows
 	enum class fID
 	{
 		IND = 500,		//dummy index - temporary
 		MAIN,			//mainMenu
-		GAR				//garage
+		GAR,			//garage
+		FLP,			//fleetPanel
 	};
 
 	//Events

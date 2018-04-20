@@ -195,8 +195,8 @@ static void populateFleet(RArray<Vehicle*> &fleet, const unsigned toAdd)
 			Part::Mount vehType = (Part::Mount)(rand() % Part::getMountTypes() + 1);
 
 			//random select lines for make and model
-			mi = (rand() + elementsToAdd) % mLines + 1;
-			modi = (rand() + elementsToAdd) % modLines + 1;
+			mi = (rand() + elementsToAdd) % (mLines + (mLines==0));
+			modi = (rand() + elementsToAdd) % (modLines + (modLines == 0));
 
 			//extract data from files
 			for (unsigned i = 0; i < mi; i++)
