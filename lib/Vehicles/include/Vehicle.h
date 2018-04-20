@@ -4,10 +4,10 @@
 #include <limits>
 #include "Part.h"
 
-
 class Vehicle
 {
 public:
+	//TODO usage
 	enum class Stats 
 	{ 
 		SPD,	// Top speed in km/h

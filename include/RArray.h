@@ -22,7 +22,7 @@ public:
 	RArray& operator=(const RArray& src);
 	
 	//Returns member at position id, assuming it exists
-	T& operator[](const unsigned id);
+	T& operator[](const unsigned id) const;
 
 	//Removes all elements and nullify positions
 	void erase();
@@ -43,8 +43,8 @@ public:
 	void removeById(const unsigned id, std::ostream& out = std::cout);
 
 	//add pre-built element
-	void add(T & element);
-	RArray& operator+=(T & element);
+	void add(const T & element);
+	RArray& operator+=(const T & element);
 	//add container
 	void add();
 };
@@ -111,9 +111,9 @@ RArray<T>& RArray<T>::operator=(const RArray& src)
 }
 
 template <class T>
-T& RArray<T>::operator[](const unsigned id)
+T& RArray<T>::operator[](const unsigned id) const
 {
-	if (id > m_size || id < 0 || m_size == 0)
+	if (id >= m_size || id < 0 || m_size == 0)
 	{
 		throw "OUT OF BOUNDS!";
 	}
@@ -150,20 +150,18 @@ void RArray<T>::expand(unsigned newCapacity)
 	//if expansion is not necessary
 	if (newCapacity <= m_capacity) { return; }
 
-	T** expanded = new T*[newCapacity];
+	m_capacity = newCapacity;
+	
+	T** expanded = new T*[m_capacity];
 
 	for (unsigned i = 0; i < m_size; i++)
 	{
 		expanded[i] = members[i];
 	}
 	
-	if (m_size)
-	{
-		delete[] members;
-	}
+	delete[] members;
 
 	members = expanded;
-	m_capacity = newCapacity;
 	_initialise(m_size);
 }
 
@@ -213,11 +211,11 @@ void RArray<T>::removeById(const unsigned id, std::ostream& out)
 }
 
 template<class T>
-void RArray<T>::add(T & element)
+void RArray<T>::add(const T & element)
 {
-	if (m_size + 1 > m_capacity)
+	if (m_size >= m_capacity)
 	{
-		expand(m_capacity + 1);
+		expand(m_size*2);
 	}
 
 	members[m_size++] = new T(element);
@@ -226,20 +224,20 @@ void RArray<T>::add(T & element)
 template<class T>
 void RArray<T>::add()
 {
-	if (m_size + 1 > m_capacity)
+	if (m_size >= m_capacity)
 	{
-		expand(m_capacity + 1);
+		expand(m_size *2);
 	}
 
 	members[m_size++] = new T();
 }
 
 template<class T>
-RArray<T>& RArray<T>::operator+=(T & element)
+RArray<T>& RArray<T>::operator+=(const T & element)
 {
-	if (m_size + 1 > m_capacity)
+	if (m_size >= m_capacity)
 	{
-		expand(m_capacity + 1);
+		expand(m_size *2);
 	}
 	members[m_size++] = new T(element);
 	

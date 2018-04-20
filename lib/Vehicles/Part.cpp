@@ -2,15 +2,16 @@
 #include "Defect.h"
 #include <fstream>
 
-RArray<RArray<Defect>> Part::_dTable;
-unsigned Part::dSection[mountTypes - 1];
-bool _isLoaded = false;
+RArray<Defect> Part::_dTable[partTypes*mountTypes];
+unsigned Part::dSection[mountTypes];
+bool Part::_dLoaded[partTypes * mountTypes];
 
 
 Part::Part()
 {
 	tMount = static_cast<unsigned>(mount);
 	tType = static_cast<unsigned>(type);
+	tIndex = _index();
 }
 
 Part::Part(Mount v, Type t, Position p) : mount(v), type(t), position(p)
@@ -18,31 +19,30 @@ Part::Part(Mount v, Type t, Position p) : mount(v), type(t), position(p)
 
 	tMount = static_cast<unsigned>(mount);
 	tType = static_cast<unsigned>(type);
-	
-	for (unsigned i = 0; i < mountTypes; i++)
-	{
-		dSection[i] = i * (partTypes - 1) + (i != 0);
+	tIndex = _index();
+
+	//prevent repeated initialisation
+	if(dSection[1]==0)
+	{ 
+		for (unsigned i = 0; i < mountTypes; i++)
+		{
+			dSection[i] = i * partTypes;
+		}
 	}
 
-	//fill dTable with placeholders
-	for (unsigned i = 0; i < (partTypes - 1)*(mountTypes - 1); i++)
-	{
-		(*dTable).add();
-	}
-
-	if (!_isLoaded)
+	//prevent repeated initialisation
+	if (!_dLoaded[tIndex])
 	{
 		std::string DDIR = STR(ASSETS);
-		_isLoaded=loadDefectsFromFile(DDIR + "/defects/" + getDefectsFile());
-
-		dMarker.expand(getPossibleDefectsNum());
-		for (unsigned i = 0; i < dMarker.capacity(); i++)
+		_dLoaded[tIndex] = loadDefectsFromFile(DDIR + "/defects/" + getDefectsFile());
+	}
+	
+	if(dMarker.isEmpty())
+	{
+		for (unsigned i = 0; i < getPossibleDefectsNum(); i++)
 		{
-			//Mark all possible defects as false
-			auto k = false;
-			dMarker += k;
+			dMarker.add();
 		}
-
 	}
 }
 
@@ -55,7 +55,8 @@ Part::Part(const Part & src)
 	numDefects = src.numDefects;
 	dMarker = src.dMarker;
 	condition = src.condition;
-
+	
+	tIndex = _index();
 }
 
 Part & Part::operator=(const Part & src)
@@ -67,7 +68,8 @@ Part & Part::operator=(const Part & src)
 	numDefects = src.numDefects;
 	dMarker = src.dMarker;
 	condition = src.condition;
-
+	tIndex = _index();
+	
 	return *this;
 }
 
@@ -89,6 +91,11 @@ unsigned Part::getNumDefects() const {	return numDefects;	}
 unsigned Part::getPosTypes()
 {
 	return posTypes;
+}
+
+unsigned Part::getMountTypes()
+{
+	return mountTypes;
 }
 
 std::string Part::getDefectsFile() const
@@ -162,7 +169,7 @@ bool Part::loadDefectsFromFile(std::string s, std::ostream& out)
 			fin >> temp;
 			fin.ignore(); //ignore rest of the line (usually just '\n'
 
-			(*dTable)[ dSection[tMount] + tType ].add(temp);
+			dTable[tIndex]+=temp;
 		} 
 	}
 	else
@@ -175,7 +182,7 @@ bool Part::loadDefectsFromFile(std::string s, std::ostream& out)
 	return true;
 }
 
-std::string Part::generateName()
+std::string Part::generateName() const
 {
 	std::string name;
 
@@ -255,32 +262,47 @@ std::string Part::generateName()
 void Part::diagnose(std::ostream& out)
 {
 	//check if there are defects
-	bool hasDefects = !(dMarker.isEmpty());
+	bool hasDefects = false;
+	
+	for(unsigned i=0; i<dMarker.size(); i++)
+	{
+		if(dMarker[i]) 
+		{
+			hasDefects = true;
+			break;
+		}
+	}
 
 	out << generateName() << ": ";
 	if (hasDefects)
 	{
 		out << "\n";
-		auto k = (*dTable)[dSection[tMount] + tType].size();
+		auto k = dTable[dSection[tMount] + tType].size();
 		for (unsigned i = 0; i <k; i++)
 		{
 			if (dMarker[i])
 			{
-				out << (*dTable)[dSection[tMount] + tType][i];
+				out << dTable[dSection[tMount] + tType][i];
 			}
 		}
 	}
-	else { out << "componenta nu are defecte"; }
+	else { out << "/t/t/t componenta nu are defecte"; }
 	out << "\n";
 }
 
 void Part::applyDamage(unsigned marker, bool verbose, std::ostream& out)
 {
 	//part already has this defect or defect is not on the list
-	if (dMarker[marker] || marker >= numDefects) { return; }
+	if (dMarker[marker] || marker >= getPossibleDefectsNum()) { return; }
 	else
 	{
-		Defect* toAdd = &(*dTable)[dSection[tMount] + tType][marker];
+		Defect* toAdd = &_dTable[tIndex][marker];
+		
+		if(!toAdd) 
+		{ 
+			//TODO show message
+			return; 
+		}	
 		
 		dMarker[marker] = true;
 		condition -= toAdd->getDamage();
@@ -290,6 +312,7 @@ void Part::applyDamage(unsigned marker, bool verbose, std::ostream& out)
 			out << "Componentei " << generateName() << " i-a fost aplicata defectiunea: " << toAdd->getName() << ". \n";
 		}
 	}
+	numDefects++;
 }
 
 void Part::showPossibleDefects(std::ostream& out)
@@ -298,13 +321,13 @@ void Part::showPossibleDefects(std::ostream& out)
 	
 	for (unsigned i = 0; i < k; i++)
 	{
-		Defect* toShow = &(*dTable)[dSection[tMount] + tType][i];
+		Defect* toShow = &_dTable[tIndex][i];
 		out << i + 1 << ". " << toShow->getName() << "\n"; 
 	}
 }
 
-unsigned Part::getPossibleDefectsNum() const
+unsigned Part::getPossibleDefectsNum()
 {
-	return (*dTable)[dSection[tMount] + tType].size();
+	return _dTable[tIndex].size();
 }
 

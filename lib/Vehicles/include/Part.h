@@ -6,9 +6,6 @@
 #define _STR(s) #s
 #define STR(s) _STR(s)
 
-//verifies if defects have been loaded from files correctly
-extern bool _isLoaded;
-
 class Defect;
 
 class Part
@@ -16,19 +13,22 @@ class Part
 public:
 	enum class Type
 	{
-		ANY, WHEEL, ENGINE, BRAKE, SUSPENSION, TRANSMISSION, INTERIOR, ECU, BODY, DOOR, 
+		ANY = -1,	//Used for general initialization
+		WHEEL, ENGINE, BRAKE, SUSPENSION, TRANSMISSION, INTERIOR, ECU, BODY, DOOR, 
 		NUM	//Total number of elements. Add others above it. 
 	};
 
 	enum class Mount 
 	{ 
-	ANY, CAR, MOTO, BIKE, 
+	ANY = -1,	//Used for general initialization
+	CAR, MOTO, BIKE, 
 	NUM	//Total number of elements. Add others above it. 
 	};
 	
 	enum class Position 
 	{ 
-		ANY, LEFT, RIGHT, FRONT, REAR, FRONTLT, FRONTRT, REARLT, REARRT, 
+		ANY = -1, //Used for general initialization
+		LEFT, RIGHT, FRONT, REAR, FRONTLT, FRONTRT, REARLT, REARRT, 
 		NUM	//Total number of elements. Add others above it. 
 	};
 
@@ -43,29 +43,36 @@ private:
 	
 	unsigned tMount = 0;
 	unsigned tType = 0;
-
+	unsigned tIndex = 0;
 
 	static const unsigned mountTypes = static_cast<unsigned>(Mount::NUM);
 	static const unsigned posTypes = static_cast<unsigned>(Position::NUM);
 	static const unsigned partTypes = static_cast<unsigned>(Type::NUM);
 	
 	//stores the list of possible defects for each type of part per vehicle type
-	static RArray<RArray<Defect>> _dTable;
+	static RArray<Defect> _dTable[partTypes*mountTypes];
+	static bool _dLoaded[partTypes * mountTypes];
 	
 	//return address of _dTable
-	inline static RArray<RArray<Defect>> * __dTable()
+	static inline RArray<Defect>* __dTable()
 	{
-		return &_dTable;
+		return &_dTable[0];
+	}
+
+	//return index of current part inside a lookup table
+	const inline unsigned _index() const
+	{
+		return dSection[tMount] + tType;
 	}
 
 	//accessor for _dTable
-	RArray<RArray<Defect>> * dTable = __dTable();
+	RArray<Defect> * dTable = __dTable();
 	
 	//marks current defects for this part
 	RArray<bool> dMarker;
 
 	//stores the starting index in dTable for each vehicle type
-	static unsigned dSection[mountTypes-1];
+	static unsigned dSection[mountTypes];
 
 public:
 	Part();
@@ -83,6 +90,7 @@ public:
 	double getCondition() const;
 	unsigned getNumDefects() const;
 	static unsigned getPosTypes();
+	static unsigned getMountTypes();
 
 	//generate file name for defect file
 	std::string getDefectsFile() const;
@@ -90,7 +98,7 @@ public:
 	//assumes file is present for defect loading
 	bool loadDefectsFromFile(std::string s, std::ostream& out = std::cout);
 
-	std::string generateName();
+	std::string generateName() const;
 
 	void diagnose(std::ostream& out = std::cout);
 
@@ -98,6 +106,6 @@ public:
 
 	void showPossibleDefects(std::ostream& out = std::cout);
 
-	unsigned getPossibleDefectsNum() const;
+	unsigned getPossibleDefectsNum();
 
 };

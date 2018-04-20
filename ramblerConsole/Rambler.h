@@ -110,9 +110,9 @@ void CS_showMenu()
 	CS_showArt("menu.in", 155, "\t\t\t Meniu \t\t\t");
 
 	CS_showMenuEntry((unsigned)MenuItem::ADD, "Adaugare vehicul");
-	CS_showMenuEntry((unsigned)MenuItem::DIAG, "Diagnosticare vehicul.");
+	CS_showMenuEntry((unsigned)MenuItem::DIAG, "Diagnosticare vehicul");
 	CS_showMenuEntry((unsigned)MenuItem::DIAGA, "Diagnosticarea tuturor vehiculelor");
-	CS_showMenuEntry((unsigned)MenuItem::DISP, "Afisare detalii vehicul");
+	CS_showMenuEntry((unsigned)MenuItem::DISP, "Afisare vehicule");
 	CS_showMenuEntry((unsigned)MenuItem::DAMAGE, "Adaugare defectiuni unui vehicul");
 	CS_showMenuEntry((unsigned)MenuItem::REM, "Inlaturare vehicul");
 	CS_showMenuEntry((unsigned)MenuItem::CLR, "Eliberare atelier");
@@ -266,7 +266,7 @@ void populateFleet(RArray<Vehicle*> &fleet, unsigned elementsToAdd)
 		while (elementsToAdd)
 		{
 			//random choose vehicle type
-			Part::Mount vehType = (Part::Mount)(rand() % Part::getPosTypes() + 1);
+			Part::Mount vehType = (Part::Mount)(rand() % Part::getMountTypes() + 1);
 
 			//reset file pointers
 			make.clear();
@@ -280,8 +280,8 @@ void populateFleet(RArray<Vehicle*> &fleet, unsigned elementsToAdd)
 			mod.clear();
 
 			//random select lines for make and model
-			mi = (rand() + elementsToAdd + 312341) % mLines + 1;
-			modi = (rand() + elementsToAdd + 54837) % modLines + 1;
+			mi = (rand() + elementsToAdd) % mLines + 1;
+			modi = (rand() + elementsToAdd) % modLines + 1;
 
 			//extract from files
 			for (unsigned i = 0; i < mi; i++)
@@ -360,7 +360,7 @@ void damageVehicle(Vehicle * vehicle)
 
 	unsigned defect = 0;
 	while ((std::cout << "Alegeti defectul: " && !(std::cin >> defect))
-		|| (defect > vehicle->getPart(part).getNumDefects()))
+		|| (defect > vehicle->getPart(part).getPossibleDefectsNum()))
 	{
 		std::cin.clear();
 		std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');

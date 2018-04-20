@@ -8,7 +8,7 @@ else()
 	set(PFLAGS "")
 endif()
 
-find_package(wxWidgets REQUIRED COMPONENTS net core base adv)
+find_package(wxWidgets COMPONENTS net core base adv)
 
 if(wxWidgets_FOUND)
 	include(${wxWidgets_USE_FILE})
@@ -16,7 +16,13 @@ endif()
 
 aux_source_directory(. SRC_LIST)
 add_executable(${PROJECT_NAME} ${PFLAGS} ${SRC_LIST})
-target_link_libraries(${PROJECT_NAME} PRIVATE Vehicles PRIVATE ${wxWidgets_LIBRARIES}) 
+
+if(wxWidgets_FOUND)
+	target_link_libraries(${PROJECT_NAME} PRIVATE Vehicles PRIVATE ${wxWidgets_LIBRARIES}) 
+else() 
+	target_link_libraries(${PROJECT_NAME} PRIVATE Vehicles) 
+endif()
+
 target_include_directories(${PROJECT_NAME} PRIVATE ../include)
 
 

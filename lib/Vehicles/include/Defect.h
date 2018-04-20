@@ -13,7 +13,8 @@ private:
 	std::string name = "generic defect";
 	double damage = 1.;
 	double manHours = 1.;
-	unsigned *cost = nullptr;
+	static const unsigned spares = static_cast<unsigned>(Spare::TYPES);
+	unsigned cost[spares];
 
 public:
 	Defect();
@@ -22,6 +23,8 @@ public:
 
 	Defect(const Defect& src);
 	Defect& operator=(const Defect& src);
+	bool operator==(const Defect& src) const;
+	bool operator!=(const Defect& src) const;
 
 	~Defect();
 

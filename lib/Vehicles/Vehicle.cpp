@@ -116,9 +116,11 @@ void Vehicle::addPart(Part::Type t, Part::Position p)
 
 void Vehicle::applyRandomDamage(std::ostream& out)
 {
+	unsigned k = 0;
 	for (unsigned i = 0; i < numParts; i++)
 	{
-		parts[i]->applyDamage( ((rand() + i) % parts[i]->getPossibleDefectsNum()));
+		k = parts[i]->getPossibleDefectsNum();
+		parts[i]->applyDamage( rand() % k);
 	}
 }
 

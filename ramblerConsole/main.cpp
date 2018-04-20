@@ -19,7 +19,10 @@ int main()
 
 
 	Vehicle* c1 = new Car("Test", "TestME");
+	Vehicle* c2 = new Bike("Test", "TestME");
+
 	c1->applyRandomDamage();
+	c2->applyRandomDamage();
 
 
 	RArray<Vehicle*> fleet;
@@ -84,7 +87,7 @@ int main()
 				std::cout << "Nu se pot afisa detalii despre vehiculul selectat. \n";
 				break;
 			}
-			std::cout << *fleet[selection] << "\n";
+			displayFleet(fleet);
 			CS_waitUserInput();
 			break;
 

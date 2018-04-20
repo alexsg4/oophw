@@ -9,7 +9,7 @@ void Bike::addPart(Part::Type t, Part::Position p)
 {
 	if (numParts < totalParts)
 	{
-		parts[numParts++] = new Part(Part::Mount::BIKE, t, p);
+       		parts[numParts++] = new Part(Part::Mount::BIKE, t, p);
 	}
 }
 
