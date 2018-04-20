@@ -5,6 +5,10 @@
 #include <wx/stdstream.h>
 #include <wx/wfstream.h>
 
+#include <wx/textdlg.h>
+#include <wx/valtext.h>
+#include <wx/msgdlg.h>
+
 class dAbout;
 
 //Rambler includes
@@ -13,6 +17,10 @@ class dAbout;
 class UIGarageFrame : public wxFrame
 {
 private:
+
+	//sensible default
+	//OPTIONAL
+	static const unsigned FLEET_MAX = 500;
 
 	//Menubar
 	wxMenuBar * menuBar = nullptr;
@@ -50,6 +58,8 @@ public:
 	void OnAbout(wxCommandEvent & event);
 	
 	void OnClear(wxCommandEvent& event);
+	
+	void OnPopl(wxCommandEvent& event);
 
 
 

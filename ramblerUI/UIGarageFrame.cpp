@@ -45,8 +45,16 @@ UIGarageFrame::UIGarageFrame(const wxString & title)
 
 
 	//Events
+	
+	Connect((unsigned)eID::POPL, wxEVT_COMMAND_MENU_SELECTED,
+		wxCommandEventHandler(UIGarageFrame::OnPopl));
+	
+	Connect((unsigned)eID::CLR, wxEVT_COMMAND_MENU_SELECTED,
+		wxCommandEventHandler(UIGarageFrame::OnClear));
+	
 	Connect(wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED,
 		wxCommandEventHandler(UIGarageFrame::OnQuit));
+	
 	Connect(wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED,
 		wxCommandEventHandler(UIGarageFrame::OnAbout));
 
@@ -95,5 +103,62 @@ void UIGarageFrame::OnAbout(wxCommandEvent & event)
 
 void UIGarageFrame::OnClear(wxCommandEvent & event)
 {
+	//show confirmation dialog
+	wxMessageDialog* dConfirmExit = new wxMessageDialog(nullptr, wxT("Sunteti sigur?"), wxT("Eliberare garaj"),
+		wxYES_NO | wxNO_DEFAULT | wxICON_QUESTION);
+
+	if (dConfirmExit->ShowModal() == wxID_YES)
+	{
+		if (!fleet.isEmpty()) { fleet.erase(); }
+		dConfirmExit->Destroy();
+	}
+	else
+	{
+		dConfirmExit->Destroy();
+	}
+
+}
+
+void UIGarageFrame::OnPopl(wxCommandEvent & event)
+{
+	wxString message;
+
+	message.Printf("Numar vehicule [max %u]", FLEET_MAX - fleet.size());
+	wxTextEntryDialog* txtEntry = new wxTextEntryDialog(this, message, wxT("Adaugare vehicule"));
+	txtEntry->SetTextValidator(wxFILTER_DIGITS);
+	txtEntry->SetMaxLength(3);
+	
+	wxMessageDialog* msgResult = new wxMessageDialog(this, wxT("Info"), wxT("Info"));
+	message.Clear();
+
+	if (txtEntry->ShowModal() == wxID_OK)
+	{
+		unsigned long x = 0;
+		if (txtEntry->GetValue().ToULong(&x) && (fleet.size() + x < FLEET_MAX) && x!=0)
+		{
+			populateFleet(fleet, x);
+			
+			if(x>1) { message.Printf("Au fost adaugate %lu de vehicule", x); }
+			else { message.Printf("A fost adaugat un vehicul"); }
+			msgResult->SetMessage(message);
+
+			msgResult->ShowModal();
+			msgResult->Destroy();
+		}
+		
+		else
+		{
+			message.Printf("Numar invalid de vehicule!");
+			msgResult->SetMessage(message);
+			msgResult->ShowModal();
+			msgResult->Destroy();
+		}
+
+		txtEntry->Close();
+	}
+	else
+	{
+		txtEntry->Close();
+	}
 
 }
