@@ -68,57 +68,42 @@ UIGarageFrame::UIGarageFrame(const wxString & title)
 	Centre();
 
 	//Data
-	populateFleet(fleet, initSize);
-	
+	populateFleet(fleet, initSize);	
 }
 
 UIGarageFrame::~UIGarageFrame()
 {
 }
 
-
-void UIGarageFrame::OnQuit(wxCommandEvent & WXUNUSED(event))
+void UIGarageFrame::Refresh(bool eraseBackground, const wxRect * rect)
 {
-	//show confirmation dialog
-	wxMessageDialog* dConfirmExit = new wxMessageDialog(nullptr, wxT("Are you sure?"), wxT("Exit"),
-		wxYES_NO | wxNO_DEFAULT | wxICON_QUESTION);
-
-	if (dConfirmExit->ShowModal() == wxID_YES)
+	wxFrame::Refresh(eraseBackground, rect);
+	
+	if (fleet.size() == FLEET_MAX)
 	{
-		dConfirmExit->Destroy();
-		Close(true);
+		file->Enable((unsigned)eID::ADD, false);
+		file->Enable((unsigned)eID::POPL, false);
 	}
 	else
 	{
-		dConfirmExit->Destroy();
+		edit->Enable((unsigned)eID::ADD, true);
+		edit->Enable((unsigned)eID::POPL, true);
 	}
-}
 
-void UIGarageFrame::OnAbout(wxCommandEvent & event)
-{
-	dAbout* dialog = new dAbout(wxT("About"));
-	//show a dialog with info about the project, licensing and credits
-	dialog->Show(true);
-}
-
-void UIGarageFrame::OnClear(wxCommandEvent & event)
-{
-	//show confirmation dialog
-	wxMessageDialog* dConfirmExit = new wxMessageDialog(nullptr, wxT("Sunteti sigur?"), wxT("Eliberare garaj"),
-		wxYES_NO | wxNO_DEFAULT | wxICON_QUESTION);
-
-	if (dConfirmExit->ShowModal() == wxID_YES)
+	if (fleet.isEmpty())
 	{
-		if (!fleet.isEmpty()) { fleet.erase(); }
-		dConfirmExit->Destroy();
+		file->Enable((unsigned)eID::CLR, false);
+		file->Enable((unsigned)eID::REM, false);
 	}
 	else
 	{
-		dConfirmExit->Destroy();
+		edit->Enable((unsigned)eID::CLR, true);
+		edit->Enable((unsigned)eID::REM, true);
 	}
 
 }
 
+//File
 void UIGarageFrame::OnPopl(wxCommandEvent & event)
 {
 	wxString message;
@@ -144,6 +129,8 @@ void UIGarageFrame::OnPopl(wxCommandEvent & event)
 
 			msgResult->ShowModal();
 			msgResult->Destroy();
+
+			Refresh();
 		}
 		
 		else
@@ -161,4 +148,53 @@ void UIGarageFrame::OnPopl(wxCommandEvent & event)
 		txtEntry->Close();
 	}
 
+}
+
+void UIGarageFrame::OnClear(wxCommandEvent & event)
+{
+	//show confirmation dialog
+	wxMessageDialog* dConfirmExit = new wxMessageDialog(nullptr, wxT("Sunteti sigur?"), wxT("Eliberare garaj"),
+		wxYES_NO | wxNO_DEFAULT | wxICON_QUESTION);
+
+	if (dConfirmExit->ShowModal() == wxID_YES)
+	{
+		if (!fleet.isEmpty()) { fleet.erase(); }
+		dConfirmExit->Destroy();
+
+		Refresh();
+	}
+	else
+	{
+		dConfirmExit->Destroy();
+	}
+
+}
+
+void UIGarageFrame::OnQuit(wxCommandEvent & WXUNUSED(event))
+{
+	//show confirmation dialog
+	wxMessageDialog* dConfirmExit = new wxMessageDialog(nullptr, wxT("Are you sure?"), wxT("Exit"),
+		wxYES_NO | wxNO_DEFAULT | wxICON_QUESTION);
+
+	if (dConfirmExit->ShowModal() == wxID_YES)
+	{
+		dConfirmExit->Destroy();
+		Close(true);
+	}
+	else
+	{
+		dConfirmExit->Destroy();
+	}
+}
+
+//edit
+
+//race
+
+//help
+void UIGarageFrame::OnAbout(wxCommandEvent & event)
+{
+	dAbout* dialog = new dAbout(wxT("About"));
+	//show a dialog with info about the project, licensing and credits
+	dialog->Show(true);
 }

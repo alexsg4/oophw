@@ -46,20 +46,43 @@ private:
 	//Data
 	RArray<Vehicle*> fleet;
 	static const unsigned initSize = 5;
-	
+
 
 public:
 	UIGarageFrame(const wxString& title);
-	~UIGarageFrame();
+	virtual ~UIGarageFrame();
+
+	//Dynamically update menus
+	virtual void Refresh(bool eraseBackground = true, const wxRect *rect = NULL) override;
+
 
 	//events
 
+	//file
+	void OnPopl(wxCommandEvent& event);
+	void OnClear(wxCommandEvent& event);
 	void OnQuit(wxCommandEvent & event);
+	
+/*
+	//edit
+	void OnAdd(wxCommandEvent& event);
+	void OnRem(wxCommandEvent& event);
+	void OnDiag(wxCommandEvent& event);
+	void OnFix(wxCommandEvent& event);
+	void OnUpg(wxCommandEvent& event);
+*/
+	//race
+		//TODO implement
+
+	//help
 	void OnAbout(wxCommandEvent & event);
 	
-	void OnClear(wxCommandEvent& event);
+	//TODO implement
+	//void OnCtrl(wxCommandEvent & event);
+
+
+
 	
-	void OnPopl(wxCommandEvent& event);
 
 
 

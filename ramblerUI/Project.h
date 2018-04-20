@@ -22,24 +22,27 @@ static const wxSize AMinSize(500, 350);
 	//Frames
 	enum class fID
 	{
-		MAIN = 501, //mainMenu
-		GAR			//garage
+		IND = 500,		//dummy index - temporary
+		MAIN,			//mainMenu
+		GAR				//garage
 	};
 
 	//Events
 	enum class eID
 	{
-		ADD = 600,		//add vehicle
-		REM,			//remove vehicle
+		IND = 600,		//dummy index - temporary
 		POPL,			//populate fleet
 		CLR,			//clear fleet
+		ADD,			//add vehicle
+		REM,			//remove vehicle
 		DIAG,			//diagnose vehicle
 		FIX,			//fix vehicle
 		UPG,			//upgrade vehicle
 		SRAC,			//send vehicle to race
 		RAC,			//start race
 		CLRAC,			//clear race starting line
-		LRAC			//show racing leaderboards
+		LRAC,			//show racing leaderboards
+		CTRL			//show race keyboard controls
 	};
 
 
