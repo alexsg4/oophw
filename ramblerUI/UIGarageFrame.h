@@ -4,6 +4,7 @@
 #include <wx/menu.h>
 #include <wx/stdstream.h>
 #include <wx/wfstream.h>
+#include <wx/sstream.h>
 
 #include <wx/textdlg.h>
 #include <wx/valtext.h>
@@ -39,9 +40,12 @@ private:
 	wxGridSizer* sVehMenuGrid = nullptr;
 	wxGridSizer* sVehSpecGrid = nullptr;
 
+
+	wxBoxSizer* vehBox = nullptr;
+
 	//Panels
 	//TODO
-	wxPanel* pVehicles = nullptr;
+	wxScrolledWindow* pVehicles = nullptr;
 
 	//Data
 	RArray<Vehicle*> fleet;
@@ -80,7 +84,9 @@ public:
 	//TODO implement
 	//void OnCtrl(wxCommandEvent & event);
 
+	//other methods
 
+	wxPanel* generateEntry(Vehicle* veh, wxWindow* parent) const;
 
 	
 

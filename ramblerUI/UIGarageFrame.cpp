@@ -36,13 +36,10 @@ UIGarageFrame::UIGarageFrame(const wxString & title)
 	menuBar->Append(race, wxT("&Race"));
 	menuBar->Append(help, wxT("&Help"));
 
-
 	//Layout
 	vBox = new wxBoxSizer(wxVERTICAL);
-	pVehicles = new wxPanel(this, -1);
-	
-	vBox->Add(pVehicles, 1, wxEXPAND);
-
+	vehBox = new wxBoxSizer(wxVERTICAL);
+	pVehicles = new wxScrolledWindow(this, -1, wxDefaultPosition, wxDefaultSize);
 
 	//Events
 	
@@ -59,6 +56,22 @@ UIGarageFrame::UIGarageFrame(const wxString & title)
 		wxCommandEventHandler(UIGarageFrame::OnAbout));
 
 
+	//Data
+	populateFleet(fleet, initSize);
+
+	//Display fleet
+	for (unsigned i = 0; i < fleet.size(); i++)
+	{
+		vehBox->Add(generateEntry(fleet[i], pVehicles), 0, wxEXPAND | wxALL, 20);
+	}
+	
+	pVehicles->SetBackgroundColour(colAccent1);
+	pVehicles->FitInside();
+	pVehicles->SetScrollRate(5, 5);
+	pVehicles->SetSizer(vehBox);
+	vBox->Add(pVehicles, 1, wxEXPAND);
+	
+
 	//Frame properties
 
 	SetMenuBar(menuBar);
@@ -67,37 +80,36 @@ UIGarageFrame::UIGarageFrame(const wxString & title)
 	SetSizer(vBox);
 	Centre();
 
-	//Data
-	populateFleet(fleet, initSize);	
 }
 
 UIGarageFrame::~UIGarageFrame()
 {
 }
 
+//TODO add the other menu options
 void UIGarageFrame::Refresh(bool eraseBackground, const wxRect * rect)
 {
 	wxFrame::Refresh(eraseBackground, rect);
 	
 	if (fleet.size() == FLEET_MAX)
 	{
-		file->Enable((unsigned)eID::ADD, false);
+		edit->Enable((unsigned)eID::ADD, false);
 		file->Enable((unsigned)eID::POPL, false);
 	}
 	else
 	{
 		edit->Enable((unsigned)eID::ADD, true);
-		edit->Enable((unsigned)eID::POPL, true);
+		file->Enable((unsigned)eID::POPL, true);
 	}
 
 	if (fleet.isEmpty())
 	{
 		file->Enable((unsigned)eID::CLR, false);
-		file->Enable((unsigned)eID::REM, false);
+		edit->Enable((unsigned)eID::REM, false);
 	}
 	else
 	{
-		edit->Enable((unsigned)eID::CLR, true);
+		file->Enable((unsigned)eID::CLR, true);
 		edit->Enable((unsigned)eID::REM, true);
 	}
 
@@ -119,7 +131,7 @@ void UIGarageFrame::OnPopl(wxCommandEvent & event)
 	if (txtEntry->ShowModal() == wxID_OK)
 	{
 		unsigned long x = 0;
-		if (txtEntry->GetValue().ToULong(&x) && (fleet.size() + x < FLEET_MAX) && x!=0)
+		if (txtEntry->GetValue().ToULong(&x) && (fleet.size() + x <= FLEET_MAX) && x!=0)
 		{
 			populateFleet(fleet, x);
 			
@@ -197,4 +209,29 @@ void UIGarageFrame::OnAbout(wxCommandEvent & event)
 	dAbout* dialog = new dAbout(wxT("About"));
 	//show a dialog with info about the project, licensing and credits
 	dialog->Show(true);
+}
+
+//TODO
+wxPanel * UIGarageFrame::generateEntry(Vehicle * veh, wxWindow* parent) const
+{
+	wxBoxSizer* hBox = new wxBoxSizer(wxHORIZONTAL);
+	wxPanel* pVeh = new wxPanel(parent);
+	wxString label;
+
+	wxStringOutputStream sout(&label);
+	wxStdOutputStream out(sout);
+	
+	out << *veh;
+	
+	wxString right;
+	right.Printf("Stare: %i %% ", static_cast<int>(veh->getCondition()));
+
+	out << right;
+
+	wxStaticText* vText = new wxStaticText(pVeh, -1, label, wxDefaultPosition, wxDefaultSize);
+
+	hBox->Add(vText, 10, wxEXPAND | wxALL, 20);
+	pVeh->SetSizer(hBox);
+	pVeh->SetBackgroundColour(colBg);
+	return pVeh;
 }
