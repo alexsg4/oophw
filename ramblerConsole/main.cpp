@@ -2,29 +2,6 @@
 
 int main()
 {
-	//TODO add a stopwatch function
-
-	//TODO Remove
-	//TESTING $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-	/* Works 
-	RArray<Vehicle*> testFleet;
-	Vehicle* c1 = new Car("Test", "TestME");
-	c1->applyRandomDamage();
-	testFleet.add(c1);
-	testFleet.display();
-	testFleet[0]->diagnose();
-	*/
-	//TESTING END $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-
-
-	Vehicle* c1 = new Car("Test", "TestME");
-	Vehicle* c2 = new Bike("Test", "TestME");
-
-	c1->applyRandomDamage();
-	c2->applyRandomDamage();
-
-
 	RArray<Vehicle*> fleet;
 	static unsigned selection = 0;
 
@@ -144,10 +121,6 @@ int main()
 			std::cout << "La revedere...\n\n";
 			WAIT(2);
 			choice = MenuItem::QUIT;
-			break;
-		default:
-			CLEAR
-			std::cout << "BAD STUFF\n";
 			break;
 		}
 	}

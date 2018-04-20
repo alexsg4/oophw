@@ -133,18 +133,19 @@ void CS_printDivider(const char c, const unsigned len)
 void addVehicle(RArray<Vehicle*> &fleet)
 {
 	std::cout << "Tipuri de vehicule disponibile: \n";
-	for (unsigned i = 0; i <= Part::getPosTypes(); i++)
+	for (unsigned i = 0; i < Part::getMountTypes(); i++)
 	{
+		std::cout << i + 1 << ". ";
 		switch ((Part::Mount)i)
 		{
 		case Part::Mount::CAR:
-			std::cout << i << ". Automobil \n";
+			std::cout << "Automobil\n";
 			break;
 		case Part::Mount::MOTO:
-			std::cout << i << ". Motocicleta \n";
+			std::cout << "Motocicleta\n";
 			break;
 		case Part::Mount::BIKE:
-			std::cout << i << ". Bicicleta \n";
+			std::cout << "Bicicleta\n";
 			break;
 		}
 	}
@@ -156,14 +157,14 @@ void addVehicle(RArray<Vehicle*> &fleet)
 
 	std::cout << "\nAti ales: ";
 
-	while (!(std::cin >> temp) || (temp <= 0 || temp > 3))
+	while (!(std::cin >> temp) || (temp <= 0 || temp > Part::getMountTypes()))
 	{
 		std::cin.clear();
 		std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
 		std::cout << "Tip vehicul invalid. Incercati din nou. \n";
 	}
 
-	type = (Part::Mount)temp;
+	type = (Part::Mount)(temp-1);
 
 	std::cout << "Dati marca, modelul si anul fabricatiei: ";
 	std::cin >> make >> model >> year;
@@ -194,8 +195,8 @@ void addVehicle(RArray<Vehicle*> &fleet)
 
 	default:
 		std::cout << "Ne pare rau. Nu putem repara acest tip de vehicul\n";
-		WAIT(2)
-			break;
+		WAIT(2);
+		break;
 	}
 
 	fleet.add(toAdd);

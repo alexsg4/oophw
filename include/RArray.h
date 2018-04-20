@@ -203,7 +203,7 @@ void RArray<T>::removeById(const unsigned id, std::ostream& out)
 	}
 
 	delete members[id];
-	for (unsigned i = 0; i < m_size-1; i++)
+	for (unsigned i = id; i < m_size-1; i++)
 	{
 		members[i] = members[i + 1];
 	}
