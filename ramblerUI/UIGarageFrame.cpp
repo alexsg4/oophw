@@ -44,7 +44,7 @@ UIGarageFrame::UIGarageFrame(const wxString & title)
 	pVehicles = new wxScrolledWindow(this, -1, wxDefaultPosition, wxDefaultSize);
 	dVehicles = new wxDataViewListCtrl(pVehicles, -1);
 
-	mdVehicles = new RIndexListModel(fleet, initSize);
+	mdVehicles = new RIndexListModel(fleet, 0);
 	//dVehicles->AssociateModel(mdVehicles);
 	
 	//Events
@@ -73,25 +73,12 @@ UIGarageFrame::UIGarageFrame(const wxString & title)
 
 	//Data
 	populateFleet(fleet, initSize);
-
-
-	for (unsigned i = 0; i < fleet.size(); i++)
-	{
-		wxVector<wxVariant> temp;
-		makeEntry(fleet[i], temp, i+1);
-		dVehicles->AppendItem(temp);
-		//mdVehicles->RowAppended();
-	}
-
-
+	updateFleetDisplay();
 
 	pVehicles->SetSizer(vehBox);
 	pVehicles->SetBackgroundColour(colAccent1);
 	pVehicles->FitInside();
 	pVehicles->SetScrollRate(5, 5);
-	
-	//TODO remove
-	//pVehicles->SetSizer(vehBox);
 	
 	vBox->Add(pVehicles, 1, wxEXPAND);
 	
@@ -104,6 +91,20 @@ UIGarageFrame::UIGarageFrame(const wxString & title)
 	SetSizer(vBox);
 	Centre();
 
+}
+
+//TODO optimize
+void UIGarageFrame::updateFleetDisplay()
+{
+	dVehicles->DeleteAllItems();
+
+	for (unsigned i = 0; i < fleet.size(); i++)
+	{
+		wxVector<wxVariant> temp;
+		makeEntry(fleet[i], temp, i + 1);
+		dVehicles->AppendItem(temp);
+	}
+	//mdVehicles->Reset(fleet.size());
 }
 
 UIGarageFrame::~UIGarageFrame()
@@ -158,6 +159,7 @@ void UIGarageFrame::OnPopl(wxCommandEvent & event)
 		if (txtEntry->GetValue().ToULong(&x) && (fleet.size() + x <= FLEET_MAX) && x!=0)
 		{
 			populateFleet(fleet, x);
+			mdVehicles->Reset(fleet.size());
 			
 			if(x>1) { message.Printf("Au fost adaugate %lu de vehicule", x); }
 			else { message.Printf("A fost adaugat un vehicul"); }
@@ -166,6 +168,7 @@ void UIGarageFrame::OnPopl(wxCommandEvent & event)
 			msgResult->ShowModal();
 			msgResult->Destroy();
 
+			updateFleetDisplay();
 			Refresh();
 		}
 		
@@ -198,6 +201,7 @@ void UIGarageFrame::OnClear(wxCommandEvent & event)
 		dConfirmExit->Destroy();
 
 		Refresh();
+		updateFleetDisplay();
 	}
 	else
 	{

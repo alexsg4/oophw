@@ -1,7 +1,7 @@
 #include "RIndexListModel.h"
 
 RIndexListModel::RIndexListModel(RArray<Vehicle*> & _fleet, const unsigned initSize) 
-	: wxDataViewIndexListModel(initSize)
+	: wxDataViewVirtualListModel(initSize)
 {
 	fleet = &_fleet;
 

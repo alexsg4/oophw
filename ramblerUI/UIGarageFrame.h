@@ -59,6 +59,7 @@ private:
 
 public:
 	UIGarageFrame(const wxString& title);
+	void updateFleetDisplay();
 	virtual ~UIGarageFrame();
 
 	//Dynamically update menus

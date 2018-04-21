@@ -5,7 +5,7 @@
 #include "RamblerU.h"
 
 
-class RIndexListModel : public wxDataViewIndexListModel
+class RIndexListModel : public wxDataViewVirtualListModel
 {
 public:
 	RIndexListModel(RArray<Vehicle*> & _fleet, const unsigned initSize);
