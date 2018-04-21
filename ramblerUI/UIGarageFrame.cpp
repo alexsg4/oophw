@@ -240,13 +240,11 @@ void UIGarageFrame::OnAbout(wxCommandEvent & event)
 }
 
 //TODO
-void UIGarageFrame::makeEntry(Vehicle* veh, wxVector<wxVariant> & entry, const unsigned id)
+void UIGarageFrame::makeEntry(Vehicle* veh, wxVector<wxVariant> & entry, const int id)
 {
 	wxString label;
 
-	label.Printf("%u", id);
-	entry.push_back(wxVariant(label));
-	label.Clear();
+	entry.push_back(wxVariant(id));
 
 	label.Printf("%s", veh->getNameType());
 	entry.push_back(wxVariant(label));
@@ -260,11 +258,10 @@ void UIGarageFrame::makeEntry(Vehicle* veh, wxVector<wxVariant> & entry, const u
 	entry.push_back(wxVariant(label));
 	label.Clear();
 
-	label.Printf("%u", veh->getYear());
-	entry.push_back(wxVariant(label));
+	int year = static_cast<int>(veh->getYear());
+	entry.push_back(wxVariant(year));
 	label.Clear();
 
-	label.Printf("%i %% ", static_cast<int>(veh->getCondition()));
-	entry.push_back(wxVariant(label));
-	label.Clear();
+	int cond = static_cast<int>(veh->getCondition());
+	entry.push_back(wxVariant(cond));
 }

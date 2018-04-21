@@ -92,7 +92,7 @@ public:
 
 	//other methods
 
-	void makeEntry(Vehicle* veh, wxVector<wxVariant> & entry, const unsigned id = 0);
+	void makeEntry(Vehicle* veh, wxVector<wxVariant> & entry, const int id = 0);
 
 	
 
