@@ -62,4 +62,6 @@ public:
 	void diagnose(std::ostream& out = std::cout);
 	unsigned getNumParts() const;
 
+	const std::string getNameType() const;
+
 };

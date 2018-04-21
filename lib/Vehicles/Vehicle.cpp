@@ -186,18 +186,29 @@ std::istream & operator>>(std::istream & in,  Vehicle & src)
 
 std::ostream & operator<<(std::ostream & out, const Vehicle & src)
 {
-	switch (src.parts[0]->getMount())
-	{
-	case Part::Mount::CAR:
-		out << "Automobil ";
-		break;
-	case Part::Mount::MOTO:
-		out << "Motocicleta ";
-		break;
-	case Part::Mount::BIKE:
-		out << "Bicicleta ";
-		break;
-	}
+	out << src.getNameType();
 	out << src.make + " " + src.model + " din " << src.year << " ";
 	return out;
+}
+
+const std::string Vehicle::getNameType() const
+{
+	std::string type("Vehicul");
+	
+	switch (parts[0]->getMount())
+	{
+	case Part::Mount::ANY:
+		type = "Vehicul";
+	case Part::Mount::CAR:
+		type = "Automobil ";
+		break;
+	case Part::Mount::MOTO:
+		type = "Motocicleta ";
+		break;
+	case Part::Mount::BIKE:
+		type = "Bicicleta ";
+		break;
+	}
+
+	return type;
 }

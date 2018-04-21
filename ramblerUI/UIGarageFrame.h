@@ -3,17 +3,20 @@
 
 #include <wx/menu.h>
 #include <wx/stdstream.h>
-#include <wx/wfstream.h>
 #include <wx/sstream.h>
 
 #include <wx/textdlg.h>
 #include <wx/valtext.h>
 #include <wx/msgdlg.h>
-
-class dAbout;
+#include <wx/dataview.h>
 
 //Rambler includes
 #include "RamblerU.h"
+
+class dAbout;
+class RIndexListModel;
+
+DECLARE_VARIANT_OBJECT(wxString)
 
 class UIGarageFrame : public wxFrame
 {
@@ -46,6 +49,8 @@ private:
 	//Panels
 	//TODO
 	wxScrolledWindow* pVehicles = nullptr;
+	wxDataViewListCtrl* dVehicles = nullptr;
+	RIndexListModel* mdVehicles = nullptr;
 
 	//Data
 	RArray<Vehicle*> fleet;
@@ -86,7 +91,7 @@ public:
 
 	//other methods
 
-	wxPanel* generateEntry(Vehicle* veh, wxWindow* parent) const;
+	void makeEntry(Vehicle* veh, wxVector<wxVariant> & entry, const unsigned id = 0);
 
 	
 

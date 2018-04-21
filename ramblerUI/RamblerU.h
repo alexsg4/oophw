@@ -9,6 +9,9 @@
 #include "Bike.h"
 #include "Motorbike.h"
 
+#include <wx/stdstream.h>
+#include <wx/wfstream.h>
+
 //fleet wrappers
 
 //TODO adapt for UI and uncomment

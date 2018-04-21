@@ -1,5 +1,6 @@
 #include "UIGarageFrame.h"
 #include "dAbout.h"
+#include "RIndexListModel.h"
 
 UIGarageFrame::UIGarageFrame(const wxString & title)
 	: wxFrame(nullptr, wxID_ANY, title, wxDefaultPosition, wxSize(300, 200))
@@ -38,9 +39,14 @@ UIGarageFrame::UIGarageFrame(const wxString & title)
 
 	//Layout
 	vBox = new wxBoxSizer(wxVERTICAL);
+	//TODO remove
 	vehBox = new wxBoxSizer(wxVERTICAL);
 	pVehicles = new wxScrolledWindow(this, -1, wxDefaultPosition, wxDefaultSize);
+	dVehicles = new wxDataViewListCtrl(pVehicles, -1);
 
+	mdVehicles = new RIndexListModel(fleet, initSize);
+	//dVehicles->AssociateModel(mdVehicles);
+	
 	//Events
 	
 	Connect((unsigned)eID::POPL, wxEVT_COMMAND_MENU_SELECTED,
@@ -56,19 +62,37 @@ UIGarageFrame::UIGarageFrame(const wxString & title)
 		wxCommandEventHandler(UIGarageFrame::OnAbout));
 
 
+	dVehicles->AppendTextColumn(wxT("#"));
+	dVehicles->AppendTextColumn(wxT("Tip"));
+	dVehicles->AppendTextColumn(wxT("Marca"));
+	dVehicles->AppendTextColumn(wxT("Model"));
+	dVehicles->AppendTextColumn(wxT("An"));
+	dVehicles->AppendTextColumn(wxT("Stare"));
+
+	vehBox->Add(dVehicles, 1, wxEXPAND);
+
 	//Data
 	populateFleet(fleet, initSize);
 
-	//Display fleet
+
 	for (unsigned i = 0; i < fleet.size(); i++)
 	{
-		vehBox->Add(generateEntry(fleet[i], pVehicles), 0, wxEXPAND | wxALL, 20);
+		wxVector<wxVariant> temp;
+		makeEntry(fleet[i], temp, i+1);
+		dVehicles->AppendItem(temp);
+		//mdVehicles->RowAppended();
 	}
-	
+
+
+
+	pVehicles->SetSizer(vehBox);
 	pVehicles->SetBackgroundColour(colAccent1);
 	pVehicles->FitInside();
 	pVehicles->SetScrollRate(5, 5);
-	pVehicles->SetSizer(vehBox);
+	
+	//TODO remove
+	//pVehicles->SetSizer(vehBox);
+	
 	vBox->Add(pVehicles, 1, wxEXPAND);
 	
 
@@ -212,26 +236,31 @@ void UIGarageFrame::OnAbout(wxCommandEvent & event)
 }
 
 //TODO
-wxPanel * UIGarageFrame::generateEntry(Vehicle * veh, wxWindow* parent) const
+void UIGarageFrame::makeEntry(Vehicle* veh, wxVector<wxVariant> & entry, const unsigned id)
 {
-	wxBoxSizer* hBox = new wxBoxSizer(wxHORIZONTAL);
-	wxPanel* pVeh = new wxPanel(parent);
 	wxString label;
 
-	wxStringOutputStream sout(&label);
-	wxStdOutputStream out(sout);
+	label.Printf("%u", id);
+	entry.push_back(wxVariant(label));
+	label.Clear();
+
+	label.Printf("%s", veh->getNameType());
+	entry.push_back(wxVariant(label));
+	label.Clear();
 	
-	out << *veh;
-	
-	wxString right;
-	right.Printf("Stare: %i %% ", static_cast<int>(veh->getCondition()));
+	label.Printf("%s", veh->getMake());
+	entry.push_back(wxVariant(label));
+	label.Clear();
 
-	out << right;
+	label.Printf("%s", veh->getModel());
+	entry.push_back(wxVariant(label));
+	label.Clear();
 
-	wxStaticText* vText = new wxStaticText(pVeh, -1, label, wxDefaultPosition, wxDefaultSize);
+	label.Printf("%u", veh->getYear());
+	entry.push_back(wxVariant(label));
+	label.Clear();
 
-	hBox->Add(vText, 10, wxEXPAND | wxALL, 20);
-	pVeh->SetSizer(hBox);
-	pVeh->SetBackgroundColour(colBg);
-	return pVeh;
+	label.Printf("%i %% ", static_cast<int>(veh->getCondition()));
+	entry.push_back(wxVariant(label));
+	label.Clear();
 }
