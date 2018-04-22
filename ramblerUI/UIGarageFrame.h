@@ -14,6 +14,10 @@
 #include "RamblerU.h"
 
 class dAbout;
+class dAdd;
+class dDiag;
+class wDisplay;
+
 class RIndexListModel;
 
 class UIGarageFrame : public wxFrame
@@ -95,7 +99,7 @@ public:
 
 	void makeEntry(Vehicle* veh, wxVector<wxVariant> & entry, const int id = 0);
 
-	void selectChangeHandler(wxDataViewEvent& event);
+	void OnSelect(wxDataViewEvent& event);
 
 
 

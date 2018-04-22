@@ -22,22 +22,22 @@ UIGarageFrame::UIGarageFrame(const wxString & title)
 	edit->Append((unsigned)eID::DIAG, wxT("&Diagnose"));
 	edit->Append((unsigned)eID::FIX, wxT("&Fix"));
 	edit->Append((unsigned)eID::UPG, wxT("&Upgrade..."));
-	edit->AppendSeparator();
-	edit->Append((unsigned)eID::SRAC, wxT("&Send to Race"));
+	//edit->AppendSeparator();
+	//edit->Append((unsigned)eID::SRAC, wxT("&Send to Race"));
 
-	race = new wxMenu;
-	race->Append((unsigned)eID::RAC, wxT("&Start..."));
-	race->Append((unsigned)eID::CLRAC, wxT("&Clear"));
-	race->AppendSeparator();
-	race->Append((unsigned)eID::LRAC, wxT("&Leaderboard..."));
+	//race = new wxMenu;
+	//race->Append((unsigned)eID::RAC, wxT("&Start..."));
+	//race->Append((unsigned)eID::CLRAC, wxT("&Clear"));
+	//race->AppendSeparator();
+	//race->Append((unsigned)eID::LRAC, wxT("&Leaderboard..."));
 
 	help = new wxMenu;
-	help->Append(wxID_HELP, wxT("&Controls"));
+	//help->Append(wxID_HELP, wxT("&Controls"));
 	help->Append(wxID_ABOUT, wxT("&About"));
 
 	menuBar->Append(file, wxT("&File"));
 	menuBar->Append(edit, wxT("&Edit"));
-	menuBar->Append(race, wxT("&Race"));
+	//menuBar->Append(race, wxT("&Race"));
 	menuBar->Append(help, wxT("&Help"));
 
 	//Layout
@@ -67,7 +67,7 @@ UIGarageFrame::UIGarageFrame(const wxString & title)
 		wxCommandEventHandler(UIGarageFrame::OnAbout));
 
 	Connect(dataID, wxEVT_DATAVIEW_SELECTION_CHANGED,
-		wxDataViewEventHandler(UIGarageFrame::selectChangeHandler));
+		wxDataViewEventHandler(UIGarageFrame::OnSelect));
 
 	dVehicles->AppendTextColumn(wxT("#"));
 	dVehicles->AppendTextColumn(wxT("Tip"));
@@ -324,7 +324,7 @@ void UIGarageFrame::makeEntry(Vehicle* veh, wxVector<wxVariant> & entry, const i
 	entry.push_back(wxVariant(cond));
 }
 
-void UIGarageFrame::selectChangeHandler(wxDataViewEvent& event)
+void UIGarageFrame::OnSelect(wxDataViewEvent& event)
 {
 	dSelection.erase();
 	
