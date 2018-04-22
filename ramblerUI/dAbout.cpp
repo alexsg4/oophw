@@ -15,9 +15,6 @@ dAbout::dAbout(const wxString & title)
 		wxTE_READONLY | wxTE_LEFT | wxTE_BESTWRAP | wxTE_MULTILINE);
 	about->SetMargins(5);
 
-	//(this, -1, AAbout,
-	//wxDefaultPosition, wxSize(-1, -1), wxALIGN_LEFT);
-
 	wxHyperlinkCtrl* link = new wxHyperlinkCtrl(this, -1, wxT("License"), ALicense);
 
 	wxButton* bQuit = new wxButton(this, wxID_EXIT, wxT("Close"));

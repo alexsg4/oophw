@@ -14,10 +14,11 @@
 #include "RamblerU.h"
 
 class dAbout;
+
+//TODO implement
 class dAdd;
 class dDiag;
 class wDisplay;
-
 class RIndexListModel;
 
 class UIGarageFrame : public wxFrame
@@ -80,7 +81,7 @@ public:
 	void OnQuit(wxCommandEvent & event);
 	
 	//edit
-	//void OnAdd(wxCommandEvent& event);
+	void OnAdd(wxCommandEvent& event);
 	void OnRem(wxCommandEvent& event);
 	//void OnDiag(wxCommandEvent& event);
 	//void OnFix(wxCommandEvent& event);

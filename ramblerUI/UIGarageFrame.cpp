@@ -1,6 +1,8 @@
 #include "UIGarageFrame.h"
 #include "dAbout.h"
 #include "RIndexListModel.h"
+#include "dAdd.h"
+
 
 //statics
 RArray<unsigned> UIGarageFrame::dSelection;
@@ -59,6 +61,9 @@ UIGarageFrame::UIGarageFrame(const wxString & title)
 	
 	Connect(wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED,
 		wxCommandEventHandler(UIGarageFrame::OnQuit));
+
+	Connect((unsigned)eID::ADD, wxEVT_COMMAND_MENU_SELECTED,
+		wxCommandEventHandler(UIGarageFrame::OnAdd));
 	
 	Connect((unsigned)eID::REM, wxEVT_COMMAND_MENU_SELECTED,
 		wxCommandEventHandler(UIGarageFrame::OnRem));
@@ -254,6 +259,18 @@ void UIGarageFrame::OnQuit(wxCommandEvent & WXUNUSED(event))
 	{
 		dConfirmExit->Destroy();
 	}
+}
+
+void UIGarageFrame::OnAdd(wxCommandEvent & event)
+{
+	//launch add vehicle dialog
+	dAdd* add = new dAdd(this, -1, "Adaugare Vehicule");
+	add->Show(true);
+
+	//generate a vehicle base on user data
+	//add vehicle to fleet 
+	//update fleet display
+	//update menuBar
 }
 
 void UIGarageFrame::OnRem(wxCommandEvent & event)
