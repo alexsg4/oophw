@@ -2,6 +2,9 @@
 #include "dAbout.h"
 #include "RIndexListModel.h"
 
+//statics
+RArray<unsigned> UIGarageFrame::dSelection;
+
 UIGarageFrame::UIGarageFrame(const wxString & title)
 	: wxFrame(nullptr, wxID_ANY, title, wxDefaultPosition, wxSize(300, 200))
 {
@@ -39,10 +42,9 @@ UIGarageFrame::UIGarageFrame(const wxString & title)
 
 	//Layout
 	vBox = new wxBoxSizer(wxVERTICAL);
-	//TODO remove
-	vehBox = new wxBoxSizer(wxVERTICAL);
+
 	pVehicles = new wxScrolledWindow(this, -1, wxDefaultPosition, wxDefaultSize);
-	dVehicles = new wxDataViewListCtrl(pVehicles, -1);
+	dVehicles = new wxDataViewListCtrl(pVehicles, dataID, wxDefaultPosition, wxDefaultSize, wxDV_ROW_LINES | wxDV_MULTIPLE);
 
 	mdVehicles = new RIndexListModel(fleet, 0);
 	//dVehicles->AssociateModel(mdVehicles);
@@ -58,9 +60,14 @@ UIGarageFrame::UIGarageFrame(const wxString & title)
 	Connect(wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED,
 		wxCommandEventHandler(UIGarageFrame::OnQuit));
 	
+	Connect((unsigned)eID::REM, wxEVT_COMMAND_MENU_SELECTED,
+		wxCommandEventHandler(UIGarageFrame::OnRem));
+
 	Connect(wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED,
 		wxCommandEventHandler(UIGarageFrame::OnAbout));
 
+	Connect(dataID, wxEVT_DATAVIEW_SELECTION_CHANGED,
+		wxDataViewEventHandler(UIGarageFrame::selectChangeHandler));
 
 	dVehicles->AppendTextColumn(wxT("#"));
 	dVehicles->AppendTextColumn(wxT("Tip"));
@@ -69,6 +76,7 @@ UIGarageFrame::UIGarageFrame(const wxString & title)
 	dVehicles->AppendTextColumn(wxT("An"));
 	dVehicles->AppendTextColumn(wxT("Stare"));
 
+	vehBox = new wxBoxSizer(wxVERTICAL);
 	vehBox->Add(dVehicles, 1, wxEXPAND);
 
 	//Data
@@ -90,17 +98,19 @@ UIGarageFrame::UIGarageFrame(const wxString & title)
 	SetMinSize(AMinSize);
 	SetSizer(vBox);
 	Centre();
+	updateMenuBar();
 
 }
 
 //TODO optimize
 void UIGarageFrame::updateFleetDisplay()
 {
+	wxVector<wxVariant> temp;
 	dVehicles->DeleteAllItems();
 
 	for (unsigned i = 0; i < fleet.size(); i++)
 	{
-		wxVector<wxVariant> temp;
+		temp.clear();
 		makeEntry(fleet[i], temp, i + 1);
 		dVehicles->AppendItem(temp);
 	}
@@ -112,10 +122,8 @@ UIGarageFrame::~UIGarageFrame()
 }
 
 //TODO add the other menu options
-void UIGarageFrame::Refresh(bool eraseBackground, const wxRect * rect)
-{
-	wxFrame::Refresh(eraseBackground, rect);
-	
+void UIGarageFrame::updateMenuBar()
+{	
 	if (fleet.size() == FLEET_MAX)
 	{
 		edit->Enable((unsigned)eID::ADD, false);
@@ -130,14 +138,35 @@ void UIGarageFrame::Refresh(bool eraseBackground, const wxRect * rect)
 	if (fleet.isEmpty())
 	{
 		file->Enable((unsigned)eID::CLR, false);
-		edit->Enable((unsigned)eID::REM, false);
 	}
 	else
 	{
 		file->Enable((unsigned)eID::CLR, true);
-		edit->Enable((unsigned)eID::REM, true);
 	}
 
+	if (dSelection.isEmpty() || fleet.isEmpty())
+	{
+		edit->Enable((unsigned)eID::REM, false);
+		edit->Enable((unsigned)eID::DIAG, false);
+		edit->Enable((unsigned)eID::FIX, false);
+		edit->Enable((unsigned)eID::UPG, false);
+	}
+	else
+	{
+		if (dSelection.size() == 1)
+		{
+			edit->Enable((unsigned)eID::DIAG, true);
+			edit->Enable((unsigned)eID::FIX, true);
+			edit->Enable((unsigned)eID::UPG, true);
+		}
+		else
+		{
+			edit->Enable((unsigned)eID::DIAG, false);
+			edit->Enable((unsigned)eID::FIX, false);
+			edit->Enable((unsigned)eID::UPG, false);
+		}
+		edit->Enable((unsigned)eID::REM, true);
+	}
 }
 
 //File
@@ -159,7 +188,7 @@ void UIGarageFrame::OnPopl(wxCommandEvent & event)
 		if (txtEntry->GetValue().ToULong(&x) && (fleet.size() + x <= FLEET_MAX) && x!=0)
 		{
 			populateFleet(fleet, x);
-			mdVehicles->Reset(fleet.size());
+			//mdVehicles->Reset(fleet.size());
 			
 			if(x>1) { message.Printf("Au fost adaugate %lu de vehicule", x); }
 			else { message.Printf("A fost adaugat un vehicul"); }
@@ -169,7 +198,7 @@ void UIGarageFrame::OnPopl(wxCommandEvent & event)
 			msgResult->Destroy();
 
 			updateFleetDisplay();
-			Refresh();
+			updateMenuBar();
 		}
 		
 		else
@@ -200,7 +229,7 @@ void UIGarageFrame::OnClear(wxCommandEvent & event)
 		if (!fleet.isEmpty()) { fleet.erase(); }
 		dConfirmExit->Destroy();
 
-		Refresh();
+		updateMenuBar();
 		updateFleetDisplay();
 	}
 	else
@@ -227,6 +256,35 @@ void UIGarageFrame::OnQuit(wxCommandEvent & WXUNUSED(event))
 	}
 }
 
+void UIGarageFrame::OnRem(wxCommandEvent & event)
+{
+	
+	if (dSelection.size() == fleet.size())
+	{
+		if (!fleet.isEmpty()) 
+		{ 
+			fleet.erase(); 
+			updateFleetDisplay();
+			updateMenuBar();
+			return;
+		}
+
+	}
+
+	dSelection.sort();
+	
+	unsigned *temp = new unsigned[dSelection.size()];
+	for (unsigned i = 0; i < dSelection.size(); i++)
+	{
+		temp[i] = dSelection[i];
+	}
+
+	fleet.removeMultiple(temp, dSelection.size());
+
+	updateFleetDisplay();
+	updateMenuBar();
+}
+
 //edit
 
 //race
@@ -239,7 +297,7 @@ void UIGarageFrame::OnAbout(wxCommandEvent & event)
 	dialog->Show(true);
 }
 
-//TODO
+
 void UIGarageFrame::makeEntry(Vehicle* veh, wxVector<wxVariant> & entry, const int id)
 {
 	wxString label;
@@ -264,4 +322,19 @@ void UIGarageFrame::makeEntry(Vehicle* veh, wxVector<wxVariant> & entry, const i
 
 	int cond = static_cast<int>(veh->getCondition());
 	entry.push_back(wxVariant(cond));
+}
+
+void UIGarageFrame::selectChangeHandler(wxDataViewEvent& event)
+{
+	dSelection.erase();
+	
+	for (unsigned i = 0; i < dVehicles->GetItemCount(); i++)
+	{
+		if (dVehicles->IsRowSelected(i))
+		{
+			dSelection.add(i);
+		}
+	}
+	
+	updateMenuBar();
 }

@@ -16,15 +16,17 @@
 class dAbout;
 class RIndexListModel;
 
-DECLARE_VARIANT_OBJECT(wxString)
-
 class UIGarageFrame : public wxFrame
 {
 private:
 
 	//sensible default
-	//OPTIONAL
+	//OPTIONAL: max fleet size
 	static const unsigned FLEET_MAX = 500;
+	static const unsigned dataID = 100;
+
+	//stores currently selected fleet items by id
+	static RArray<unsigned> dSelection;
 
 	//Menubar
 	wxMenuBar * menuBar = nullptr;
@@ -63,7 +65,7 @@ public:
 	virtual ~UIGarageFrame();
 
 	//Dynamically update menus
-	virtual void Refresh(bool eraseBackground = true, const wxRect *rect = NULL) override;
+	 void updateMenuBar();
 
 
 	//events
@@ -73,14 +75,13 @@ public:
 	void OnClear(wxCommandEvent& event);
 	void OnQuit(wxCommandEvent & event);
 	
-/*
 	//edit
-	void OnAdd(wxCommandEvent& event);
+	//void OnAdd(wxCommandEvent& event);
 	void OnRem(wxCommandEvent& event);
-	void OnDiag(wxCommandEvent& event);
-	void OnFix(wxCommandEvent& event);
-	void OnUpg(wxCommandEvent& event);
-*/
+	//void OnDiag(wxCommandEvent& event);
+	//void OnFix(wxCommandEvent& event);
+	//void OnUpg(wxCommandEvent& event);
+
 	//race
 		//TODO implement
 
@@ -94,7 +95,7 @@ public:
 
 	void makeEntry(Vehicle* veh, wxVector<wxVariant> & entry, const int id = 0);
 
-	
+	void selectChangeHandler(wxDataViewEvent& event);
 
 
 
