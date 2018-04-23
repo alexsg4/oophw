@@ -49,11 +49,11 @@ static const wxSize AMinSize(500, 350);
 
 
 //Color styles
-static const wxColor colBg = wxColor("#ABD0FF");
-static const wxColor colFg = wxColor("#185CB2");
-static const wxColor colAccent1 = wxColor("#FFB225");
-static const wxColor colAccent2 = wxColor("#FFC864");
-static const wxColor colAccent3 = wxColor("#B27708");
+static const wxColor colBg = wxColor("#073799");
+static const wxColor colL1 = wxColor("#EBFCFF");
+static const wxColor colL2 = wxColor("#859CCC");
+static const wxColor colAccent1 = wxColor("#FFAF8C");
+static const wxColor colAccent2 = wxColor("#CC3214");
 
 //Font styles
 static const wxFont fHeading(10, wxDEFAULT, wxNORMAL, wxBOLD);

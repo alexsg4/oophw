@@ -6,13 +6,13 @@ UIMainFrame::UIMainFrame(const wxString& title)
 	: wxFrame(nullptr, wxID_ANY, title, wxDefaultPosition, wxSize(300, 200))
 {
 	wxPanel* pTopGraphics = new wxPanel(this, wxID_TOP);
-	pTopGraphics->SetBackgroundColour(colBg);
+	pTopGraphics->SetBackgroundColour(colL1);
 
 	auto size = this->GetClientSize();
 	pTopGraphics->SetMinSize(wxSize(size.GetWidth(), size.GetHeight()/3));
 
 	wxPanel* pMenu = new wxPanel(this, wxID_BOTTOM);
-	pMenu->SetBackgroundColour(colAccent1);
+	pMenu->SetBackgroundColour(colBg);
 
 	wxButton* bStart = new wxButton(pMenu, wxID_HOME, wxT("Start"));
 	Connect(wxID_HOME, wxEVT_COMMAND_BUTTON_CLICKED,
