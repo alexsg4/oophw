@@ -42,6 +42,8 @@ dAbout::dAbout(const wxString & title)
 	vBox->Add(hBox, 0, wxALIGN_RIGHT | wxALL, 10);
 
 	SetSizer(vBox);
+	SetBackgroundColour(colL2);
+	SetForegroundColour(colW);
 	ShowModal();
 	//Centre();
 	Destroy();

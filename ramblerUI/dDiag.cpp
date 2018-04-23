@@ -46,7 +46,8 @@ dDiag::dDiag(Vehicle* toDiag, wxWindow * parent, const int id, const wxString & 
 
 	wxBoxSizer* mBox = new wxBoxSizer(wxVERTICAL);
 	mBox->Add(vBox, 1, wxEXPAND | wxALL, 5);
-	SetMinSize(wxSize(400, 450));
+	SetBackgroundColour(colL2);
+	SetForegroundColour(colW);
 	SetSizer(vBox);
 	ShowModal();
 	Destroy();

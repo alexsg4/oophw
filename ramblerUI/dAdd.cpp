@@ -83,6 +83,7 @@ dAdd::dAdd(wxWindow* parent, int id, const wxString& title)
 	vBox->Add(buttons, 0, wxALIGN_RIGHT | wxALL, 5);
 
 	SetSizer(vBox);
+	SetBackgroundColour(colL2);
 	ShowModal();
 	Destroy();
 }

@@ -52,6 +52,8 @@ static const wxSize AMinSize(500, 350);
 static const wxColor colBg = wxColor("#073799");
 static const wxColor colL1 = wxColor("#EBFCFF");
 static const wxColor colL2 = wxColor("#859CCC");
+static const wxColor colW = wxColor("#FFFFFF");
+static const wxColor colB = wxColor("#000000");
 static const wxColor colAccent1 = wxColor("#FFAF8C");
 static const wxColor colAccent2 = wxColor("#CC3214");
 
