@@ -21,6 +21,7 @@ dAdd::dAdd(wxWindow* parent, int id, const wxString& title)
 	choices.Add(wxT("Motocicleta"));
 	choices.Add(wxT("Bicicleta"));
 	type = new wxChoice(pMain, -1, wxDefaultPosition, wxDefaultSize, choices);
+	type->SetSelection(0);
 	sFields->Add(tType, 1);
 	sFields->Add(type, 1);
 
@@ -40,7 +41,7 @@ dAdd::dAdd(wxWindow* parent, int id, const wxString& title)
 
 
 	tYear = new wxStaticText(pMain, -1, wxT("An:"));
-	year = new wxTextCtrl(pMain, -1, wxEmptyString, wxDefaultPosition, wxDefaultSize);
+	year = new wxTextCtrl(pMain, -1, AYear, wxDefaultPosition, wxDefaultSize);
 	year->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
 	sFields->Add(tYear, 1);
 	sFields->Add(year, 1);
@@ -78,21 +79,61 @@ dAdd::dAdd(wxWindow* parent, int id, const wxString& title)
 
 dAdd::~dAdd()
 {
+	delete generatedVeh;
 }
 
 void dAdd::OnAdd(wxCommandEvent & event)
 {
 	//get vehicle data from fields
+	Part::Type vType = Part::Type::ANY;
+	int gType = type->GetSelection();
+
+	std::string gMake = make->GetValue().ToStdString();
+	std::string gModel = model->GetValue().ToStdString();
+
+	if (gMake.empty() || gModel.empty())
+	{
+		return;
+	}
+
+
+	unsigned long _gYear = 0;
+	year->GetValue().ToULong(&_gYear);
+	unsigned gYear = static_cast<unsigned>(_gYear);
+
+
 	//generate vehicle
+	switch ((Part::Mount) gType)
+	{
+	case Part::Mount::CAR:
+		generatedVeh = new Car(gMake, gModel, gYear);
+		break;
+	case Part::Mount::MOTO:
+		generatedVeh = new Motorbike(gMake, gModel, gYear);
+		break;
+	case Part::Mount::BIKE:
+		generatedVeh = new Bike(gMake, gModel, gYear);
+		break;
+	case Part::Mount::ANY:
+		generatedVeh = nullptr;
+		break;
+	}
+
+	if (generatedVeh && damage->IsChecked())
+	{
+		generatedVeh->applyRandomDamage();
+	}
+
 	//add to parent
+	Close();
 }
 
 void dAdd::OnQuit(wxCommandEvent & event)
 {
-	Close(true);
+	Close();
 }
 
-const Vehicle * dAdd::generateVeh() const
+Vehicle * dAdd::getVehicle() const
 {
-	return nullptr;
+	return generatedVeh;
 }

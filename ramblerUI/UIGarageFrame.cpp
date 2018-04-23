@@ -253,7 +253,7 @@ void UIGarageFrame::OnQuit(wxCommandEvent & WXUNUSED(event))
 	if (dConfirmExit->ShowModal() == wxID_YES)
 	{
 		dConfirmExit->Destroy();
-		Close(true);
+		Close();
 	}
 	else
 	{
@@ -268,10 +268,16 @@ void UIGarageFrame::OnAdd(wxCommandEvent & event)
 	add->Show(true);
 
 	//generate a vehicle base on user data
-	//add vehicle to fleet 
-	//update fleet display
-	//update menuBar
+	auto toAdd = add->getVehicle();
+	if (toAdd && fleet.size() < FLEET_MAX)
+	{
+		//add vehicle to fleet 
+		fleet.add(toAdd);
+		updateFleetDisplay();
+		updateMenuBar();
+	}
 }
+
 
 void UIGarageFrame::OnRem(wxCommandEvent & event)
 {

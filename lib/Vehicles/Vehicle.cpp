@@ -193,12 +193,14 @@ std::ostream & operator<<(std::ostream & out, const Vehicle & src)
 
 const std::string Vehicle::getNameType() const
 {
-	std::string type("Vehicul");
+	std::string type("Vehicul necunoscut");
 	
+	if (!parts) { return type; }
+
 	switch (parts[0]->getMount())
 	{
 	case Part::Mount::ANY:
-		type = "Vehicul";
+		type = "Vehicul necunoscut";
 	case Part::Mount::CAR:
 		type = "Automobil ";
 		break;

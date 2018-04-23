@@ -47,8 +47,9 @@ private:
 	void OnQuit(wxCommandEvent &event);
 	static const unsigned ID_OK = 700;
 	static const unsigned ID_CAN = 701;
+	Vehicle* generatedVeh = nullptr;
 
-
-	const Vehicle* generateVeh() const;
+public:
+	Vehicle* getVehicle() const;
 
 };
