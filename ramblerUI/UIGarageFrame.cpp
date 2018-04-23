@@ -108,17 +108,20 @@ UIGarageFrame::UIGarageFrame(const wxString & title)
 }
 
 //TODO optimize
-void UIGarageFrame::updateFleetDisplay()
+	void UIGarageFrame::updateFleetDisplay(bool append)
 {
+	if(dVehicles->GetItemCount()){ dVehicles->DeleteAllItems(); }
+	
 	wxVector<wxVariant> temp;
-	dVehicles->DeleteAllItems();
-
 	for (unsigned i = 0; i < fleet.size(); i++)
 	{
-		temp.clear();
 		makeEntry(fleet[i], temp, i + 1);
-		dVehicles->AppendItem(temp);
+		if(!temp.empty())
+		{ 
+			dVehicles->AppendItem(temp);
+		}
 	}
+
 	//mdVehicles->Reset(fleet.size());
 }
 
@@ -261,27 +264,54 @@ void UIGarageFrame::OnQuit(wxCommandEvent & WXUNUSED(event))
 	}
 }
 
+//edit
 void UIGarageFrame::OnAdd(wxCommandEvent & event)
 {
 	//launch add vehicle dialog
 	dAdd* add = new dAdd(this, -1, "Adaugare Vehicule");
 	add->Show(true);
 
-	//generate a vehicle base on user data
-	auto toAdd = add->getVehicle();
+	//generate a vehicle based on user input
+	Vehicle* toAdd = nullptr;
+
+
+	//generate vehicle
+	switch ((Part::Mount) add->getType())
+	{
+	case Part::Mount::CAR:
+		toAdd = new Car(add->getMake(), add->getModel(), add->getYear());
+		break;
+	case Part::Mount::MOTO:
+		toAdd = new Motorbike(add->getMake(), add->getModel(), add->getYear());
+		break;
+	case Part::Mount::BIKE:
+		toAdd = new Bike(add->getMake(), add->getModel(), add->getYear());
+		break;
+	}
+
+	if (toAdd && add->isDamaged())
+	{
+		toAdd->applyRandomDamage();
+	}
+
+
 	if (toAdd && fleet.size() < FLEET_MAX)
 	{
 		//add vehicle to fleet 
 		fleet.add(toAdd);
-		updateFleetDisplay();
+		
+		wxVector<wxVariant> temp;
+		makeEntry(fleet[fleet.size()-1], temp, fleet.size());
+		if(!temp.empty())
+		{
+			dVehicles->AppendItem(temp);
+		}
 		updateMenuBar();
 	}
 }
 
-
 void UIGarageFrame::OnRem(wxCommandEvent & event)
 {
-	
 	if (dSelection.size() == fleet.size())
 	{
 		if (!fleet.isEmpty()) 
@@ -291,7 +321,15 @@ void UIGarageFrame::OnRem(wxCommandEvent & event)
 			updateMenuBar();
 			return;
 		}
+	}
 
+	if (dSelection.size() == 1)
+	{
+		fleet.removeById(dSelection[0]);
+		dVehicles->DeleteItem(dSelection[0]);
+		updateFleetDisplay();
+		updateMenuBar();
+		return;
 	}
 
 	dSelection.sort();
@@ -308,7 +346,6 @@ void UIGarageFrame::OnRem(wxCommandEvent & event)
 	updateMenuBar();
 }
 
-//edit
 
 //race
 
@@ -320,28 +357,21 @@ void UIGarageFrame::OnAbout(wxCommandEvent & event)
 	dialog->Show(true);
 }
 
-
-void UIGarageFrame::makeEntry(Vehicle* veh, wxVector<wxVariant> & entry, const int id)
+void UIGarageFrame::makeEntry(Vehicle* veh, wxVector<wxVariant> & entry, const unsigned id)
 {
-	wxString label;
-
-	entry.push_back(wxVariant(id));
-
-	label.Printf("%s", veh->getNameType());
-	entry.push_back(wxVariant(label));
-	label.Clear();
+	if(!entry.empty()) { entry.clear(); }
+	if (!veh) { return; }
 	
-	label.Printf("%s", veh->getMake());
-	entry.push_back(wxVariant(label));
-	label.Clear();
+	entry.push_back(wxVariant(static_cast<int>(id)));
 
-	label.Printf("%s", veh->getModel());
-	entry.push_back(wxVariant(label));
-	label.Clear();
+	entry.push_back(wxVariant(veh->getNameType()));
+	
+	entry.push_back(wxVariant(veh->getMake()));
+
+	entry.push_back(wxVariant(veh->getModel()));
 
 	int year = static_cast<int>(veh->getYear());
 	entry.push_back(wxVariant(year));
-	label.Clear();
 
 	int cond = static_cast<int>(veh->getCondition());
 	entry.push_back(wxVariant(cond));

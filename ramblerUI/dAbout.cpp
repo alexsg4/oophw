@@ -49,5 +49,5 @@ dAbout::dAbout(const wxString & title)
 
 void dAbout::OnQuit(wxCommandEvent & event)
 {
-	Close(true);
+	Close();
 }

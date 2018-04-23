@@ -56,7 +56,7 @@ void UIMainFrame::OnStart(wxCommandEvent & event)
 	UIGarageFrame* GarageFrame = new UIGarageFrame(ALTitle);
 	if (GarageFrame)
 	{
-		Close(true);
+		Close();
 		GarageFrame->Show(true);
 	}
 }
@@ -77,7 +77,7 @@ void UIMainFrame::OnQuit(wxCommandEvent & WXUNUSED(event))
 	if (dConfirmExit->ShowModal() == wxID_YES)
 	{
 		dConfirmExit->Close();
-		Close(true);
+		Close();
 	}
 	else
 	{	

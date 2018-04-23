@@ -1,6 +1,5 @@
 #pragma once
 #include "Project.h"
-#include "RamblerU.h"
 
 
 class wxTextCtrl;
@@ -40,6 +39,10 @@ private:
 	wxCheckBox* damage = nullptr;
 
 
+	int gType = 0;
+	std::string gMake;
+	std::string gModel;
+	unsigned gYear = 0;
 
 	wxBoxSizer* buttons = nullptr;
 
@@ -47,9 +50,11 @@ private:
 	void OnQuit(wxCommandEvent &event);
 	static const unsigned ID_OK = 700;
 	static const unsigned ID_CAN = 701;
-	Vehicle* generatedVeh = nullptr;
 
 public:
-	Vehicle* getVehicle() const;
-
+	int getType() const;
+	std::string getMake() const;
+	std::string getModel() const;
+	unsigned getYear() const;
+	bool isDamaged() const;
 };

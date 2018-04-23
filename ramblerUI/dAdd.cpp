@@ -79,52 +79,26 @@ dAdd::dAdd(wxWindow* parent, int id, const wxString& title)
 
 dAdd::~dAdd()
 {
-	delete generatedVeh;
 }
 
 void dAdd::OnAdd(wxCommandEvent & event)
 {
 	//get vehicle data from fields
-	Part::Type vType = Part::Type::ANY;
-	int gType = type->GetSelection();
+	gType = type->GetSelection();
 
-	std::string gMake = make->GetValue().ToStdString();
-	std::string gModel = model->GetValue().ToStdString();
+	gMake = make->GetValue().ToStdString();
+	gModel = model->GetValue().ToStdString();
 
 	if (gMake.empty() || gModel.empty())
 	{
 		return;
 	}
 
-
 	unsigned long _gYear = 0;
 	year->GetValue().ToULong(&_gYear);
-	unsigned gYear = static_cast<unsigned>(_gYear);
+	gYear = static_cast<unsigned>(_gYear);
 
 
-	//generate vehicle
-	switch ((Part::Mount) gType)
-	{
-	case Part::Mount::CAR:
-		generatedVeh = new Car(gMake, gModel, gYear);
-		break;
-	case Part::Mount::MOTO:
-		generatedVeh = new Motorbike(gMake, gModel, gYear);
-		break;
-	case Part::Mount::BIKE:
-		generatedVeh = new Bike(gMake, gModel, gYear);
-		break;
-	case Part::Mount::ANY:
-		generatedVeh = nullptr;
-		break;
-	}
-
-	if (generatedVeh && damage->IsChecked())
-	{
-		generatedVeh->applyRandomDamage();
-	}
-
-	//add to parent
 	Close();
 }
 
@@ -133,7 +107,9 @@ void dAdd::OnQuit(wxCommandEvent & event)
 	Close();
 }
 
-Vehicle * dAdd::getVehicle() const
-{
-	return generatedVeh;
-}
+
+int dAdd::getType() const { return gType; }
+std::string dAdd::getMake() const { return gMake; }
+std::string dAdd::getModel() const { return gModel; }
+unsigned dAdd::getYear() const { return gYear; }
+bool dAdd::isDamaged() const { return  damage->IsChecked(); }

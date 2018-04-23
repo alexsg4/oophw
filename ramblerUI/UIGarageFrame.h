@@ -66,13 +66,13 @@ private:
 
 public:
 	UIGarageFrame(const wxString& title);
-	void updateFleetDisplay();
+	void updateFleetDisplay(bool append = false);
 	virtual ~UIGarageFrame();
 
 	//Dynamically update menus
 	 void updateMenuBar();
 
-
+private:
 	//events
 
 	//file
@@ -96,11 +96,14 @@ public:
 	//TODO implement
 	//void OnCtrl(wxCommandEvent & event);
 
+	void OnSelect(wxDataViewEvent& event);
+
+public:
 	//other methods
 
-	void makeEntry(Vehicle* veh, wxVector<wxVariant> & entry, const int id = 0);
+	void makeEntry(Vehicle* veh, wxVector<wxVariant> & entry, const unsigned id = 0);
 
-	void OnSelect(wxDataViewEvent& event);
+
 
 
 
