@@ -119,7 +119,7 @@ int main()
 		case MenuItem::QUIT:
 			CLEAR
 			std::cout << "La revedere...\n\n";
-			WAIT(2);
+			WAIT(1);
 			choice = MenuItem::QUIT;
 			break;
 		}

@@ -7,7 +7,7 @@
 #include <wx/sstream.h>
 
 dDiag::dDiag(Vehicle* toDiag, wxWindow * parent, const int id, const wxString & title)
-	: wxDialog(parent, id, title, wxDefaultPosition, wxSize(400, 450), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
+	: wxDialog(parent, id, title, wxDefaultPosition, wxSize(400, 450))
 {
 	this->toDiag = &toDiag;
 
@@ -24,7 +24,10 @@ dDiag::dDiag(Vehicle* toDiag, wxWindow * parent, const int id, const wxString & 
 	
 	std::ostream dOut(defText);
 	toDiag->diagnose(dOut);
-	defText->SetMargins(5,15);
+	defText->SetMargins(5,-1);
+	defText->SetBackgroundColour("#000000");
+	defText->SetForegroundColour("#FFFFFF");
+	defText->SetFont(fHeading);
 
 	wxButton* bClose = new wxButton(this, wxID_EXIT, wxT("Close"));
 	Connect(wxID_EXIT, wxEVT_COMMAND_BUTTON_CLICKED,
@@ -39,7 +42,7 @@ dDiag::dDiag(Vehicle* toDiag, wxWindow * parent, const int id, const wxString & 
 
 	vBox->Add(heading, 1, wxALIGN_LEFT | wxALL, 10);
 	vBox->Add(defText, 10, wxALIGN_CENTER| wxEXPAND | wxALL, 10);
-	vBox->Add(bBox, 1, wxALIGN_RIGHT | wxALL, 10);
+	vBox->Add(bBox, 1, wxALIGN_RIGHT | wxALL, 5);
 
 	wxBoxSizer* mBox = new wxBoxSizer(wxVERTICAL);
 	mBox->Add(vBox, 1, wxEXPAND | wxALL, 5);

@@ -270,9 +270,11 @@ std::string Part::generateName() const
 
 void Part::diagnose(std::ostream& out)
 {
+
 	//check if there are defects
 	bool hasDefects = false;
-	
+	numDefects = 0;
+
 	for(unsigned i=0; i<dMarker.size(); i++)
 	{
 		if(dMarker[i]) 
@@ -282,20 +284,21 @@ void Part::diagnose(std::ostream& out)
 		}
 	}
 
-	out << generateName() << ": ";
+	out << generateName() << ": \n";
+	for (unsigned i = 0; i < generateName().size(); i++) { out << "="; }
 	if (hasDefects)
 	{
-		out << "\n";
 		auto k = dTable[dSection[tMount] + tType].size();
 		for (unsigned i = 0; i <k; i++)
 		{
 			if (dMarker[i])
 			{
 				out << dTable[dSection[tMount] + tType][i];
+				numDefects++;
 			}
 		}
 	}
-	else { out << "/t/t/t componenta nu are defecte"; }
+	else { out << "\n fara defect"; }
 	out << "\n";
 }
 

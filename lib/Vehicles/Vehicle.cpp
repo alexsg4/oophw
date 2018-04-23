@@ -120,7 +120,13 @@ void Vehicle::applyRandomDamage(std::ostream& out)
 	for (unsigned i = 0; i < numParts; i++)
 	{
 		k = parts[i]->getPossibleDefectsNum();
-		parts[i]->applyDamage( rand() % k);
+		for (unsigned j = 0; j < k; j++)
+		{
+			if (rand() % 2)
+			{
+				parts[i]->applyDamage(j);
+			}
+		}
 	}
 }
 
