@@ -7,6 +7,15 @@ unsigned Part::dSection[mountTypes];
 bool Part::_dLoaded[partTypes * mountTypes];
 
 
+void Part::fix()
+{
+	if (hasDefects())
+	{
+		//set all to false
+		dMarker.erase();
+	}
+}
+
 Part::Part()
 {
 	tMount = static_cast<unsigned>(mount);

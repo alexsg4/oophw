@@ -108,4 +108,8 @@ public:
 
 	unsigned getPossibleDefectsNum();
 
+	inline bool hasDefects() { return (numDefects > 0); }
+
+	void fix();
+
 };

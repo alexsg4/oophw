@@ -169,6 +169,19 @@ void Vehicle::diagnose(std::ostream& out)
 
 }
 
+void Vehicle::fix(std::ostream& out)
+{
+	for (unsigned i = 0; i < numParts; i++)
+	{
+		if (parts[i]->hasDefects())
+		{
+			parts[i]->fix();
+		}
+	}
+	if (condition < 100.) { condition = 100.; }
+	out <<"Vehiculul a fost reparat\n";
+}
+
 unsigned Vehicle::getNumParts() const
 {
 	return numParts;
