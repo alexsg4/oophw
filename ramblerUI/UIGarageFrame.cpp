@@ -85,7 +85,7 @@ UIGarageFrame::UIGarageFrame(const wxString & title)
 	dVehicles->AppendTextColumn(wxT("Marca"));
 	dVehicles->AppendTextColumn(wxT("Model"));
 	dVehicles->AppendTextColumn(wxT("An"));
-	dVehicles->AppendTextColumn(wxT("Stare"));
+	dVehicles->AppendTextColumn(wxT("Stare %"));
 
 	vehBox = new wxBoxSizer(wxVERTICAL);
 	vehBox->Add(dVehicles, 1, wxEXPAND);
@@ -283,12 +283,13 @@ void UIGarageFrame::OnAdd(wxCommandEvent & event)
 	//generate a vehicle based on user input
 	Vehicle* toAdd = nullptr;
 
+	if (add->getMake().empty() || add->getModel().empty()) { return; }
 
 	//generate vehicle
 	switch ((Part::Mount) add->getType())
 	{
 	case Part::Mount::CAR:
-		toAdd = new Car(add->getMake(), add->getModel(), add->getYear());
+		toAdd = new Car(add->getMake(), add->getModel(), add->getYear(), add->getDoors());
 		break;
 	case Part::Mount::MOTO:
 		toAdd = new Motorbike(add->getMake(), add->getModel(), add->getYear());
@@ -301,6 +302,7 @@ void UIGarageFrame::OnAdd(wxCommandEvent & event)
 	if (toAdd && add->isDamaged())
 	{
 		toAdd->applyRandomDamage();
+		toAdd->diagnose();
 	}
 
 

@@ -237,6 +237,7 @@ static void populateFleet(RArray<Vehicle*> &fleet, const unsigned toAdd)
 			if (toAdd)
 			{
 				toAdd->applyRandomDamage();
+				toAdd->diagnose();
 
 				fleet.add(toAdd);
 

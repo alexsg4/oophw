@@ -60,5 +60,6 @@ void dDiag::OnClose(wxCommandEvent & event)
 
 void dDiag::OnFix(wxCommandEvent & event)
 {
-	//*toDiag->fix();
+	(*toDiag)->fix();
+	this->Close();
 }
