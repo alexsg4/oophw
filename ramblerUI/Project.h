@@ -38,6 +38,7 @@ static const wxSize AMinSize(500, 350);
 		REM,			//remove vehicle
 		DIAG,			//diagnose vehicle
 		FIX,			//fix vehicle
+		DMG,			//damage vehicle
 		UPG,			//upgrade vehicle
 		SRAC,			//send vehicle to race
 		RAC,			//start race

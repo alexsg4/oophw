@@ -1,7 +1,9 @@
 #include "UIGarageFrame.h"
-#include "dAbout.h"
+
 #include "RIndexListModel.h"
+#include "dAbout.h"
 #include "dAdd.h"
+#include "dDiag.h"
 
 
 //statics
@@ -22,8 +24,9 @@ UIGarageFrame::UIGarageFrame(const wxString & title)
 	edit->Append((unsigned)eID::REM, wxT("&Remove"));
 	edit->AppendSeparator();
 	edit->Append((unsigned)eID::DIAG, wxT("&Diagnose"));
-	edit->Append((unsigned)eID::FIX, wxT("&Fix"));
-	edit->Append((unsigned)eID::UPG, wxT("&Upgrade..."));
+	//edit->Append((unsigned)eID::FIX, wxT("&Fix"));
+	edit->Append((unsigned)eID::DMG, wxT("&Damage"));
+	//edit->Append((unsigned)eID::UPG, wxT("&Upgrade..."));
 	//edit->AppendSeparator();
 	//edit->Append((unsigned)eID::SRAC, wxT("&Send to Race"));
 
@@ -67,6 +70,9 @@ UIGarageFrame::UIGarageFrame(const wxString & title)
 	
 	Connect((unsigned)eID::REM, wxEVT_COMMAND_MENU_SELECTED,
 		wxCommandEventHandler(UIGarageFrame::OnRem));
+
+	Connect((unsigned)eID::DIAG, wxEVT_COMMAND_MENU_SELECTED,
+		wxCommandEventHandler(UIGarageFrame::OnDiag));
 
 	Connect(wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED,
 		wxCommandEventHandler(UIGarageFrame::OnAbout));
@@ -156,6 +162,7 @@ void UIGarageFrame::updateMenuBar()
 	{
 		edit->Enable((unsigned)eID::REM, false);
 		edit->Enable((unsigned)eID::DIAG, false);
+		edit->Enable((unsigned)eID::DMG, false);
 		edit->Enable((unsigned)eID::FIX, false);
 		edit->Enable((unsigned)eID::UPG, false);
 	}
@@ -166,12 +173,14 @@ void UIGarageFrame::updateMenuBar()
 			edit->Enable((unsigned)eID::DIAG, true);
 			edit->Enable((unsigned)eID::FIX, true);
 			edit->Enable((unsigned)eID::UPG, true);
+			edit->Enable((unsigned)eID::DMG, true);
 		}
 		else
 		{
 			edit->Enable((unsigned)eID::DIAG, false);
 			edit->Enable((unsigned)eID::FIX, false);
 			edit->Enable((unsigned)eID::UPG, false);
+			edit->Enable((unsigned)eID::DMG, false);
 		}
 		edit->Enable((unsigned)eID::REM, true);
 	}
@@ -341,6 +350,15 @@ void UIGarageFrame::OnRem(wxCommandEvent & event)
 	}
 
 	fleet.removeMultiple(temp, dSelection.size());
+
+	updateFleetDisplay();
+	updateMenuBar();
+}
+
+void UIGarageFrame::OnDiag(wxCommandEvent & event)
+{
+	dDiag* diag = new dDiag(fleet[dSelection[0]], this);
+	diag->Show(true);
 
 	updateFleetDisplay();
 	updateMenuBar();

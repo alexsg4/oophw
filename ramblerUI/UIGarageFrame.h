@@ -14,10 +14,12 @@
 #include "RamblerU.h"
 
 class dAbout;
+class dAdd;
 
 //TODO implement
-class dAdd;
 class dDiag;
+class dDamage;
+
 class wDisplay;
 class RIndexListModel;
 
@@ -83,7 +85,7 @@ private:
 	//edit
 	void OnAdd(wxCommandEvent& event);
 	void OnRem(wxCommandEvent& event);
-	//void OnDiag(wxCommandEvent& event);
+	void OnDiag(wxCommandEvent& event);
 	//void OnFix(wxCommandEvent& event);
 	//void OnUpg(wxCommandEvent& event);
 

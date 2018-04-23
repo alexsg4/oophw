@@ -150,7 +150,7 @@ void Vehicle::diagnose(std::ostream& out)
 	//here, the vehicle "type" is given by its Parts
 	//TODO consider adding vehicle type member and scrap inheritance 
 
-	out << *this<<"\n";
+	//out << *this<<"\n";
 	
 	if(year<2000 && parts[0]->getMount()!= Part::Mount::BIKE) 
 	{	
