@@ -379,7 +379,7 @@ void RArray<T>::buildMaxHeap()
 template <class T>
 void RArray<T>::buildMinHeap()
 {
-	int n = static_cast<int> m_size;
+	int n = static_cast<int>(m_size);
 	for (int i = n / 2 - 1; i >= 0; i--) { minHeapify(n, i); }
 }
 

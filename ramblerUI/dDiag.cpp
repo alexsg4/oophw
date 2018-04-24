@@ -41,13 +41,13 @@ dDiag::dDiag(Vehicle* toDiag, wxWindow * parent, const int id, const wxString & 
 	bBox->Add(bClose, 1, wxALL, 5);
 
 	vBox->Add(heading, 1, wxALIGN_LEFT | wxALL, 10);
-	vBox->Add(defText, 10, wxALIGN_CENTER| wxEXPAND | wxALL, 10);
+	vBox->Add(defText, 10, wxEXPAND | wxALL, 10);
 	vBox->Add(bBox, 1, wxALIGN_RIGHT | wxALL, 5);
 
 	wxBoxSizer* mBox = new wxBoxSizer(wxVERTICAL);
 	mBox->Add(vBox, 1, wxEXPAND | wxALL, 5);
-	SetBackgroundColour(colL2);
-	SetForegroundColour(colW);
+	//SetBackgroundColour(colL2);
+	//SetForegroundColour(colW);
 	SetSizer(vBox);
 	ShowModal();
 	Destroy();

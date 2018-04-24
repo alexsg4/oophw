@@ -20,9 +20,6 @@ class dAdd;
 class dDiag;
 class dDamage;
 
-class wDisplay;
-class RIndexListModel;
-
 class UIGarageFrame : public wxFrame
 {
 private:
@@ -59,7 +56,6 @@ private:
 	//TODO
 	wxScrolledWindow* pVehicles = nullptr;
 	wxDataViewListCtrl* dVehicles = nullptr;
-	RIndexListModel* mdVehicles = nullptr;
 
 	//Data
 	RArray<Vehicle*> fleet;

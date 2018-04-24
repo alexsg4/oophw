@@ -1,6 +1,5 @@
 #include "UIGarageFrame.h"
 
-#include "RIndexListModel.h"
 #include "dAbout.h"
 #include "dAdd.h"
 #include "dDiag.h"
@@ -50,9 +49,6 @@ UIGarageFrame::UIGarageFrame(const wxString & title)
 
 	pVehicles = new wxScrolledWindow(this, -1, wxDefaultPosition, wxDefaultSize);
 	dVehicles = new wxDataViewListCtrl(pVehicles, dataID, wxDefaultPosition, wxDefaultSize, wxDV_ROW_LINES | wxDV_MULTIPLE);
-
-	mdVehicles = new RIndexListModel(fleet, 0);
-	//dVehicles->AssociateModel(mdVehicles);
 	
 	//Events
 	
@@ -85,7 +81,7 @@ UIGarageFrame::UIGarageFrame(const wxString & title)
 	dVehicles->AppendTextColumn(wxT("Marca"));
 	dVehicles->AppendTextColumn(wxT("Model"));
 	dVehicles->AppendTextColumn(wxT("An"));
-	dVehicles->AppendTextColumn(wxT("Stare %"));
+	dVehicles->AppendTextColumn(wxT("Stare"));
 
 	vehBox = new wxBoxSizer(wxVERTICAL);
 	vehBox->Add(dVehicles, 1, wxEXPAND);
@@ -127,8 +123,6 @@ UIGarageFrame::UIGarageFrame(const wxString & title)
 			dVehicles->AppendItem(temp);
 		}
 	}
-
-	//mdVehicles->Reset(fleet.size());
 }
 
 UIGarageFrame::~UIGarageFrame()
@@ -163,23 +157,23 @@ void UIGarageFrame::updateMenuBar()
 		edit->Enable((unsigned)eID::REM, false);
 		edit->Enable((unsigned)eID::DIAG, false);
 		edit->Enable((unsigned)eID::DMG, false);
-		edit->Enable((unsigned)eID::FIX, false);
-		edit->Enable((unsigned)eID::UPG, false);
+		//edit->Enable((unsigned)eID::FIX, false);
+		//edit->Enable((unsigned)eID::UPG, false);
 	}
 	else
 	{
 		if (dSelection.size() == 1)
 		{
 			edit->Enable((unsigned)eID::DIAG, true);
-			edit->Enable((unsigned)eID::FIX, true);
-			edit->Enable((unsigned)eID::UPG, true);
+			//edit->Enable((unsigned)eID::FIX, true);
+			//edit->Enable((unsigned)eID::UPG, true);
 			edit->Enable((unsigned)eID::DMG, true);
 		}
 		else
 		{
 			edit->Enable((unsigned)eID::DIAG, false);
-			edit->Enable((unsigned)eID::FIX, false);
-			edit->Enable((unsigned)eID::UPG, false);
+			//edit->Enable((unsigned)eID::FIX, false);
+			//edit->Enable((unsigned)eID::UPG, false);
 			edit->Enable((unsigned)eID::DMG, false);
 		}
 		edit->Enable((unsigned)eID::REM, true);
@@ -205,7 +199,6 @@ void UIGarageFrame::OnPopl(wxCommandEvent & event)
 		if (txtEntry->GetValue().ToULong(&x) && (fleet.size() + x <= FLEET_MAX) && x!=0)
 		{
 			populateFleet(fleet, x);
-			//mdVehicles->Reset(fleet.size());
 			
 			if(x>1) { message.Printf("Au fost adaugate %lu de vehicule", x); }
 			else { message.Printf("A fost adaugat un vehicul"); }
@@ -382,7 +375,10 @@ void UIGarageFrame::makeEntry(Vehicle* veh, wxVector<wxVariant> & entry, const u
 	if(!entry.empty()) { entry.clear(); }
 	if (!veh) { return; }
 	
-	entry.push_back(wxVariant(static_cast<int>(id)));
+	wxString label;
+	int temp = static_cast<int>(id);
+	label.Printf("%d", temp);
+	entry.push_back(wxVariant(label));
 
 	entry.push_back(wxVariant(veh->getNameType()));
 	
@@ -390,11 +386,15 @@ void UIGarageFrame::makeEntry(Vehicle* veh, wxVector<wxVariant> & entry, const u
 
 	entry.push_back(wxVariant(veh->getModel()));
 
+	label.clear();
 	int year = static_cast<int>(veh->getYear());
-	entry.push_back(wxVariant(year));
+	label.Printf("%d", year);
+	entry.push_back(wxVariant(label));
 
+	label.clear();
 	int cond = static_cast<int>(veh->getCondition());
-	entry.push_back(wxVariant(cond));
+	label.Printf("%d %%", cond);
+	entry.push_back(wxVariant(label));
 }
 
 void UIGarageFrame::OnSelect(wxDataViewEvent& event)

@@ -76,14 +76,14 @@ dAdd::dAdd(wxWindow* parent, int id, const wxString& title)
 	Connect(ID_DOOR, wxEVT_CHOICE,
 		wxCommandEventHandler(dAdd::OnDoors));
 
-	buttons->Add(bOK, 1, wxBOTTOM | wxALL, 5);
-	buttons->Add(bCancel, 1, wxBOTTOM | wxALL, 5);
+	buttons->Add(bOK, 1, wxALL, 5);
+	buttons->Add(bCancel, 1, wxALL, 5);
 
 	vBox->Add(pMain, 1, wxEXPAND | wxALL, 10);
 	vBox->Add(buttons, 0, wxALIGN_RIGHT | wxALL, 5);
 
 	SetSizer(vBox);
-	SetBackgroundColour(colL2);
+	//SetBackgroundColour(colL2);
 	ShowModal();
 	Destroy();
 }

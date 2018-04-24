@@ -36,14 +36,14 @@ dAbout::dAbout(const wxString & title)
 
 	wxStaticLine* sLine = new wxStaticLine(this, wxID_ANY, wxDefaultPosition, wxSize(1, 1));
 	vBox->Add(heading, 0, wxALIGN_LEFT | wxALL, 10);
-	vBox->Add(vTextBox, 1, wxEXPAND | wxALIGN_CENTER);
+	vBox->Add(vTextBox, 1, wxEXPAND);
 	vBox->Add(sLine, 0, wxEXPAND | wxALL, 10);
 	vBox->Add(cr, 0, wxALIGN_LEFT | wxALL, 10);
 	vBox->Add(hBox, 0, wxALIGN_RIGHT | wxALL, 10);
 
 	SetSizer(vBox);
-	SetBackgroundColour(colL2);
-	SetForegroundColour(colW);
+	//SetBackgroundColour(colL2);
+	//SetForegroundColour(colW);
 	ShowModal();
 	//Centre();
 	Destroy();

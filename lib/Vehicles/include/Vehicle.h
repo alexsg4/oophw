@@ -60,7 +60,7 @@ public:
 	void showPartsList(std::ostream& out = std::cout);
 	void showLoadedDefects(std::ostream& out = std::cout);
 	void diagnose(std::ostream& out = std::cout);
-	void Vehicle::fix(std::ostream& out = std::cout);
+	void fix(std::ostream& out = std::cout);
 	unsigned getNumParts() const;
 
 	const std::string getNameType() const;
