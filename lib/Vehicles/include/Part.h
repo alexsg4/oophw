@@ -112,4 +112,6 @@ public:
 
 	void fix();
 
+	Defect* getDefect(const unsigned index);
+
 };

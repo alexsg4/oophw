@@ -70,7 +70,7 @@ static void populateFleet(RArray<Vehicle*> &fleet, const unsigned toAdd)
 			mod.clear();
 
 			//random choose vehicle type
-			Part::Mount vehType = (Part::Mount)(rand() % Part::getMountTypes() + 1);
+			Part::Mount vehType = (Part::Mount)(rand() % Part::getMountTypes());
 
 			//random select lines for make and model
 			mi = (rand() + elementsToAdd) % (mLines + (mLines==0));

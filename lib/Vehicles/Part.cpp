@@ -343,3 +343,13 @@ unsigned Part::getPossibleDefectsNum()
 	return _dTable[tIndex].size();
 }
 
+Defect* Part::getDefect(const unsigned index)
+{
+	if (index >= getPossibleDefectsNum())
+	{
+		return nullptr;
+	}
+	Defect* toShow = &_dTable[tIndex][index];
+	return toShow;
+}
+
