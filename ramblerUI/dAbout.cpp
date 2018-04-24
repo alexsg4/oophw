@@ -1,7 +1,7 @@
 #include "dAbout.h"
 
 dAbout::dAbout(const wxString & title)
-	: wxDialog(nullptr, -1, title, wxDefaultPosition, wxSize(300, 400))
+	: wxDialog(nullptr, -1, title, wxDefaultPosition, wxSize(400, 500))
 {
 
 	wxBoxSizer* vBox = new wxBoxSizer(wxVERTICAL);
@@ -13,6 +13,7 @@ dAbout::dAbout(const wxString & title)
 
 	wxTextCtrl* about = new wxTextCtrl(this, -1, AAbout, wxDefaultPosition, wxDefaultSize,
 		wxTE_READONLY | wxTE_LEFT | wxTE_BESTWRAP | wxTE_MULTILINE);
+	about->LoadFile(AAbout, wxTEXT_TYPE_ANY);
 	about->SetMargins(5);
 
 	wxHyperlinkCtrl* link = new wxHyperlinkCtrl(this, -1, wxT("Licence"), ALicense);

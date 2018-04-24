@@ -1,0 +1,9 @@
+﻿Rambler Garage
+Alexandru Stanciu – gr. 211- FMI Unibuc
+
+Rambler este o aplicatie de gestionare a unui atelier auto. Utilizatorul poate adauga mai multe tipuri de vehicule, fiecare avand un set specific de componente si o lista predefinita de defecte. Fiecare defect are un cost atat in materiale cat si in ore de munca. Defectele se pot diagnostica si repara sau dimpotriva, unui vehicul i se pot adauga defecte suplimentare din meniul Vehicul. 
+
+Atelierul se poate umple din meniul Atelier->Adaugare multipla. Vehiculele adaugate astfel sunt generate aleator folosind date din folderul assets atat pentru detaliile despre vehicul (Marca, Model, An fabricatie), cat si defectele aplicate acestuia. Acestea se pot modifica dupa nevoile utilizatorului daca se doreste de exemplu adaugarea unor marci sau modele predefinite sau a unor tipuri noi de defecte. 
+Implicit, atelierul poate tine maxim 500 de vehicule la un moment dat, insa aceasta limitare este virtuala, putandu-se modifica limita dupa nevoi.  
+
+Proiectul foloseste biblioteca wxWidgets pentru interfata, apeland la aceasta in mod dinamic si cmake pentru configuratiile de compilare. Aceasta decizie s-a luat pentru flexibilitate, acesta putand fi compilat si rulat atat pe Windows cat si pe distributii de Linux ce folosesc GTK+ pentru interfata atata timp cat wxWidgets versiunea 3.0+ este prezent pe acel sistem.
