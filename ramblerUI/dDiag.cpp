@@ -29,11 +29,11 @@ dDiag::dDiag(Vehicle* toDiag, wxWindow * parent, const int id, const wxString & 
 	defText->SetForegroundColour("#FFFFFF");
 	defText->SetFont(fHeading);
 
-	wxButton* bClose = new wxButton(this, wxID_EXIT, wxT("Close"));
+	wxButton* bClose = new wxButton(this, wxID_EXIT, wxT("Inchide"));
 	Connect(wxID_EXIT, wxEVT_COMMAND_BUTTON_CLICKED,
 		wxCommandEventHandler(dDiag::OnClose));
 	
-	wxButton* bFix = new wxButton(this, (unsigned)eID::FIX, wxT("Fix"));
+	wxButton* bFix = new wxButton(this, (unsigned)eID::FIX, wxT("Repara"));
 	Connect((unsigned)eID::FIX, wxEVT_COMMAND_BUTTON_CLICKED,
 		wxCommandEventHandler(dDiag::OnFix));
 

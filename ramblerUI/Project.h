@@ -10,7 +10,7 @@
 
 //App info
 static const wxString ATitle = wxT("Rambler Garage");
-static const wxString AVersion = wxT("0.2.0");
+static const wxString AVersion = wxT("0.3.0");
 static const wxString ALTitle = ATitle + wxT(" v") + AVersion;
 static const wxString AAuthor = wxT("Alexandru Stanciu");
 static const wxString AYear = wxT("2018");

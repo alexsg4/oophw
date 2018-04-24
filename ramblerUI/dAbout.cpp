@@ -15,13 +15,13 @@ dAbout::dAbout(const wxString & title)
 		wxTE_READONLY | wxTE_LEFT | wxTE_BESTWRAP | wxTE_MULTILINE);
 	about->SetMargins(5);
 
-	wxHyperlinkCtrl* link = new wxHyperlinkCtrl(this, -1, wxT("License"), ALicense);
+	wxHyperlinkCtrl* link = new wxHyperlinkCtrl(this, -1, wxT("Licence"), ALicense);
 
-	wxButton* bQuit = new wxButton(this, wxID_EXIT, wxT("Close"));
+	wxButton* bQuit = new wxButton(this, wxID_EXIT, wxT("Iesire"));
 	Connect(wxID_EXIT, wxEVT_COMMAND_BUTTON_CLICKED,
 		wxCommandEventHandler(dAbout::OnQuit));
 
-	const wxString wx = wxT("This project uses wxWidgets. See license below:");
+	const wxString wx = wxT("Powered by wxWidgets. See licence below:");
 	wxStaticText* lic = new wxStaticText(this, -1, wx,
 		wxDefaultPosition, wxSize(-1, -1), wxALIGN_LEFT);
 
@@ -44,6 +44,7 @@ dAbout::dAbout(const wxString & title)
 	SetSizer(vBox);
 	//SetBackgroundColour(colL2);
 	//SetForegroundColour(colW);
+
 	ShowModal();
 	//Centre();
 	Destroy();

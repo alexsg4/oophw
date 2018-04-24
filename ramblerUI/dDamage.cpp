@@ -69,9 +69,9 @@ dDamage::dDamage(Vehicle* toDamage, wxWindow * parent, const int id, const wxStr
 	bBox->Add(bClose, 1, wxALL, 5);
 
 	vBox->Add(heading, 1, wxALIGN_LEFT | wxALL, 10);
-	vBox->Add(choiceBox, 1, wxALIGN_CENTER | wxALL, 5);
+	vBox->Add(choiceBox, 1, wxEXPAND | wxALL, 10);
 	vBox->Add(defText, 10, wxEXPAND | wxALL, 10);
-	vBox->Add(bBox, 1, wxALIGN_RIGHT | wxALL, 5);
+	vBox->Add(bBox, 1, wxALIGN_RIGHT | wxALL, 10);
 
 	wxBoxSizer* mBox = new wxBoxSizer(wxVERTICAL);
 	mBox->Add(vBox, 1, wxEXPAND | wxALL, 5);
@@ -110,10 +110,18 @@ void dDamage::OnDef(wxCommandEvent & event)
 	int part = gPart->GetSelection();
 	auto strings = getDefectChoices(part);
 	gDef->Clear();
-	for (int  i = 0; i < strings.size(); i++)
+	
+	size_t sizeMax = -1;
+	for (size_t  i = 0; i < strings.size(); i++)
 	{
 		gDef->Append(strings[i]);
+		
+		if (strings[i].size() > sizeMax)
+		{
+			sizeMax = strings[i].size();
+		}
 	}
+	gDef->SetInitialSize(wxSize(sizeMax, -1));
 	gDef->SetSelection(0);
 }
 

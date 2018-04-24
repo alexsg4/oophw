@@ -345,12 +345,13 @@ void RArray<T>::_swap(T& a, T& b)
 template <class T>
 void RArray<T>::maxHeapify(unsigned m, int i)
 {
+	int M = static_cast<int>(m);
 	int iMax = i;
 	int l = left(i);
 	int r = right(i);
 
-	if (l<m && *members[l] > *members[iMax]) { iMax = l; }
-	if (r<m && *members[r] > *members[iMax]) { iMax = r; }
+	if (l<M && *members[l] > *members[iMax]) { iMax = l; }
+	if (r<M && *members[r] > *members[iMax]) { iMax = r; }
 
 	if (iMax != i)
 	{
@@ -362,12 +363,13 @@ void RArray<T>::maxHeapify(unsigned m, int i)
 template <class T>
 void RArray<T>::minHeapify(unsigned m, int i)
 {
+	int M = static_cast<int>(m);
 	int iMin = i;
 	int l = left(i);
 	int r = right(i);
 
-	if (l<m && *members[l] < *members[iMin]) { iMin = l; }
-	if (r<m && *members[r] < *members[iMin]) { iMin = r; }
+	if (l<M && *members[l] < *members[iMin]) { iMin = l; }
+	if (r<M && *members[r] < *members[iMin]) { iMin = r; }
 
 	if (iMin != i)
 	{

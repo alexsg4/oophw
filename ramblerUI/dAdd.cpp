@@ -69,7 +69,7 @@ dAdd::dAdd(wxWindow* parent, int id, const wxString& title)
 	Connect(ID_OK, wxEVT_COMMAND_BUTTON_CLICKED,
 		wxCommandEventHandler(dAdd::OnAdd));
 	
-	bCancel = new wxButton(this, ID_CAN, wxT("Cancel"));
+	bCancel = new wxButton(this, ID_CAN, wxT("Renunta"));
 	Connect(ID_CAN, wxEVT_COMMAND_BUTTON_CLICKED,
 		wxCommandEventHandler(dAdd::OnQuit));
 

@@ -14,15 +14,15 @@ UIMainFrame::UIMainFrame(const wxString& title)
 	wxPanel* pMenu = new wxPanel(this, wxID_BOTTOM);
 	pMenu->SetBackgroundColour(colBg);
 
-	wxButton* bStart = new wxButton(pMenu, wxID_HOME, wxT("Start"));
+	wxButton* bStart = new wxButton(pMenu, wxID_HOME, wxT("Atelier"));
 	Connect(wxID_HOME, wxEVT_COMMAND_BUTTON_CLICKED,
 		wxCommandEventHandler(UIMainFrame::OnStart));
 	
-	wxButton* bAbout = new wxButton(pMenu, wxID_ABOUT, wxT("About"));
+	wxButton* bAbout = new wxButton(pMenu, wxID_ABOUT, wxT("Despre"));
 	Connect(wxID_ABOUT, wxEVT_COMMAND_BUTTON_CLICKED,
 		wxCommandEventHandler(UIMainFrame::OnAbout));
 	
-	wxButton* bQuit = new wxButton(pMenu, wxID_EXIT, wxT("Quit"));
+	wxButton* bQuit = new wxButton(pMenu, wxID_EXIT, wxT("Iesire"));
 	Connect(wxID_EXIT, wxEVT_COMMAND_BUTTON_CLICKED,
 		wxCommandEventHandler(UIMainFrame::OnQuit));
 
@@ -71,9 +71,11 @@ void UIMainFrame::OnAbout(wxCommandEvent & event)
 void UIMainFrame::OnQuit(wxCommandEvent & WXUNUSED(event))
 {
 	//show confirmation dialog
-	wxMessageDialog* dConfirmExit = new wxMessageDialog(nullptr, wxT("Are you sure?"), wxT("Exit"), 
+	wxMessageDialog* dConfirmExit = new wxMessageDialog(nullptr, wxT("Sunteti sigur?"), wxT("Iesire"), 
 		wxYES_NO | wxNO_DEFAULT | wxICON_QUESTION);
 		
+	dConfirmExit->SetYesNoLabels("Da", "Nu");
+
 	if (dConfirmExit->ShowModal() == wxID_YES)
 	{
 		dConfirmExit->Close();
