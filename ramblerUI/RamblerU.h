@@ -14,40 +14,6 @@
 
 //fleet wrappers
 
-//TODO adapt for UI and uncomment
-
-//void damageVehicle(Vehicle* vehicle, wxStdOutputStream& out);
-
-
-/*
-void damageVehicle(Vehicle * vehicle)
-{
-	vehicle->showPartsList();
-	unsigned part = 0;
-	while ((std::cout << "Alegeti componenta: " && !(std::cin >> part))
-		|| (part > vehicle->getNumParts()))
-	{
-		std::cin.clear();
-		std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
-		std::cout << "Componenta nu este pe lista. Incercati din nou.\n";
-	}
-	part--;
-
-	vehicle->getPart(part).showPossibleDefects();
-
-	unsigned defect = 0;
-	while ((std::cout << "Alegeti defectul: " && !(std::cin >> defect))
-		|| (defect > vehicle->getPart(part).getPossibleDefectsNum()))
-	{
-		std::cin.clear();
-		std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
-		std::cout << "Defectul nu este pe lista. Incercati din nou.\n";
-	}
-	defect--;
-	vehicle->getPart(part).applyDamage(defect, true);
-}
-*/
-
 static void populateFleet(RArray<Vehicle*> &fleet, const unsigned toAdd)
 {
 	auto elementsToAdd = toAdd;

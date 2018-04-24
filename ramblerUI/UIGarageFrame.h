@@ -15,8 +15,6 @@
 
 class dAbout;
 class dAdd;
-
-//TODO implement
 class dDiag;
 class dDamage;
 
@@ -53,7 +51,6 @@ private:
 	wxBoxSizer* vehBox = nullptr;
 
 	//Panels
-	//TODO
 	wxScrolledWindow* pVehicles = nullptr;
 	wxDataViewListCtrl* dVehicles = nullptr;
 
@@ -82,7 +79,7 @@ private:
 	void OnAdd(wxCommandEvent& event);
 	void OnRem(wxCommandEvent& event);
 	void OnDiag(wxCommandEvent& event);
-	//void OnFix(wxCommandEvent& event);
+	void OnDmg(wxCommandEvent& event);
 	//void OnUpg(wxCommandEvent& event);
 
 	//race

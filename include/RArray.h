@@ -9,7 +9,8 @@ private:
 	unsigned m_capacity = 2;	//maximum capacity
 	unsigned m_size = 0;		//current size
 	T** members;
-
+	bool m_sorted = true;
+	
 	//Zeroes out a sub-array of members
 	void _initialise(const unsigned& from = 0);
 
@@ -33,6 +34,7 @@ public:
 	inline const bool isEmpty() const { return (m_size == 0); }
 	inline const unsigned size() const { return m_size; }
 	inline const unsigned capacity() const { return m_capacity; }
+	inline const bool isSorted() const { return m_sorted; }
 
 	~RArray();
 
@@ -56,18 +58,18 @@ private:
 	inline int left(int i) const { return 2 * i + 1; }
 	inline int right(int i) const { return 2 * i + 2; }
 
+	static unsigned tIndex;
+
 	void maxHeapify(unsigned m, int i);
 	void minHeapify(unsigned m, int i);
 	void buildMaxHeap();
 	void buildMinHeap();
 
-	static unsigned tIndex;
-
-	//TODO implement
-	bool _findIndexIn(const unsigned index, unsigned arr[]) {};
+	bool _bSearch(const T& val, const unsigned st, const unsigned ed) const;
 
 public:
-	void sort();
+	bool find(const T& val) const;
+	void sort(bool desc = false);
 
 };
 
@@ -98,6 +100,7 @@ RArray<T>::RArray(const RArray &src)
 	{
 		members[i] = src.members[i];
 	}
+	m_sorted = src.m_sorted;
 }
 
 template <class T>
@@ -129,6 +132,7 @@ RArray<T>& RArray<T>::operator=(const RArray& src)
 		}
 	}
 
+	m_sorted = src.m_sorted;
 	return *this;
 }
 
@@ -163,6 +167,7 @@ void RArray<T>::erase()
 	}
 	m_size = 0;
 	_initialise();
+	m_sorted = true;
 }
 
 template<class T>
@@ -210,7 +215,7 @@ RArray<T>& RArray<T>::operator+(const RArray& src)
 		members[m_size + i] = src.members[i];
 	}
 	m_size += src.m_size;
-
+	m_sorted = false;
 	return *this;
 }
 
@@ -240,6 +245,7 @@ void RArray<T>::add(const T & element)
 	}
 
 	members[m_size++] = new T(element);
+	m_sorted = false;
 }
 
 template<class T>
@@ -251,6 +257,7 @@ void RArray<T>::add()
 	}
 
 	members[m_size++] = new T();
+	m_sorted = false;
 }
 
 template<class T>
@@ -261,7 +268,7 @@ RArray<T>& RArray<T>::operator+=(const T & element)
 		expand(m_size * 2);
 	}
 	members[m_size++] = new T(element);
-
+	m_sorted = false;
 	return *this;
 }
 
@@ -323,7 +330,7 @@ void RArray<T>::removeMultiple(unsigned *iArr, const unsigned size)
 	}
 	
 	else { erase(); };
-
+	m_sorted = false;
 	tIndex = 0;
 }
 
@@ -384,14 +391,51 @@ void RArray<T>::buildMinHeap()
 }
 
 template <class T>
-void RArray<T>::sort()
+void RArray<T>::sort(const bool desc)
 {
-	buildMaxHeap();
+	if (m_sorted || m_size==0) { return; }
+	
 	int n = static_cast<int> (m_size);
+
+	if (desc){	buildMinHeap();	}
+	else {	buildMaxHeap(); }
 
 	for (int i = n - 1; i >= 0; i--)
 	{
 		_swap(*members[0], *members[i]);
-		maxHeapify(i, 0);
+		
+		if (desc) { minHeapify(i,0); }
+		else{ maxHeapify(i, 0); }
 	}
+
+	m_sorted = true;
+}
+
+template <class T>
+bool RArray<T>::find(const T& val) const
+{
+	if (m_sorted)
+	{
+		return _bSearch(val, 0, m_size);
+	}
+	else
+	{
+		for (unsigned i = 0; i < m_size; i++)
+		{
+			if (*members[i] == val){	return true;	}
+		}
+	}
+	return false;
+}
+
+template <class T>
+bool RArray<T>::_bSearch(const T& val, const unsigned st, const unsigned ed) const
+{
+	if (st == ed) { return (val == *members[st]); }
+	unsigned mid = st+(ed-st) / 2;
+
+	if (val > *members[mid]){	return _bSearch(val, mid + 1, ed);	}
+	else if (val < *memebers[mid]){	return _bSearch(val, st, mid);	}
+
+	return (val == *members[mid]);
 }

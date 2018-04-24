@@ -3,6 +3,7 @@
 #include "dAbout.h"
 #include "dAdd.h"
 #include "dDiag.h"
+#include "dDamage.h"
 
 
 //statics
@@ -69,6 +70,9 @@ UIGarageFrame::UIGarageFrame(const wxString & title)
 
 	Connect((unsigned)eID::DIAG, wxEVT_COMMAND_MENU_SELECTED,
 		wxCommandEventHandler(UIGarageFrame::OnDiag));
+
+	Connect((unsigned)eID::DMG, wxEVT_COMMAND_MENU_SELECTED,
+		wxCommandEventHandler(UIGarageFrame::OnDmg));
 
 	Connect(wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED,
 		wxCommandEventHandler(UIGarageFrame::OnAbout));
@@ -359,6 +363,15 @@ void UIGarageFrame::OnDiag(wxCommandEvent & event)
 	updateMenuBar();
 }
 
+void UIGarageFrame::OnDmg(wxCommandEvent & event)
+{
+	dDamage* dmg = new dDamage(fleet[dSelection[0]], this);
+	dmg->Show(true);
+
+	updateFleetDisplay();
+	updateMenuBar();
+}
+
 
 //race
 
@@ -401,7 +414,7 @@ void UIGarageFrame::OnSelect(wxDataViewEvent& event)
 {
 	dSelection.erase();
 	
-	for (unsigned i = 0; i < dVehicles->GetItemCount(); i++)
+	for (int i = 0; i < dVehicles->GetItemCount(); i++)
 	{
 		if (dVehicles->IsRowSelected(i))
 		{
