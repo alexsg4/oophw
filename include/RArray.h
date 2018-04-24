@@ -437,7 +437,7 @@ bool RArray<T>::_bSearch(const T& val, const unsigned st, const unsigned ed) con
 	unsigned mid = st+(ed-st) / 2;
 
 	if (val > *members[mid]){	return _bSearch(val, mid + 1, ed);	}
-	else if (val < *memebers[mid]){	return _bSearch(val, st, mid);	}
+	else if (val < *members[mid]){	return _bSearch(val, st, mid);	}
 
 	return (val == *members[mid]);
 }

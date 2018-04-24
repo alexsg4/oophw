@@ -42,7 +42,7 @@ dDamage::dDamage(Vehicle* toDamage, wxWindow * parent, const int id, const wxStr
 	choiceBox->AddGrowableCol(2, 1);
 
 
-	defText = new wxTextCtrl(this, -1, "Momentan nu exista defecte.",
+	defText = new wxTextCtrl(this, -1, "Defectele noi vor aparea aici.",
 	wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE | wxTE_DONTWRAP);
 	
 	std::ostream dOut(defText);
