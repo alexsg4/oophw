@@ -16,45 +16,45 @@ dAdd::dAdd(wxWindow* parent, int id, const wxString& title)
 	sFields = new wxFlexGridSizer(2, wxSize(10,10));
 	//############FIELDS###################
 
-	tType = new wxStaticText(pMain, -1, wxT("Tip vehicul:"));
-	choices.Add(wxT("Automobil"));
-	choices.Add(wxT("Motocicleta"));
-	choices.Add(wxT("Bicicleta"));
+	tType = new wxStaticText(pMain, -1, _T("Tip vehicul:"));
+	choices.Add(_T("Automobil"));
+	choices.Add(_T("Motocicleta"));
+	choices.Add(_T("Bicicleta"));
 	type = new wxChoice(pMain, ID_DOOR, wxDefaultPosition, wxDefaultSize, choices);
 	type->SetSelection(0);
 	sFields->Add(tType, 1);
 	sFields->Add(type, 1);
 
 
-	tMake = new wxStaticText(pMain, -1, wxT("Marca:"));
+	tMake = new wxStaticText(pMain, -1, _T("Marca:"));
 	make = new wxTextCtrl(pMain, -1, wxEmptyString, wxDefaultPosition, wxDefaultSize);
 	make->SetValidator(wxTextValidator(wxFILTER_ALPHANUMERIC));
 	sFields->Add(tMake, 1);
 	sFields->Add(make, 1);
 
 
-	tModel = new wxStaticText(pMain, -1, wxT("Model:"));
+	tModel = new wxStaticText(pMain, -1, _T("Model:"));
 	model = new wxTextCtrl(pMain, -1, wxEmptyString, wxDefaultPosition, wxDefaultSize);
 	model->SetValidator(wxTextValidator(wxFILTER_ALPHANUMERIC));
 	sFields->Add(tModel, 1);
 	sFields->Add(model, 1);
 
 
-	tYear = new wxStaticText(pMain, -1, wxT("An:"));
+	tYear = new wxStaticText(pMain, -1, _T("An:"));
 	year = new wxTextCtrl(pMain, -1, AYear, wxDefaultPosition, wxDefaultSize);
 	year->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
 	sFields->Add(tYear, 1);
 	sFields->Add(year, 1);
 
 	choices.clear();
-	choices.Add(wxT("2")); choices.Add(wxT("4"));
-	tDoors = new wxStaticText(pMain, -1, wxT("Nr usi:"));
+	choices.Add(_T("2")); choices.Add(_T("4"));
+	tDoors = new wxStaticText(pMain, -1, _T("Nr usi:"));
 	doors = new wxChoice(pMain, -1, wxDefaultPosition, wxDefaultSize, choices);
 	doors->SetSelection(0);
 	sFields->Add(tDoors, 1);
 	sFields->Add(doors, 1);
 
-	tDamage = new wxStaticText(pMain, -1, wxT("Defect:"));
+	tDamage = new wxStaticText(pMain, -1, _T("Defect:"));
 	damage = new wxCheckBox(pMain, ID_CHK, wxEmptyString, wxDefaultPosition, wxDefaultSize);
 	
 	sFields->Add(tDamage, 1);
@@ -65,11 +65,11 @@ dAdd::dAdd(wxWindow* parent, int id, const wxString& title)
 	pMain->SetSizer(sFields);
 
 	buttons = new wxBoxSizer(wxHORIZONTAL);
-	bOK = new wxButton(this, ID_OK, wxT("OK"));
+	bOK = new wxButton(this, ID_OK, _T("OK"));
 	Connect(ID_OK, wxEVT_COMMAND_BUTTON_CLICKED,
 		wxCommandEventHandler(dAdd::OnAdd));
 	
-	bCancel = new wxButton(this, ID_CAN, wxT("Renunta"));
+	bCancel = new wxButton(this, ID_CAN, _T("Renunta"));
 	Connect(ID_CAN, wxEVT_COMMAND_BUTTON_CLICKED,
 		wxCommandEventHandler(dAdd::OnQuit));
 

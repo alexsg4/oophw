@@ -16,15 +16,15 @@ UIMainFrame::UIMainFrame(const wxString& title)
 	pMenu = new wxPanel(this, wxID_BOTTOM);
 	pMenu->SetBackgroundColour(colBg);
 
-	wxButton* bStart = new wxButton(pMenu, wxID_HOME, wxT("Atelier"));
+	wxButton* bStart = new wxButton(pMenu, wxID_HOME, _T("Atelier"));
 	Connect(wxID_HOME, wxEVT_COMMAND_BUTTON_CLICKED,
 		wxCommandEventHandler(UIMainFrame::OnStart));
 	
-	wxButton* bAbout = new wxButton(pMenu, wxID_ABOUT, wxT("Despre"));
+	wxButton* bAbout = new wxButton(pMenu, wxID_ABOUT, _T("Despre"));
 	Connect(wxID_ABOUT, wxEVT_COMMAND_BUTTON_CLICKED,
 		wxCommandEventHandler(UIMainFrame::OnAbout));
 	
-	wxButton* bQuit = new wxButton(pMenu, wxID_EXIT, wxT("Iesire"));
+	wxButton* bQuit = new wxButton(pMenu, wxID_EXIT, _T("Iesire"));
 	Connect(wxID_EXIT, wxEVT_COMMAND_BUTTON_CLICKED,
 		wxCommandEventHandler(UIMainFrame::OnQuit));
 
@@ -103,7 +103,7 @@ void UIMainFrame::OnStart(wxCommandEvent & event)
 
 void UIMainFrame::OnAbout(wxCommandEvent & event)
 {
-	dAbout* dialog = new dAbout(wxT("About"));
+	dAbout* dialog = new dAbout(_T("Info"));
 	//show a dialog with info about the project, licensing and credits
 	dialog->Show(true);
 }
@@ -111,7 +111,7 @@ void UIMainFrame::OnAbout(wxCommandEvent & event)
 void UIMainFrame::OnQuit(wxCommandEvent & WXUNUSED(event))
 {
 	//show confirmation dialog
-	wxMessageDialog* dConfirmExit = new wxMessageDialog(nullptr, wxT("Sunteti sigur?"), wxT("Iesire"), 
+	wxMessageDialog* dConfirmExit = new wxMessageDialog(nullptr, _T("Sunteti sigur?"), _T("Iesire"), 
 		wxYES_NO | wxNO_DEFAULT | wxICON_QUESTION);
 		
 	dConfirmExit->SetYesNoLabels("Da", "Nu");

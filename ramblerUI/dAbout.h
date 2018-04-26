@@ -6,7 +6,7 @@
 class dAbout : public wxDialog
 {
 public:
-	dAbout(const wxString& title);
+	dAbout(const wxString& title = _T("Info"));
 
 	void OnQuit(wxCommandEvent& event);
 

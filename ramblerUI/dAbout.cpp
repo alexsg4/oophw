@@ -16,17 +16,17 @@ dAbout::dAbout(const wxString & title)
 	about->LoadFile(AAbout, wxTEXT_TYPE_ANY);
 	about->SetMargins(5);
 
-	wxHyperlinkCtrl* link = new wxHyperlinkCtrl(this, -1, wxT("Licence"), ALicense);
+	wxHyperlinkCtrl* link = new wxHyperlinkCtrl(this, -1, _T("Licence"), ALicense);
 
-	wxButton* bQuit = new wxButton(this, wxID_EXIT, wxT("Iesire"));
+	wxButton* bQuit = new wxButton(this, wxID_EXIT, _T("Iesire"));
 	Connect(wxID_EXIT, wxEVT_COMMAND_BUTTON_CLICKED,
 		wxCommandEventHandler(dAbout::OnQuit));
 
-	const wxString wx = wxT("Powered by wxWidgets. See licence below:");
+	const wxString wx = _T("Powered by wxWidgets. See licence below:");
 	wxStaticText* lic = new wxStaticText(this, -1, wx,
 		wxDefaultPosition, wxSize(-1, -1), wxALIGN_LEFT);
 
-	const wxString crt = wxT("Copyright ") + AAuthor + " " + AYear + "\n";
+	const wxString crt = _T("Copyright ") + AAuthor + " " + AYear + "\n";
 	wxStaticText* cr = new wxStaticText(this, -1, crt);
 
 	hBox->Add(bQuit, 1);

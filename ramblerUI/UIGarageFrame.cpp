@@ -14,35 +14,35 @@ UIGarageFrame::UIGarageFrame(const wxString & title)
 	menuBar = new wxMenuBar;
 	file = new wxMenu;
 	
-	file->Append((unsigned)eID::POPL, wxT("&Adaugare multipla..."));
-	file->Append((unsigned)eID::CLR, wxT("&Eliberare garaj"));
-	file->Append(wxID_EXIT, wxT("&Iesire"));
+	file->Append((unsigned)eID::POPL, _T("&Adaugare multipla..."));
+	file->Append((unsigned)eID::CLR, _T("&Eliberare garaj"));
+	file->Append(wxID_EXIT, _T("&Iesire"));
 	
 	edit = new wxMenu;
-	edit->Append((unsigned)eID::ADD, wxT("&Adauga..."));
-	edit->Append((unsigned)eID::REM, wxT("&Inlatura"));
+	edit->Append((unsigned)eID::ADD, _T("&Adauga..."));
+	edit->Append((unsigned)eID::REM, _T("&Inlatura"));
 	edit->AppendSeparator();
-	edit->Append((unsigned)eID::DIAG, wxT("&Diagnostic..."));
-	edit->Append((unsigned)eID::DMG, wxT("&Defecte..."));
+	edit->Append((unsigned)eID::DIAG, _T("&Diagnostic..."));
+	edit->Append((unsigned)eID::DMG, _T("&Defecte..."));
 	
-	//edit->Append((unsigned)eID::UPG, wxT("&Upgrade..."));
+	//edit->Append((unsigned)eID::UPG, _T("&Upgrade..."));
 	//edit->AppendSeparator();
-	//edit->Append((unsigned)eID::SRAC, wxT("&Send to Race"));
+	//edit->Append((unsigned)eID::SRAC, _T("&Send to Race"));
 
 	//race = new wxMenu;
-	//race->Append((unsigned)eID::RAC, wxT("&Start..."));
-	//race->Append((unsigned)eID::CLRAC, wxT("&Clear"));
+	//race->Append((unsigned)eID::RAC, _T("&Start..."));
+	//race->Append((unsigned)eID::CLRAC, _T("&Clear"));
 	//race->AppendSeparator();
-	//race->Append((unsigned)eID::LRAC, wxT("&Leaderboard..."));
+	//race->Append((unsigned)eID::LRAC, _T("&Leaderboard..."));
 
 	help = new wxMenu;
-	//help->Append(wxID_HELP, wxT("&Controls"));
-	help->Append(wxID_ABOUT, wxT("&Despre"));
+	//help->Append(wxID_HELP, _T("&Controls"));
+	help->Append(wxID_ABOUT, _T("&Despre"));
 
-	menuBar->Append(file, wxT("&Atelier"));
-	menuBar->Append(edit, wxT("&Vehicule"));
-	//menuBar->Append(race, wxT("&Race"));
-	menuBar->Append(help, wxT("&Ajutor"));
+	menuBar->Append(file, _T("&Atelier"));
+	menuBar->Append(edit, _T("&Vehicule"));
+	//menuBar->Append(race, _T("&Race"));
+	menuBar->Append(help, _T("&Ajutor"));
 
 	//Layout
 	vBox = new wxBoxSizer(wxVERTICAL);
@@ -79,12 +79,12 @@ UIGarageFrame::UIGarageFrame(const wxString & title)
 	Connect(dataID, wxEVT_DATAVIEW_SELECTION_CHANGED,
 		wxDataViewEventHandler(UIGarageFrame::OnSelect));
 
-	dVehicles->AppendTextColumn(wxT("#"));
-	dVehicles->AppendTextColumn(wxT("Tip"));
-	dVehicles->AppendTextColumn(wxT("Marca"));
-	dVehicles->AppendTextColumn(wxT("Model"));
-	dVehicles->AppendTextColumn(wxT("An"));
-	dVehicles->AppendTextColumn(wxT("Stare"));
+	dVehicles->AppendTextColumn(_T("#"));
+	dVehicles->AppendTextColumn(_T("Tip"));
+	dVehicles->AppendTextColumn(_T("Marca"));
+	dVehicles->AppendTextColumn(_T("Model"));
+	dVehicles->AppendTextColumn(_T("An"));
+	dVehicles->AppendTextColumn(_T("Stare"));
 
 	vehBox = new wxBoxSizer(wxVERTICAL);
 	vehBox->Add(dVehicles, 1, wxEXPAND);
@@ -189,11 +189,11 @@ void UIGarageFrame::OnPopl(wxCommandEvent & event)
 	wxString message;
 
 	message.Printf("Numar vehicule [max %u]", FLEET_MAX - fleet.size());
-	wxTextEntryDialog* txtEntry = new wxTextEntryDialog(this, message, wxT("Adaugare vehicule"));
+	wxTextEntryDialog* txtEntry = new wxTextEntryDialog(this, message, _T("Adaugare vehicule"));
 
 	txtEntry->SetTextValidator(wxFILTER_DIGITS);
 	txtEntry->SetMaxLength(3);
-	wxMessageDialog* msgResult = new wxMessageDialog(this, wxT("Info"), wxT("Info"));
+	wxMessageDialog* msgResult = new wxMessageDialog(this, _T("Info"), _T("Info"));
 	message.Clear();
 
 	if (txtEntry->ShowModal() == wxID_OK)
@@ -234,7 +234,7 @@ void UIGarageFrame::OnPopl(wxCommandEvent & event)
 void UIGarageFrame::OnClear(wxCommandEvent & event)
 {
 	//show confirmation dialog
-	wxMessageDialog* dConfirmExit = new wxMessageDialog(nullptr, wxT("Sunteti sigur?"), wxT("Eliberare garaj"),
+	wxMessageDialog* dConfirmExit = new wxMessageDialog(nullptr, _T("Sunteti sigur?"), _T("Eliberare garaj"),
 		wxYES_NO | wxNO_DEFAULT | wxICON_QUESTION);
 	dConfirmExit->SetYesNoLabels("Da", "Nu");
 	if (dConfirmExit->ShowModal() == wxID_YES)
@@ -255,7 +255,7 @@ void UIGarageFrame::OnClear(wxCommandEvent & event)
 void UIGarageFrame::OnQuit(wxCommandEvent & WXUNUSED(event))
 {
 	//show confirmation dialog
-	wxMessageDialog* dConfirmExit = new wxMessageDialog(nullptr, wxT("Are you sure?"), wxT("Exit"),
+	wxMessageDialog* dConfirmExit = new wxMessageDialog(nullptr, _T("Sunteti sigur?"), _T("Iesire"),
 		wxYES_NO | wxNO_DEFAULT | wxICON_QUESTION);
 	dConfirmExit->SetYesNoLabels("Da", "Nu");
 	if (dConfirmExit->ShowModal() == wxID_YES)
@@ -377,7 +377,7 @@ void UIGarageFrame::OnDmg(wxCommandEvent & event)
 //help
 void UIGarageFrame::OnAbout(wxCommandEvent & event)
 {
-	dAbout* dialog = new dAbout(wxT("About"));
+	dAbout* dialog = new dAbout();
 	//show a dialog with info about the project, licensing and credits
 	dialog->Show(true);
 }

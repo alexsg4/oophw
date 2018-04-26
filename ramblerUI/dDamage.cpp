@@ -22,7 +22,7 @@ dDamage::dDamage(Vehicle* toDamage, wxWindow * parent, const int id, const wxStr
 	wxStaticText* heading = new wxStaticText(this, -1, vehData);
 	heading->SetFont(fHeading);
 
-	wxStaticText* tPart = new wxStaticText(this, -1, wxT("Componenta: \t\t"));
+	wxStaticText* tPart = new wxStaticText(this, -1, _T("Componenta: \t\t"));
 	gPart = new wxChoice(this, ID_DEF, wxDefaultPosition, wxDefaultSize, getPartChoices());
 	gPart->SetSelection(0);
 	
@@ -30,7 +30,7 @@ dDamage::dDamage(Vehicle* toDamage, wxWindow * parent, const int id, const wxStr
 		wxCommandEventHandler(dDamage::OnDef));
 	
 	
-	wxStaticText* tDefect = new wxStaticText(this, -1, wxT("Defect: \t\t"));
+	wxStaticText* tDefect = new wxStaticText(this, -1, _T("Defect: \t\t"));
 	gDef = new wxChoice(this, -1, wxDefaultPosition, wxDefaultSize, getDefectChoices(gPart->GetSelection()));
 	gDef->SetSelection(0);
 	
@@ -49,15 +49,15 @@ dDamage::dDamage(Vehicle* toDamage, wxWindow * parent, const int id, const wxStr
 	defText->SetForegroundColour("#FFFFFF");
 	defText->SetFont(fHeading);
 
-	wxButton* bClose = new wxButton(this, wxID_EXIT, wxT("Inchide"));
+	wxButton* bClose = new wxButton(this, wxID_EXIT, _T("Inchide"));
 	Connect(wxID_EXIT, wxEVT_COMMAND_BUTTON_CLICKED,
 		wxCommandEventHandler(dDamage::OnClose));
 	
-	wxButton* bDamage = new wxButton(this, (unsigned)eID::DMG, wxT("OK"));
+	wxButton* bDamage = new wxButton(this, (unsigned)eID::DMG, _T("OK"));
 	Connect((unsigned)eID::DMG, wxEVT_COMMAND_BUTTON_CLICKED,
 		wxCommandEventHandler(dDamage::OnDmg));
 
-	wxButton* bSave = new wxButton(this, ID_ADD, wxT("Adauga"));
+	wxButton* bSave = new wxButton(this, ID_ADD, _T("Adauga"));
 	Connect(ID_ADD, wxEVT_COMMAND_BUTTON_CLICKED,
 		wxCommandEventHandler(dDamage::OnAdd));
 
