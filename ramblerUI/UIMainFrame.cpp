@@ -61,15 +61,15 @@ void UIMainFrame::OnPaint(wxPaintEvent & event)
 {
 	if (!pTopGraphics) { return; }
 	
-	wxAutoBufferedPaintDC dc(pTopGraphics);
-	//Disabled for now
-	//render(dc);
+	wxPaintDC dc(pTopGraphics);
+	render(dc);
 }
 
 void UIMainFrame::OnSize(wxSizeEvent & event)
 {
 	auto size = this->GetClientSize();
 	pTopGraphics->SetMinSize(wxSize(size.GetWidth(), size.GetHeight() / 3));
+	
 	Refresh();
 	//skip the event.
 	event.Skip();
@@ -82,7 +82,7 @@ void UIMainFrame::render(wxDC & dc)
 
 	if (w1 != w || h1 != h)
 	{
-		resized = wxBitmap(image.Scale(w1, h1, wxIMAGE_QUALITY_HIGH));
+		resized = wxBitmap(image.Scale(w1, h1));
 		w = w1; h = h1;
 		dc.DrawBitmap(resized, 0, 0);
 	}
@@ -96,7 +96,7 @@ void UIMainFrame::OnStart(wxCommandEvent & event)
 	UIGarageFrame* GarageFrame = new UIGarageFrame(ALTitle);
 	if (GarageFrame)
 	{
-		Close();
+		this->Close();
 		GarageFrame->Show(true);
 	}
 }
