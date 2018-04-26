@@ -15,8 +15,16 @@ static const wxString ALTitle = ATitle + wxT(" v") + AVersion;
 static const wxString AAuthor = wxT("Alexandru Stanciu");
 static const wxString AYear = wxT("2018");
 
+//img
+static const wxString AImg(STR(ASSETS) + wxString(wxT("/img/")));
+
+//icon
+//static const wxIcon AIcon(icon_xpm);
+
+
 //Window
 static const wxSize AMinSize(500, 350);
+
 
 //IDs
 	//Windows
@@ -65,4 +73,5 @@ static const wxString ALicense = wxT("https://www.wxwidgets.org/about/licence/")
 
 //copy
 static const wxString AAbout = (STR(ASSETS) + wxString("/about.txt"));
+
 

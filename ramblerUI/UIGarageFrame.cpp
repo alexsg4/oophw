@@ -5,7 +5,6 @@
 #include "dDiag.h"
 #include "dDamage.h"
 
-
 //statics
 RArray<unsigned> UIGarageFrame::dSelection;
 
@@ -24,8 +23,8 @@ UIGarageFrame::UIGarageFrame(const wxString & title)
 	edit->Append((unsigned)eID::REM, wxT("&Inlatura"));
 	edit->AppendSeparator();
 	edit->Append((unsigned)eID::DIAG, wxT("&Diagnostic..."));
-	//edit->Append((unsigned)eID::FIX, wxT("&Fix"));
 	edit->Append((unsigned)eID::DMG, wxT("&Defecte..."));
+	
 	//edit->Append((unsigned)eID::UPG, wxT("&Upgrade..."));
 	//edit->AppendSeparator();
 	//edit->Append((unsigned)eID::SRAC, wxT("&Send to Race"));
@@ -105,7 +104,7 @@ UIGarageFrame::UIGarageFrame(const wxString & title)
 	//Frame properties
 
 	SetMenuBar(menuBar);
-	//SetIcon(wxIcon(wxT("rambler.ico"), wxBitmapType::wxBITMAP_TYPE_ICO));
+	SetIcon(wxIcon(AImg + "icon.xpm", wxBITMAP_TYPE_XPM));
 	SetMinSize(AMinSize);
 	SetSizer(vBox);
 	Centre();

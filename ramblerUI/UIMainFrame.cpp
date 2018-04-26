@@ -5,13 +5,15 @@
 UIMainFrame::UIMainFrame(const wxString& title)
 	: wxFrame(nullptr, wxID_ANY, title, wxDefaultPosition, wxSize(300, 200))
 {
-	wxPanel* pTopGraphics = new wxPanel(this, wxID_TOP);
+	pTopGraphics = new wxPanel(this, wxID_TOP);
 	pTopGraphics->SetBackgroundColour(colL1);
+
+	image.LoadFile(AImg + "banner.png", wxBITMAP_TYPE_PNG);
 
 	auto size = this->GetClientSize();
 	pTopGraphics->SetMinSize(wxSize(size.GetWidth(), size.GetHeight()/3));
 
-	wxPanel* pMenu = new wxPanel(this, wxID_BOTTOM);
+	pMenu = new wxPanel(this, wxID_BOTTOM);
 	pMenu->SetBackgroundColour(colBg);
 
 	wxButton* bStart = new wxButton(pMenu, wxID_HOME, wxT("Atelier"));
@@ -25,6 +27,11 @@ UIMainFrame::UIMainFrame(const wxString& title)
 	wxButton* bQuit = new wxButton(pMenu, wxID_EXIT, wxT("Iesire"));
 	Connect(wxID_EXIT, wxEVT_COMMAND_BUTTON_CLICKED,
 		wxCommandEventHandler(UIMainFrame::OnQuit));
+
+	//TODO fix and re-enable
+	//Connect(wxEVT_PAINT, wxPaintEventHandler(UIMainFrame::OnPaint));
+	
+	Connect(wxEVT_SIZE, wxSizeEventHandler(UIMainFrame::OnSize));
 
 	wxSizer* vBox = new wxBoxSizer(wxVERTICAL);
 	wxSizer* sButtonGrid = new wxGridSizer(1, 5, 5);
@@ -41,14 +48,47 @@ UIMainFrame::UIMainFrame(const wxString& title)
 	SetMinSize(AMinSize);
 	bStart->SetFocus();
 	
-	//TODO add icon
-	//SetIcon(wxIcon(wxT("rambler.ico"), wxBitmapType::wxBITMAP_TYPE_ICO));
+	SetIcon(wxIcon(AImg+"icon.xpm", wxBITMAP_TYPE_XPM));
 	Centre();
 }
 
 
 UIMainFrame::~UIMainFrame()
 {
+}
+
+void UIMainFrame::OnPaint(wxPaintEvent & event)
+{
+	if (!pTopGraphics) { return; }
+	
+	wxAutoBufferedPaintDC dc(pTopGraphics);
+	//Disabled for now
+	//render(dc);
+}
+
+void UIMainFrame::OnSize(wxSizeEvent & event)
+{
+	auto size = this->GetClientSize();
+	pTopGraphics->SetMinSize(wxSize(size.GetWidth(), size.GetHeight() / 3));
+	Refresh();
+	//skip the event.
+	event.Skip();
+}
+
+void UIMainFrame::render(wxDC & dc)
+{
+	int w1 = 0, h1 = 0;
+	dc.GetSize(&w1, &h1);
+
+	if (w1 != w || h1 != h)
+	{
+		resized = wxBitmap(image.Scale(w1, h1, wxIMAGE_QUALITY_HIGH));
+		w = w1; h = h1;
+		dc.DrawBitmap(resized, 0, 0);
+	}
+	else {
+		dc.DrawBitmap(resized, 0, 0);
+	}
 }
 
 void UIMainFrame::OnStart(wxCommandEvent & event)

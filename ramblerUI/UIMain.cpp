@@ -2,6 +2,7 @@
 
 bool UIMain::OnInit()
 {
+	wxInitAllImageHandlers();
 	UIMainFrame* MainFrame = new UIMainFrame(ALTitle);
 	MainFrame->Show(true);
 
