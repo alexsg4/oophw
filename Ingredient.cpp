@@ -171,6 +171,6 @@ std::istream & operator>>(std::istream & in, Ingredient & other)
 
 std::ostream & operator<<(std::ostream & out, const Ingredient & other)
 {
-	out << other.getNameType() << ": " << other.price << " $";
+	out << other.getNameType() << ": $" << other.price;
 	return out;
 }
