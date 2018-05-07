@@ -45,7 +45,7 @@ public:
 
 	virtual double getPrice() const override;
 	
-	static size_t getTypesNum();
+	static int getTypesNum();
 	
 	int getType() const;
 	const std::string getNameType() const;

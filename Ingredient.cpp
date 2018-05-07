@@ -45,9 +45,9 @@ double Ingredient::getPrice() const
 	return 0.;
 }
 
-size_t Ingredient::getTypesNum() 
+int Ingredient::getTypesNum() 
 {
-	return static_cast<size_t>(Types::NUM);
+	return static_cast<int>(Types::NUM);
 }
 
 int Ingredient::getType() const
