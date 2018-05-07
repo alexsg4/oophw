@@ -9,21 +9,20 @@ class Product :
 
 private:
 	std::string name = "Generic Product";
-	double price = 0.;
 	int * recipe = nullptr;
 	Ingredient** ref = nullptr;
+	size_t ingSize = 0;
 
 
 public:
 	Product();
-	Product(const std::string& name, const double pr, const int* comp, Ingredient** reff);
+	Product(const std::string& name, const int* comp, Ingredient** reff);
 	Product(const Product & other);
 	Product& operator = (const Product & other);
 	virtual ~Product();
 
 	const std::string getName() const;
 	virtual double getPrice() const override;
-	void setPrice(const double pr);
 	int** getRecipe();
 
 
