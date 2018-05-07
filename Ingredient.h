@@ -44,7 +44,9 @@ public:
 	virtual ~Ingredient();
 
 	virtual double getPrice() const override;
-	int getTypesNum() const;
+	
+	static int getTypesNum();
+	
 	int getType() const;
 	const std::string getNameType() const;
 	void setPrice(const double pr);
