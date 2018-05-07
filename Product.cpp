@@ -3,11 +3,22 @@
 
 Product::Product(){}
 
-Product::Product(const std::string& name, const std::vector<int>& comp , Ingredient** reff)
+Product::Product(const std::string& name, const int* comp, Ingredient** reff)
 {
 	this->name = name;
 	ingSize = Ingredient::getTypesNum();
-	recipe = comp;
+	recipe = new int[ingSize]();
+
+	if (comp)
+	{
+		for (size_t i = 0; i < ingSize; i++)
+		{
+			if (comp[i])
+			{
+				recipe[i] = comp[i];
+			}
+		}
+	}
 
 	if (reff)
 	{
@@ -18,8 +29,21 @@ Product::Product(const std::string& name, const std::vector<int>& comp , Ingredi
 Product::Product(const Product & other)
 {
 	name = other.name;
+
+	size_t size = Ingredient::getTypesNum();
 	
-	recipe = other.recipe;
+	if (!recipe)
+	{
+		recipe = new int[size]();
+	}
+
+	if (other.recipe)
+	{
+		for (size_t i = 0; i < size ; i++)
+		{
+			recipe[i] = other.recipe[i];
+		}
+	}
 
 	if (other.ref)
 	{
@@ -32,8 +56,21 @@ Product & Product::operator=(const Product & other)
 	if (*this != other)
 	{
 		name = other.name;
-		
-		recipe = other.recipe;
+
+		size_t size = Ingredient::getTypesNum();
+
+		if (!recipe)
+		{
+			recipe = new int[size]();
+		}
+
+		if (other.recipe)
+		{
+			for (size_t i = 0; i < size; i++)
+			{
+				recipe[i] = other.recipe[i];
+			}
+		}
 
 		if (other.ref)
 		{
@@ -45,6 +82,7 @@ Product & Product::operator=(const Product & other)
 
 Product::~Product()
 {
+	delete[] recipe;
 	delete ref;
 }
 
@@ -58,7 +96,7 @@ double Product::getPrice() const
 	size_t size = Ingredient::getTypesNum();
 	double price = 0.;
 
-	if (ref && recipe.size() == size)
+	if (recipe && ref)
 	{
 		for (size_t i = 0; i < size; i++)
 		{
@@ -68,18 +106,35 @@ double Product::getPrice() const
 	return price;
 }
 
-const std::vector<int> & Product::getRecipe()
+int ** Product::getRecipe()
 {
-	return recipe;
+	if (recipe)
+	{
+		return &recipe;
+	}
+	return nullptr;
 }
 
 bool operator==(const Product & src, const Product & other)
 {
 	if (src.name != other.name) { return false; }
 	
-	if (!src.ref  || !other.ref) { return false; }
-	
-	if (src.recipe != other.recipe) { return false; }
+	if (!src.ref || !src.recipe || !other.recipe || !other.ref) { return false; }
+	else
+	{
+		if (*src.ref != *other.ref) { return false; }
+		size_t size = Ingredient::getTypesNum();
+
+		//TODO test
+		if ( (sizeof(other.recipe) / sizeof(int)) != (sizeof(src.recipe) / sizeof(int)) ) { return false; }
+		//TODO test
+		if ( (sizeof(other.recipe) / sizeof(int)) != size) { return false; }
+
+		for (size_t i = 0; i < size; i++)
+		{
+			if (src.recipe[i] != other.recipe[i]) { return false; }
+		}
+	}
 	
 	return true;
 }
@@ -87,19 +142,4 @@ bool operator==(const Product & src, const Product & other)
 bool operator!=(const Product & src, const Product & other)
 {
 	return !(src==other);
-}
-
-//TODO validate
-std::istream & operator>>(std::istream & in, Product & other)
-{
-	in >> other.name;
-	//TODO implement
-
-	return in;
-}
-
-std::ostream & operator<<(std::ostream & out, const Product & other)
-{
-	out << other.name << ": $" << other.getPrice();
-	return out;
 }
