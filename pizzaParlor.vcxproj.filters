@@ -35,5 +35,8 @@
     <ClInclude Include="Product.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RArray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

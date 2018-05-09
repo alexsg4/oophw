@@ -155,6 +155,7 @@
     <ClInclude Include="Ingredient.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Product.h" />
+    <ClInclude Include="RArray.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
