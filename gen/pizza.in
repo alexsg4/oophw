@@ -1,0 +1,97 @@
+# This is a comment. Only single line comments should be used.
+# Sections start with $ and syntax is $ [name] | [basePrice] [multiplier 1] [multiplier 2]
+# Notice the | separator. It is required for multi word names.
+# e.g. $ Classic Italian | 19 1.6 2.0
+# e.g. $ Modern US | 21 1.6
+# e.g. $ Modern US2 | 21 
+# Multipliers are optional. Specifying them implies that the product is available in more sizes.
+# Whitespace is ignored. Names and base prices are mandatory. 
+# Product syntax:
+#
+# [name] | [tags] | [price] 
+# [ingredient1] | [quantity], [ingredient2], ... [ingredientN]   
+#
+# Products can have specific prices, overriding the base price. Multipliers are preserved.
+# Vegetarian products need to be tagged with V after the name.
+# Quantity is optional is expressed as a positive number N which translates naturally to "N x baseUnits"
+# e. g. Pepperoni | 5, Cheese | 2, Tomato
+# translates to "5 x 10g Pepperoni, 2 x 100g Cheese, 1 x 100g Tomato" assuming baseUnits
+
+$ Clasice | 19 1.65 2.0
+Florida 
+Sos de rosii, branza Mozzarella, ciuperci, sunca, ardei gras, masline, porumb
+
+Europeana
+Sos de rosii, branza Mozzarella, sunca, ciuperci, cubulete cu carne de vita
+
+Pepperoni
+Sos de rosii, branza Mozzarella, pepperoni 
+
+Nevada
+Sos de rosii, branza Mozzarella, sunca, bacon afumat, ciuperci, ardei gras, masline
+
+Vegetariana | V
+Sos de rosii, branza Mozzarella, ciuperci, ardei gras, ceapa, rosii
+
+California
+Sos de rosii, branza Mozzarella, carne de pui, porumb, ardei gras
+
+Rodeo
+Sos de rosii, branza Mozzarella, bacon afumat, ciuperci, porumb
+
+Carbonara
+Sos alb cu aroma de usturoi, branza Mozzarella, bacon afumat, ciuperci, masline
+
+$ Speciale | 20.5 1.65 2.0
+Suprema  
+Sos de rosii, branza Mozzarella, cubulete cu carne de vita, pepperoni, ciuperci, ardei gras, ceapa
+
+Taraneasca
+Sos de rosii, branza Mozzarella, cubulete cu carne de vita si carne de porc, ceapa, porumb
+
+Chicken & Corn | | 22.50
+Sos de rosii, branza Mozzarella, piept de pui la gratar, ciuperci, masline, ardei gras, porumb, rosii
+
+Ham & Bacon
+Sos de rosii, branza Mozzarella, bacon afumat, sunca, ciuperci, rosii, porumb, parmezan, busuioc
+
+Spicy Pepperoni
+Sos de rosii, branza Mozarella, dublu pepperoni, jalapeños, rosii cubulete
+
+$ Complete | 22.5 1.65 2.0
+Chicago
+Sos de rosii, branza Mozzarella, sunca, bacon afumat, pepperoni, carnati, ciuperci, ardei gras, ceapa, rosii, masline
+
+Super Suprema  
+Sos de rosii, branza Mozzarella, cubulete cu carne de vita si carne de porc, pepperoni, sunca, ciuperci, ardei gras, masline, ceapa
+
+Quattro Formaggi
+Sos de rosii, branza Emmentaler, Cheddar, Gorgonzola, Mozzarella, oregano
+
+Carnivora
+Sos de rosii, branza Mozzarella, carne de pui la gratar, sunca, pepperoni, bacon afumat
+
+$ Clasic Italian | 15 1.55 
+Roma 
+Sos de rosii, branza Mozzarella, sunca, ciuperci marinate
+
+Modena 
+Sos de rosii, branza Mozzarella, Emmentaler, Cheddar, Parmezan, rosii cherry marinate, busuioc
+
+Torino 
+Sos de rosii, branza Mozzarella, piept de pui la gratar, bacon, ardei, masline, jalapenos
+
+Milano 
+Sos de rosii, branza Mozzarella, piept de pui la gratar, pepperoni, ceapa, ciuperci, ardei
+
+Genova 
+Sos pesto cu smantana, branza Mozzarella, ciuperci marinate, piept de pui la gratar
+
+Parma 
+Sos de rosii, branza Mozzarella, prosciutto crudo, rosii, rucola
+
+Siena 
+Sos de rosii, branza Mozzarella, ceapa rosie, carnati, bacon
+
+Toscana 
+Sos de rosii, branza Mozzarella, salam Chorizo, sunca, ardei
