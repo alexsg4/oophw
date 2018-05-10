@@ -5,19 +5,21 @@ Ingredient::Ingredient() {}
 Ingredient::Ingredient(const std::string& nm, const double pr, const int id)
 {
 	name = nm;
-	if (ID >= 0)
-	{
-		ID=id;
-	}
+	setPrice(pr);
+	setID(id);
+}
 
-	if (pr > 0.) { price = pr; }
+Ingredient::Ingredient(const double pr, const int id)
+{
+	setPrice(pr);
+	setID(id);
 }
 
 Ingredient::Ingredient(const Ingredient & other)
 {
 	name = other.name;
-	ID = other.ID;
 	price = other.price;
+	ID = other.ID;
 }
 
 Ingredient & Ingredient::operator=(const Ingredient & other)
@@ -25,8 +27,8 @@ Ingredient & Ingredient::operator=(const Ingredient & other)
 	if (*this != other)
 	{
 		name = other.name;
-		ID = other.ID;
 		price = other.price;
+		ID = other.ID;
 	}
 	return *this;
 }

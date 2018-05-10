@@ -9,13 +9,14 @@ class Ingredient :
 {
 
 private:
-	std::string name;
+	std::string name = "Generic Ingredient";
 	double price = 0;
 	int ID = -1;
 
 public:
 	Ingredient();
 	Ingredient(const std::string& nm, const double pr, const int id = -1);
+	Ingredient(const double pr, const int id = -1);
 	Ingredient(const Ingredient & other);
 	Ingredient& operator = (const Ingredient & other);
 	virtual ~Ingredient();
