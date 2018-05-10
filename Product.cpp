@@ -1,18 +1,15 @@
 #include "Product.h"
 
+const std::vector<Ingredient> * Product::ref = nullptr;
 
 Product::Product(){}
 
-Product::Product(const std::string& name, const std::vector<int>& comp, Ingredient** reff)
+Product::Product(const std::string& name, const std::vector<int>& recipeToSet, const std::vector<Ingredient> & refToSet) 
 {
 	this->name = name;
-	ingSize = Ingredient::getTypesNum();
-	recipe = comp;
+	recipe = recipeToSet;
 
-	if (reff)
-	{
-		ref = &reff[0];
-	}
+	ref = &refToSet;
 }
 
 Product::Product(const Product & other)
@@ -45,7 +42,7 @@ Product & Product::operator=(const Product & other)
 
 Product::~Product()
 {
-	delete ref;
+	ref = nullptr;
 }
 
 const std::string Product::getName() const
@@ -55,22 +52,29 @@ const std::string Product::getName() const
 
 double Product::getPrice() const
 {
-	size_t size = Ingredient::getTypesNum();
 	double price = 0.;
 
-	if (ref && recipe.size() == size)
+	if (ref && recipe.size())
 	{
-		for (size_t i = 0; i < size; i++)
+		for (size_t i = 0; i < recipe.size(); i++)
 		{
-			price += ref[i]->getPrice()*recipe[i];
+			price += (*ref)[i].getPrice()*recipe[i];
 		}
 	}
 	return price;
 }
 
-const std::vector<int> & Product::getRecipe()
+const std::vector<int> & Product::getRecipe() const
 {
 	return recipe;
+}
+
+void Product::setRef(const std::vector<Ingredient> & refToSet)
+{
+	if (ref && ref != &refToSet)
+	{
+		ref = &refToSet;
+	}
 }
 
 bool operator==(const Product & src, const Product & other)
@@ -92,8 +96,27 @@ bool operator!=(const Product & src, const Product & other)
 //TODO validate
 std::istream & operator>>(std::istream & in, Product & other)
 {
-	in >> other.name;
-	//TODO implement
+	//delimiter character when reading ingredients from stream
+	const char c_delim = '|';
+
+	std::string buf;
+
+	getline(in, buf, c_delim);
+	other.name = buf;
+	buf.clear();
+
+	getline(in, buf, c_delim);
+	for (size_t i=0; i<buf.size(); i++)
+	{
+		if (buf[i] > '0' && buf[i] <= '9')
+		{
+			other.recipe.push_back(std::stoi(buf, (size_t*)i));
+		}
+		else
+		{
+			other.recipe.push_back(0);
+		}
+	}
 
 	return in;
 }
