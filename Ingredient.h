@@ -8,55 +8,51 @@ class Ingredient :
 	public Item
 {
 
-public:
-	enum class Types
-	{
-		ANY = -1,
-		MARINARA,		//That magic sauce
-		MOZZA,			//Mozzarella Cheese
-		HAN,
-		BEEFC,			//Fried beef cubes
-		CHICKC,			//Fried chicken cubes
-		BACON,
-		PEPPE,			//Pepperoni
-		PEPPER,			//Bell peppers
-		SHROOM,
-		TOMATO,
-		ONION,
-		CORN,
-		CHIL,			//Chilli
-		//Add new entries here
-		NUM
-	};
-
 private:
-	
-	Types type = Types::ANY;
+	std::string name;
 	double price = 0;
-
+	int ID = -1;
 
 public:
 	Ingredient();
-	Ingredient(const int tp, const double pr);
-	Ingredient(const Types tp, const double pr);
+	Ingredient(const std::string& nm, const double pr, const int id = -1);
 	Ingredient(const Ingredient & other);
 	Ingredient& operator = (const Ingredient & other);
 	virtual ~Ingredient();
 
-	virtual double getPrice() const override;
+	inline virtual double getPrice() const override
+	{
+		return price;
+	}
 	
-	static size_t getTypesNum();
-	
-	int getType() const;
-	const std::string getNameType() const;
-	void setPrice(const double pr);
+	inline int getID() const
+	{
+		return ID;
+	}
 
+	inline void setID(const int id)
+	{
+		if (id >= 0) { ID = id; }
+	}
+	
+	inline std::string getName() const
+	{
+		return name;
+	}
+	
+	inline void setPrice(const double pr)
+	{
+		if (pr > 0.)
+		{
+			price = pr;
+			return;
+		}
+		price = 0.;
+	}
 
 	friend bool operator == (const Ingredient & src, const Ingredient & other);
 	friend bool operator != (const Ingredient & src, const Ingredient & other);
 	friend std::istream& operator >>(std::istream& in, Ingredient & other);
 	friend std::ostream& operator <<(std::ostream& out, const Ingredient & other);
-
-
 
 };
