@@ -1,6 +1,15 @@
 #pragma once
 #include <iostream>
 
+template<class T> 
+class RArray;
+
+template<class S> 
+bool operator == (const RArray<S>&, const RArray<S> &);
+
+template<class S>
+bool operator != (const RArray<S>&, const RArray<S> &);
+
 //specialized container class
 template <class T>
 class RArray
@@ -8,7 +17,7 @@ class RArray
 private:
 	unsigned m_capacity = 2;	//maximum capacity
 	unsigned m_size = 0;		//current size
-	T** members;
+	T** members = nullptr;
 	bool m_sorted = true;
 	
 	//Zeroes out a sub-array of members
@@ -35,6 +44,9 @@ public:
 	inline const unsigned size() const { return m_size; }
 	inline const unsigned capacity() const { return m_capacity; }
 	inline const bool isSorted() const { return m_sorted; }
+
+	friend bool operator ==<T> (const RArray<T> & src, const RArray<T> & other);
+	friend bool operator !=<T> (const RArray<T> & src, const RArray<T> & other);
 
 	~RArray();
 
@@ -160,13 +172,13 @@ void RArray<T>::_initialise(const unsigned& from)
 template <class T>
 void RArray<T>::erase()
 {
-	for (unsigned i = 0; i < m_size; i++)
+	for (unsigned i = 0; i < m_capacity; i++)
 	{
 		delete members[i];
 		members[i] = nullptr;
 	}
+
 	m_size = 0;
-	_initialise();
 	m_sorted = true;
 }
 
@@ -186,19 +198,35 @@ void RArray<T>::expand(unsigned newCapacity)
 	}
 
 	delete[] members;
-
 	members = expanded;
 	_initialise(m_size);
 }
 
 template<class T>
+bool operator == (const RArray<T> & src, const RArray<T> & other)
+{
+	if (src.m_size != other.m_size) { return false; }
+	for (unsigned i = 0; i < src.m_size; i++)
+	{
+		if (src[i] != other[i]) { return false; }
+	}
+	
+	return true;
+}
+
+template<class T>
+bool operator != (const RArray<T> & src, const RArray<T> & other)
+{
+	return !(src == other);
+}
+
+
+template<class T>
 RArray<T>::~RArray()
 {
-	for (unsigned i = 0; i < m_size; i++) { delete members[i]; }
-	if (m_size)
-	{
-		delete[] members;
-	}
+	erase();
+	delete[] members;
+	members = nullptr;
 }
 
 template<class T>
@@ -207,7 +235,7 @@ RArray<T>& RArray<T>::operator+(const RArray& src)
 	if (m_capacity - m_size < src.m_size)
 	{
 		m_capacity = m_size + src.m_size;
-		expand(m_capacity);
+		expand(m_capacity+1);
 	}
 
 	for (unsigned i = 0; i < src.m_size; i++)
@@ -241,7 +269,7 @@ void RArray<T>::add(const T & element)
 {
 	if (m_size >= m_capacity)
 	{
-		expand(m_size * 2);
+		expand((m_capacity+1) * 2);
 	}
 
 	members[m_size++] = new T(element);
@@ -253,7 +281,7 @@ void RArray<T>::add()
 {
 	if (m_size >= m_capacity)
 	{
-		expand(m_size * 2);
+		expand((m_capacity+1) * 2);
 	}
 
 	members[m_size++] = new T();
@@ -265,7 +293,7 @@ RArray<T>& RArray<T>::operator+=(const T & element)
 {
 	if (m_size >= m_capacity)
 	{
-		expand(m_size * 2);
+		expand((m_capacity+1) * 2);
 	}
 	members[m_size++] = new T(element);
 	m_sorted = false;
