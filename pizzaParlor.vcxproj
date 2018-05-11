@@ -148,14 +148,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Ingredient.cpp" />
+    <ClCompile Include="Pizza.cpp" />
     <ClCompile Include="pizzaParlor.cpp" />
     <ClCompile Include="Product.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ingredient.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="Parser.h" />
+    <ClInclude Include="Pizza.h" />
     <ClInclude Include="Product.h" />
     <ClInclude Include="RArray.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="gen\pizza.in" />
+    <None Include="gen\pizzaIng.in" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
