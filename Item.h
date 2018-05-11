@@ -2,6 +2,6 @@
 
 class Item
 {
-protected:
+public:
 	virtual double getPrice() const = 0;
 };

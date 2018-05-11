@@ -1,15 +1,16 @@
 #pragma once
 #include "Item.h"
-#include "Ingredient.h"
 
 #include <string>
 #include <vector>
+
+class Ingredient;
 
 class Product :
 	public Item
 {
 
-private:
+protected:
 	std::string name = "Generic Product";
 	std::vector<int> recipe;
 	static const std::vector<Ingredient> * ref;
