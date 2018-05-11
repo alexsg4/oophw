@@ -13,6 +13,13 @@ Product::Product(const std::string& name, const std::vector<int>& recipeToSet, c
 	ref = &refToSet;
 }
 
+Product::Product(const std::string& name, const std::vector<int>& recipeToSet)
+{
+	this->name = name;
+	recipe = recipeToSet;
+	ref = nullptr;
+}
+
 Product::Product(const Product & other)
 {
 	name = other.name;
