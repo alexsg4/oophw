@@ -27,12 +27,12 @@ private:
 	const std::string genDir = "gen/";
 
 public:
-	Menu() {};
-	~Menu() {};
-
-	void loadIngredients();
-	void loadProducts();
-	
+	inline Menu() 
+	{
+		loadIngredients();
+		loadProducts();
+	};
+	inline ~Menu() {};
 	inline void showIngredients(std::ostream & out = std::cout)
 	{
 		if (IngredientRef.empty())
@@ -47,12 +47,15 @@ public:
 		}
 	}
 
+private:
+	void loadIngredients();
+	void loadProducts();
+
 };
 
 template<>
 void Menu<Pizza>::loadIngredients()
 {
-	//TOOD change after adding Pizza class
 	Parser<Ingredient> P1(genDir + "pizzaIng.in");
 	P1.parseFile();
 	std::vector<std::string> src;
