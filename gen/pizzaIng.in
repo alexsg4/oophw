@@ -1,0 +1,43 @@
+# This is the pizzaIngredient file. Each line respresents an ingredient.
+# TODO edit prices
+
+
+sos de rosii | 5
+branza Mozzarella | 2.25
+ciuperci | 3.36
+sunca | 2.35
+ardei gras | 1.35
+masline | 4.35
+porumb | 6.35
+pepperoni | 8.35
+bacon afumat | 2.35
+ceapa | 1.35
+rosii | 2.35
+carne de pui | 4.45
+sos alb cu aroma de usturoi | 2.35
+cubulete cu carne de vita | 4.35
+cubulete cu carne de vita si carne de porc | 5.35
+piept de pui la gratar | 1.35
+parmezan | 3.35
+busuioc | 1.35
+jalapenos | 1.25
+rosii cubulete | 2.25
+carnati | 20.35
+branza Emmentaler | 20.35
+cheddar | 20.35
+gorgonzola | 20.35
+mozzarella | 20.35
+oregano | 20.35
+carne de pui la gratar | 20.35
+ciuperci marinate | 20.35
+emmentaler | 20.35
+rosii cherry marinate | 20.35
+bacon | 20.35
+ardei | 20.35
+sos pesto cu smantana | 20.35
+prosciutto crudo | 20.35
+rucola | 20.35
+ceapa rosie | 20.35
+salam Chorizo | 20.35
+
+
