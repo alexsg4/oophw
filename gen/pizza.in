@@ -12,7 +12,7 @@
 # translates to "5 x 10g Pepperoni, 2 x 100g Cheese, 1 x 100g Tomato" assuming baseUnits
 
 $ Florida 
-Sos de rosii, branza Mozzarella, ciuperci, sunca, ardei gras, masline, porumb
+Sos de rosii, branza Mozzarella, ciuperci, sunca, ardei gras | 2, masline | 2, porumb | 3
 
 $ Europeana
 Sos de rosii, branza Mozzarella, sunca, ciuperci, cubulete cu carne de vita

@@ -36,17 +36,23 @@ private:
 	std::vector<double> mods;
 	
 	//tracks product sales
-	std::vector<int> Ledger;
+	std::vector<size_t> Ledger;
 
 	//generator files directory
 	const std::string genDir = "gen/";
 
 public:
 	
-	inline Menu() 
+	inline Menu()
 	{
 		loadIngredients();
 		loadProducts();
+
+		Ledger.reserve(ProductRef.size());
+		for (const auto & prod : ProductRef)
+		{
+			Ledger.push_back(0);
+		}
 	};
 
 	inline ~Menu() {};
