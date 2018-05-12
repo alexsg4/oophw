@@ -1,15 +1,11 @@
 #include "Pizza.h"
 #include "Ingredient.h"
 
-const std::vector<Ingredient> * Pizza::ref = nullptr;
 
 Pizza::Pizza() {}
 
 Pizza::Pizza(const std::string& name, const std::vector<Product::Ing>& recipeToSet, const std::vector<Ingredient> & refToSet, const std::string & flagToSet)
-	: Product(name, recipeToSet, refToSet), flagStr(flagToSet)
-{
-	ref = &refToSet;
-}
+	: Product(name, recipeToSet, refToSet), flagStr(flagToSet){}
 
 Pizza::Pizza(const Pizza & other) : Product(other)
 {

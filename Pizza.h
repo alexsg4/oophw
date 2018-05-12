@@ -13,7 +13,6 @@ public:
 
 private:
 	std::string flagStr;
-	static const std::vector<Ingredient> * ref;
 
 public:
 	Pizza();

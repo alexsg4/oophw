@@ -41,9 +41,7 @@ public:
 protected:
 	std::string name = "Generic Product";
 	std::vector<Ing> recipe;
-
-private:
-	static const std::vector<Ingredient> * ref;
+	const std::vector<Ingredient> * ref = nullptr;
 
 public:
 	Product();

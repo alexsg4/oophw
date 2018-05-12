@@ -1,7 +1,6 @@
 #include "Product.h"
 #include "Ingredient.h"
 
-const std::vector<Ingredient> * Product::ref = nullptr;
 
 Product::Product(){}
 
