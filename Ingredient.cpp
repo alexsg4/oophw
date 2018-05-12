@@ -52,6 +52,10 @@ std::istream & operator>>(std::istream & in, Ingredient & other)
 
 	std::string buf;
 	getline(in, buf, c_delim);
+
+	buf.erase(buf.find_last_not_of(" ") + 1);
+	buf.erase(0, buf.find_first_not_of(" "));
+
 	other.name = buf;
 	
 	double pr = 0.;
