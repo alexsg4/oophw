@@ -5,7 +5,7 @@ const std::vector<Ingredient> * Pizza::ref = nullptr;
 
 Pizza::Pizza() {}
 
-Pizza::Pizza(const std::string& name, const std::vector<int>& recipeToSet, const std::vector<Ingredient> & refToSet, const std::string & flagToSet)
+Pizza::Pizza(const std::string& name, const std::vector<Product::Ing>& recipeToSet, const std::vector<Ingredient> & refToSet, const std::string & flagToSet)
 	: Product(name, recipeToSet, refToSet), flagStr(flagToSet)
 {
 	ref = &refToSet;
@@ -46,7 +46,7 @@ Pizza::~Pizza()
 
 const std::string Pizza::getName() const
 {
-	return name;
+	return Product::getName();
 }
 
 double Pizza::getPrice() const
@@ -57,14 +57,17 @@ double Pizza::getPrice() const
 	{
 		for (size_t i = 0; i < recipe.size(); i++)
 		{
-			price += (*ref)[i].getPrice()*recipe[i];
+			if (recipe[i].id > -1)
+			{
+				price += (*ref)[recipe[i].id].getPrice()*recipe[i].qty;
+			}
 		}
 	}
 	return price;
 	
 }
 
-const std::vector<int> & Pizza::getRecipe() const
+const std::vector<Product::Ing> & Pizza::getRecipe() const
 {
 	return Product::recipe;
 }
@@ -96,6 +99,7 @@ std::istream & operator>>(std::istream & in, Pizza & other)
 	other.name = buf;
 	buf.clear();
 
+	/*
 	getline(in, buf, c_delim);
 	for (size_t i = 0; i<buf.size(); i++)
 	{
@@ -108,6 +112,7 @@ std::istream & operator>>(std::istream & in, Pizza & other)
 			other.recipe.push_back(0);
 		}
 	}
+	*/
 
 	return in;
 }

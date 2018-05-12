@@ -5,7 +5,7 @@ const std::vector<Ingredient> * Product::ref = nullptr;
 
 Product::Product(){}
 
-Product::Product(const std::string& name, const std::vector<int>& recipeToSet, const std::vector<Ingredient> & refToSet) 
+Product::Product(const std::string& name, const std::vector<Ing>& recipeToSet, const std::vector<Ingredient> & refToSet) 
 {
 	this->name = name;
 	recipe = recipeToSet;
@@ -13,7 +13,7 @@ Product::Product(const std::string& name, const std::vector<int>& recipeToSet, c
 	ref = &refToSet;
 }
 
-Product::Product(const std::string& name, const std::vector<int>& recipeToSet)
+Product::Product(const std::string& name, const std::vector<Ing>& recipeToSet)
 {
 	this->name = name;
 	recipe = recipeToSet;
@@ -66,13 +66,16 @@ double Product::getPrice() const
 	{
 		for (size_t i = 0; i < recipe.size(); i++)
 		{
-			price += (*ref)[i].getPrice()*recipe[i];
+			if (recipe[i].id > -1)
+			{
+				price += (*ref)[recipe[i].id].getPrice()*recipe[i].qty;
+			}
 		}
 	}
 	return price;
 }
 
-const std::vector<int> & Product::getRecipe() const
+const std::vector<Product::Ing> & Product::getRecipe() const
 {
 	return recipe;
 }
@@ -102,6 +105,7 @@ bool operator!=(const Product & src, const Product & other)
 }
 
 //TODO validate
+//read name from stream
 std::istream & operator>>(std::istream & in, Product & other)
 {
 	//delimiter character when reading ingredients from stream
@@ -113,6 +117,7 @@ std::istream & operator>>(std::istream & in, Product & other)
 	other.name = buf;
 	buf.clear();
 
+	/*
 	getline(in, buf, c_delim);
 	for (size_t i=0; i<buf.size(); i++)
 	{
@@ -125,6 +130,7 @@ std::istream & operator>>(std::istream & in, Product & other)
 			other.recipe.push_back(0);
 		}
 	}
+	*/
 
 	return in;
 }

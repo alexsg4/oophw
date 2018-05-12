@@ -9,25 +9,53 @@ class Ingredient;
 class Product :
 	public Item
 {
+public:
+	//Recipe entry consiting of ingredient id and quantity
+	struct Ing
+	{
+		int id = -1;
+		int qty = 1;
+
+		Ing(const int id, const int qty) : id(id), qty(qty) {}
+		friend bool operator == (const Ing & i1, const Ing & i2)
+		{
+			return (i1.id == i2.id && i1.qty == i2.qty);
+		}
+
+		friend bool operator != (const Ing & i1, const Ing & i2)
+		{
+			return !(i1==i2);
+		}
+
+		Ing& operator = (const Ing& other)
+		{
+			if (*this != other)
+			{
+				id = other.id;
+				qty = other.qty;
+			}
+			return *this;
+		}
+	};
 
 protected:
 	std::string name = "Generic Product";
-	std::vector<int> recipe;
+	std::vector<Ing> recipe;
 
 private:
 	static const std::vector<Ingredient> * ref;
 
 public:
 	Product();
-	Product(const std::string& name, const std::vector<int>& recipeToSet, const std::vector<Ingredient> & refToSet);
-	Product(const std::string& name, const std::vector<int>& recipeToSet);
+	Product(const std::string& name, const std::vector<Ing>& recipeToSet, const std::vector<Ingredient> & refToSet);
+	Product(const std::string& name, const std::vector<Ing>& recipeToSet);
 	Product(const Product & other);
 	Product& operator = (const Product & other);
 	virtual ~Product();
 
 	const std::string getName() const;
 	virtual double getPrice() const override;
-	const std::vector<int> & getRecipe() const;
+	const std::vector<Ing> & getRecipe() const;
 
 	void setRef(const std::vector<Ingredient> & refToSet);
 

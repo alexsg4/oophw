@@ -17,7 +17,7 @@ private:
 
 public:
 	Pizza();
-	Pizza(const std::string& name, const std::vector<int>& recipeToSet, const std::vector<Ingredient> & refToSet, const std::string & flagToSet="");
+	Pizza(const std::string& name, const std::vector<Product::Ing>& recipeToSet, const std::vector<Ingredient> & refToSet, const std::string & flagToSet="");
 	Pizza(const Pizza & other);
 	Pizza& operator = (const Pizza & other);
 	virtual ~Pizza();
@@ -32,7 +32,7 @@ public:
 
 	const std::string getName() const;
 	virtual double getPrice() const override;
-	const std::vector<int> & getRecipe() const;
+	const std::vector<Product::Ing> & getRecipe() const;
 
 	void setRef(const std::vector<Ingredient> & refToSet);
 

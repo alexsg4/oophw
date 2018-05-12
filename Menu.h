@@ -118,9 +118,7 @@ void Menu<Pizza>::loadProducts()
 		auto prod = P1.getStringToken(toAdd[i], '|');
 		
 		//prepare the recipe vector
-		std::vector<int> tempRecipe;
-		tempRecipe.reserve(IngredientRef.size());
-		for (size_t j = 0; j < IngredientRef.size(); j++) { tempRecipe.push_back(0); }
+		std::vector<Product::Ing> tempRecipe;
 
 		//count elements in recipe
 		auto rec = P1.getStringToken(toAdd[i + 1], ',');
@@ -144,7 +142,8 @@ void Menu<Pizza>::loadProducts()
 				//update recipe
 				if (ref.getName() == ing[0])
 				{
-					tempRecipe[ref.getID()] = qty;
+					Product::Ing temp(ref.getID(), qty);
+					tempRecipe.push_back(temp);
 				}
 
 			}
