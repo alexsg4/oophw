@@ -60,7 +60,7 @@ public:
 	{
 		if (IngredientRef.empty())
 		{
-			out << "No ingredients. \n";
+			out << "Nu exista ingrediente. \n";
 			return;
 		}
 		for (const auto& ing : IngredientRef)
@@ -69,6 +69,21 @@ public:
 			out << ing <<": $"<<ing.getPrice()<<"\n";
 		}
 	}
+	
+	inline void showProducts(std::ostream & out = std::cout)
+	{
+		if (ProductRef.empty())
+		{
+			out << "Nu exista produse. \n";
+			return;
+		}
+		
+		for (size_t i=0; i < ProductRef.size(); i++)
+		{
+			out << i + 1 << ".\t" << ProductRef[i] << " \n";
+		}
+	}
+
 
 private:
 	void loadIngredients();
