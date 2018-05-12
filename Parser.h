@@ -34,6 +34,11 @@ private:
 	//array where parsed data is stored
 	std::vector<std::string> toWrite;
 
+	inline bool isIgnored(const std::string& src) const
+	{
+		return(src[0] == c_com || src.empty());
+	}
+
 public:
 	Parser(const std::string & toParse);
 	~Parser();
@@ -100,11 +105,8 @@ std::vector<std::string> Parser<T>::getStringToken(const std::string& src, const
 template<class T>
 void Parser<T>::trimWhitespace(std::string& src)
 {
-	size_t beg = 0, end = 0;
-	beg = src.find_first_not_of(" ");
-	end = src.find_last_not_of(" ");
-
-	src = src.substr(beg, src.length() - (src.length() - end) + 1);
+	src.erase(src.find_last_not_of(" ") + 1);
+	src.erase(0, src.find_first_not_of(" "));
 }
 
 template<>
@@ -122,12 +124,9 @@ const Parser<Ingredient>::Status Parser<Ingredient>::parseFile()
 			//lineSrc.clear();
 			std::getline(fin, lineSrc);
 
-			// ignore comments and whitespace
-			bool isIgnored = false;
-			if (lineSrc[0] == c_com || lineSrc.empty()) { isIgnored = true; }
-
-			if (!isIgnored)
+			if (!isIgnored(lineSrc))
 			{
+				trimWhitespace(lineSrc);
 				if (find(lineSrc, toWrite) < 0)
 				{
 					toWrite.push_back(lineSrc);
@@ -149,33 +148,50 @@ const Parser<Pizza>::Status Parser<Pizza>::parseFile()
 
 	if (fin.is_open())
 	{
-		//buffer for storing each line
-		std::string lineSrc;
+		//buffer for product and recipe lines
+		std::string prodLine, recLine;
 
 		while (!fin.eof())
 		{
-			lineSrc.clear();
-			std::getline(fin, lineSrc);
+			prodLine.clear();
+			recLine.clear();
 
-			// ignore comments
-			bool isComment = false;
-			if (lineSrc[0] == c_com) { isComment = true; }
-
-			if (!isComment)
+			std::getline(fin, prodLine);
+			bool canAdd = false;
+			if (!isIgnored(prodLine) && prodLine[0] == delim[1])
 			{
-				std::vector<std::string> strTok = getStringToken(lineSrc, delim[0]);
-				for (auto & elem : strTok)
+				while (std::getline(fin, recLine))
 				{
-					trimWhitespace(elem);
-					elem[0] = static_cast<char>(tolower(elem[0]));
-					if (find(elem, toWrite) < 0)
+					if (!isIgnored(recLine) && recLine[0] != delim[1])
 					{
-						toWrite.push_back(elem);
+						canAdd = true;
+						break;
 					}
 				}
 			}
+
+			if (canAdd)
+			{
+				auto beg = prodLine.find_first_not_of(delim[1]);
+				auto end = prodLine.length();
+				prodLine = prodLine.substr(beg, end);
+				trimWhitespace(prodLine);
+
+				if (find(prodLine, toWrite) < 0 && find(recLine, toWrite) < 0)
+				{
+					toWrite.push_back(prodLine);
+					recLine[0] = tolower(recLine[0]);
+					toWrite.push_back(recLine);
+				}
+
+			}
 		}
 		fin.close();
+
+		if (toWrite.empty() || toWrite.size() % 2 != 0)
+		{
+			return Status::ERR_PARSE;
+		}
 		return Status::PARSEOK;
 	}
 	return Status::ERR_FOPEN;

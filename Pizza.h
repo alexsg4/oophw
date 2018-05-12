@@ -7,7 +7,7 @@ public:
 	//special characteristics of the product that are constant
 	enum class Flags : char
 	{
-		VEG = 'v'	//fit for vegeratian consumption
+		VEG = 'V'	//fit for vegeratian consumption
 		//add other flags here
 	};
 
@@ -26,6 +26,9 @@ public:
 	{
 		return ( flagStr.find(static_cast<char>(Flags::VEG) != std::string::npos) );
 	}
+
+	inline std::string getFlags() const { return flagStr; }
+	inline void setFlags(const std::string & flags) { flagStr = flags; }
 
 	const std::string getName() const;
 	virtual double getPrice() const override;
