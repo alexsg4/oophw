@@ -158,6 +158,7 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="Pizza.h" />
+    <ClInclude Include="pizzaParlor.h" />
     <ClInclude Include="Product.h" />
     <ClInclude Include="RArray.h" />
   </ItemGroup>

@@ -91,12 +91,46 @@ public:
 		}
 	}
 
+	void showSales(std::ostream & out = std::cout);
+
 private:
 	void loadIngredients();
 	void loadProducts();
 	void updateLedgers();
 
 };
+
+//TODO adapt for special orders and price modifiers
+template<>
+inline void Menu<Pizza>::showSales(std::ostream & out)
+{
+	bool hasRecords = false;
+
+	for (size_t i = 0; i < Ledger.size(); i++)
+	{
+		if (Ledger[i] && !VLedger.count(Ledger[i]))
+		{
+			hasRecords = true;
+			auto price = ProductRef[i].getPrice()*Ledger[i];
+			out << ProductRef[i].getName() << " x " << Ledger[i] << " : $"<<price<<"\n";
+		}
+	}
+
+	for (const auto &i : VLedger)
+	{
+		if (Ledger[i])
+		{
+			hasRecords = true;
+			auto price = ProductRef[i].getPrice()*Ledger[i];
+			out << ProductRef[i].getName() << " x " << Ledger[i] << " : $" << price << "\n";
+		}
+	}
+
+	if (!hasRecords)
+	{
+		out << "Monentan nu s-a inregistrat nicio vanzare. \n";
+	}
+}
 
 template<>
 void Menu<Pizza>::loadIngredients()
