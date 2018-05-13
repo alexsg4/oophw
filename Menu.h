@@ -11,6 +11,9 @@
 #include "Pizza.h"
 #include "Parser.h"
 
+#define _STR(s) #s
+#define STR(s) _STR(s)
+
 template<class T>
 class Menu;
 
@@ -43,12 +46,13 @@ private:
 	std::set<int> VLedger;
 
 	//generator files directory
-	const std::string genDir = "gen/";
+	std::string genDir;
 
 public:
 	
 	inline Menu()
 	{
+		genDir = std::string(STR(ASSETS)) + "/gen/";
 		loadIngredients();
 		loadProducts();
 		updateLedgers();
