@@ -5,6 +5,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <set>
 
 #include "Ingredient.h"
 #include "Pizza.h"
@@ -36,7 +37,10 @@ private:
 	std::vector<double> mods;
 	
 	//tracks product sales
-	std::vector<size_t> Ledger;
+	std::vector<int> Ledger;
+
+	//tracks Vege product IDs
+	std::set<int> VLedger;
 
 	//generator files directory
 	const std::string genDir = "gen/";
@@ -47,12 +51,7 @@ public:
 	{
 		loadIngredients();
 		loadProducts();
-
-		Ledger.reserve(ProductRef.size());
-		for (const auto & prod : ProductRef)
-		{
-			Ledger.push_back(0);
-		}
+		updateLedgers();
 	};
 
 	inline ~Menu() {};
@@ -84,10 +83,18 @@ public:
 		}
 	}
 
+	inline void sellProduct(const int productID, const int qty = 1)
+	{
+		if (id >= 0 && id < Ledger.size() && !Ledger.empty())
+		{
+			if (qty > 0){	Ledger[productID] += qty;	}
+		}
+	}
 
 private:
 	void loadIngredients();
 	void loadProducts();
+	void updateLedgers();
 
 };
 
@@ -133,7 +140,7 @@ void Menu<Pizza>::loadProducts()
 		auto prod = P1.getStringToken(toAdd[i], '|');
 		
 		//prepare the recipe vector
-		std::vector<Product::Ing> tempRecipe;
+		std::vector<Product::Point> tempRecipe;
 
 		//count elements in recipe
 		auto rec = P1.getStringToken(toAdd[i + 1], ',');
@@ -157,7 +164,7 @@ void Menu<Pizza>::loadProducts()
 				//update recipe
 				if (ref.getName() == ing[0])
 				{
-					Product::Ing temp(ref.getID(), qty);
+					Product::Point temp(ref.getID(), qty);
 					tempRecipe.push_back(temp);
 				}
 
@@ -171,6 +178,29 @@ void Menu<Pizza>::loadProducts()
 
 		//add product
 		ProductRef.push_back(pizzaToAdd);
+
+		//add Veg to separate ledger
+		if (pizzaToAdd.isVeg())
+		{
+			VLedger.insert(ProductRef.size() - 1);
+		}
  	}
 }
 
+template <class T>
+void Menu<T>::updateLedgers()
+{
+	if (Ledger.size() < ProductRef.size())
+	{
+		Ledger.reserve(ProductRef.size());
+		for (size_t i = Ledger.size(); i < ProductRef.size(); i++)
+		{
+			Ledger.push_back(0);
+			//add Veg to separate ledger
+			if (ProductRef[i].isVeg())
+			{
+				VLedger.insert(i);
+			}
+		}
+	}
+}

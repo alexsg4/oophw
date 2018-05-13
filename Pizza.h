@@ -16,14 +16,14 @@ private:
 
 public:
 	Pizza();
-	Pizza(const std::string& name, const std::vector<Product::Ing>& recipeToSet, const std::vector<Ingredient> & refToSet, const std::string & flagToSet="");
+	Pizza(const std::string& name, const std::vector<Product::Point>& recipeToSet, const std::vector<Ingredient> & refToSet, const std::string & flagToSet="");
 	Pizza(const Pizza & other);
 	Pizza& operator = (const Pizza & other);
 	virtual ~Pizza();
 
 	inline bool isVeg() const
 	{
-		return ( flagStr.find(static_cast<char>(Flags::VEG) != std::string::npos) );
+		return ( flagStr.find(static_cast<char>(Flags::VEG)) != std::string::npos );
 	}
 
 	inline std::string getFlags() const { return flagStr; }
@@ -31,7 +31,7 @@ public:
 
 	const std::string getName() const;
 	virtual double getPrice() const override;
-	const std::vector<Product::Ing> & getRecipe() const;
+	const std::vector<Product::Point> & getRecipe() const;
 
 	void setRef(const std::vector<Ingredient> & refToSet);
 

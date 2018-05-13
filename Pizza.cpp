@@ -4,7 +4,7 @@
 
 Pizza::Pizza() {}
 
-Pizza::Pizza(const std::string& name, const std::vector<Product::Ing>& recipeToSet, const std::vector<Ingredient> & refToSet, const std::string & flagToSet)
+Pizza::Pizza(const std::string& name, const std::vector<Product::Point>& recipeToSet, const std::vector<Ingredient> & refToSet, const std::string & flagToSet)
 	: Product(name, recipeToSet, refToSet), flagStr(flagToSet){}
 
 Pizza::Pizza(const Pizza & other) : Product(other)
@@ -63,7 +63,7 @@ double Pizza::getPrice() const
 	
 }
 
-const std::vector<Product::Ing> & Pizza::getRecipe() const
+const std::vector<Product::Point> & Pizza::getRecipe() const
 {
 	return Product::recipe;
 }

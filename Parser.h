@@ -180,7 +180,7 @@ const Parser<Pizza>::Status Parser<Pizza>::parseFile()
 				if (find(prodLine, toWrite) < 0 && find(recLine, toWrite) < 0)
 				{
 					toWrite.push_back(prodLine);
-					recLine[0] = tolower(recLine[0]);
+					recLine[0] = static_cast<char>(tolower(recLine[0]));
 					toWrite.push_back(recLine);
 				}
 

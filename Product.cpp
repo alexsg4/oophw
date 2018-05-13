@@ -4,7 +4,7 @@
 
 Product::Product(){}
 
-Product::Product(const std::string& name, const std::vector<Ing>& recipeToSet, const std::vector<Ingredient> & refToSet) 
+Product::Product(const std::string& name, const std::vector<Point>& recipeToSet, const std::vector<Ingredient> & refToSet) 
 {
 	this->name = name;
 	recipe = recipeToSet;
@@ -12,7 +12,7 @@ Product::Product(const std::string& name, const std::vector<Ing>& recipeToSet, c
 	ref = &refToSet;
 }
 
-Product::Product(const std::string& name, const std::vector<Ing>& recipeToSet)
+Product::Product(const std::string& name, const std::vector<Point>& recipeToSet)
 {
 	this->name = name;
 	recipe = recipeToSet;
@@ -74,7 +74,7 @@ double Product::getPrice() const
 	return price;
 }
 
-const std::vector<Product::Ing> & Product::getRecipe() const
+const std::vector<Product::Point> & Product::getRecipe() const
 {
 	return recipe;
 }
