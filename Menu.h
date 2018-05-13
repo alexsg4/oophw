@@ -89,7 +89,7 @@ public:
 
 	inline void sellProduct(const int productID, const int qty = 1)
 	{
-		if (id >= 0 && id < Ledger.size() && !Ledger.empty())
+		if (productID >= 0 && productID < Ledger.size() && !Ledger.empty())
 		{
 			if (qty > 0){	Ledger[productID] += qty;	}
 		}
