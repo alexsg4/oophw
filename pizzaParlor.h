@@ -39,6 +39,8 @@
 enum class MenuItem 
 { 
 	WAIT,		//no action
+	//add entries below
+	DISP,		//show product recipes
 	ORD,		//place order  
 	ORDO,		//place online order
 	SALES,		//show sales figures
@@ -117,6 +119,7 @@ void CS_showMenu()
 	CS_showArt("title.in", 155);
 	CS_showArt("menu.in", 155, "\t\t\t Meniu \t\t\t");
 
+	CS_showMenuEntry((unsigned)MenuItem::DISP, "Afisare retete..");
 	CS_showMenuEntry((unsigned)MenuItem::ORD, "Plasare comanda..");
 	CS_showMenuEntry((unsigned)MenuItem::ORDO, "Plasare comanda online..");
 	CS_showMenuEntry((unsigned)MenuItem::SALES, "Afisare vanzari..");

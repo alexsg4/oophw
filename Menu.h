@@ -91,7 +91,7 @@ public:
 		}
 	}
 	
-	inline void showProducts(std::ostream & out = std::cout) const
+	inline void showProducts(bool LName = false, std::ostream & out = std::cout) const
 	{
 		if (ProductRef.empty())
 		{
@@ -101,7 +101,14 @@ public:
 		
 		for (size_t i=0; i < ProductRef.size(); i++)
 		{
-			out << i + 1 << ".\t" << ProductRef[i] << " \n";
+			if (LName)
+			{
+				out << i + 1 << ".\t" << ProductRef[i] << " \n";
+			}
+			else
+			{
+				out << i + 1 << ".\t" << ProductRef[i].getName() << " \n";
+			}
 		}
 	}
 

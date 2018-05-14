@@ -115,6 +115,12 @@ std::istream & operator>>(std::istream & in, Pizza & other)
 
 std::ostream & operator<<(std::ostream & out, const Pizza & other)
 {
-	out << other.name << " : $" << other.getPrice();
+	out << other.name << " : $" << other.getPrice()<<"\n";
+	for (const auto &ing : other.recipe)
+	{
+		size_t i = static_cast<size_t>(ing.x);
+		out << other.ref->operator[](i).getName() << " | ";
+	}
+	out << "\n";
 	return out;
 }

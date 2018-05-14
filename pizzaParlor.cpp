@@ -34,18 +34,21 @@ int main()
 
 		switch ((MenuItem)temp)
 		{
+		case MenuItem::DISP:
+			CLEAR;
+			CS_printHeader("Retete");
+			M1.showProducts(true);
+			CS_waitUserInput();
+			break;
+
 		case MenuItem::ORD:
 			CLEAR;
-
 			placeOrder(M1);
-
 			break;
 
 		case MenuItem::ORDO:
 			CLEAR;
-
 			placeOrder(M1, true);
-
 			break;
 
 		case MenuItem::SALES:
