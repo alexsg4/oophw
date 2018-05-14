@@ -40,7 +40,7 @@ private:
 	std::vector<double> mods;
 	
 	//tracks product sales
-	std::vector<int> Ledger;
+	std::vector<Product::Point> Ledger;
 
 	//tracks Vege product IDs
 	std::set<int> VLedger;
@@ -48,14 +48,19 @@ private:
 	//generator files directory
 	std::string genDir;
 
+	enum class OrderSize { S = -1, M, L };
+
 public:
-	
+
 	inline Menu()
 	{
 		genDir = std::string(STR(ASSETS)) + "/gen/";
 		loadIngredients();
 		loadProducts();
 		updateLedgers();
+
+		mods.push_back(1.6);
+		mods.push_back(2.0);
 	};
 
 	inline ~Menu() {};
@@ -87,11 +92,31 @@ public:
 		}
 	}
 
-	inline void sellProduct(const int productID, const int qty = 1)
+	inline void sellProduct(const int productID, const int size = -1, const int qty = 1, const bool isOnline = false, const double distance = 9.)
 	{
 		if (productID >= 0 && productID < Ledger.size() && !Ledger.empty())
 		{
-			if (qty > 0){	Ledger[productID] += qty;	}
+			double orderPrice = ProductRef[productID].getPrice();
+			if (qty < 1) { qty = 1; }
+
+			if (size <= static_cast<int>(OrderSize::S) || size > static_cast<int>(OrderSize::L))
+			{
+				orderPrice *= qty;
+			}
+			else
+			{
+				orderPrice = orderPrice * mods[size] * qty;
+			}
+			
+			//change entire order's price
+			if (isOnline)
+			{
+				orderPrice += 0.05*orderPrice*(distance / 10);
+			}
+
+			Ledger[productID].x += qty;
+			Ledger[productID].y += orderPrice;
+			
 		}
 	}
 
@@ -112,21 +137,19 @@ inline void Menu<Pizza>::showSales(std::ostream & out)
 
 	for (size_t i = 0; i < Ledger.size(); i++)
 	{
-		if (Ledger[i] && !VLedger.count(Ledger[i]))
+		if (Ledger[i].x && !VLedger.count(i))
 		{
 			hasRecords = true;
-			auto price = ProductRef[i].getPrice()*Ledger[i];
-			out << ProductRef[i].getName() << " x " << Ledger[i] << " : $"<<price<<"\n";
+			out << ProductRef[i].getName() << " x " << Ledger[i].x << " : $"<<Ledger[i].y<<"\n";
 		}
 	}
 
 	for (const auto &i : VLedger)
 	{
-		if (Ledger[i])
+		if (Ledger[i].x)
 		{
 			hasRecords = true;
-			auto price = ProductRef[i].getPrice()*Ledger[i];
-			out << ProductRef[i].getName() << " x " << Ledger[i] << " : $" << price << "\n";
+			out << ProductRef[i].getName() << " x " << Ledger[i].x << " : $" << Ledger[i].y << "\n";
 		}
 	}
 
@@ -233,7 +256,7 @@ void Menu<T>::updateLedgers()
 		Ledger.reserve(ProductRef.size());
 		for (size_t i = Ledger.size(); i < ProductRef.size(); i++)
 		{
-			Ledger.push_back(0);
+			Ledger.push_back(Product::Point(0,0));
 			//add Veg to separate ledger
 			if (ProductRef[i].isVeg())
 			{
