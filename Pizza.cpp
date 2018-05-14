@@ -53,9 +53,9 @@ double Pizza::getPrice() const
 	{
 		for (size_t i = 0; i < recipe.size(); i++)
 		{
-			if (recipe[i].id > -1)
+			if (recipe[i].x > -1)
 			{
-				price += (*ref)[recipe[i].id].getPrice()*recipe[i].qty;
+				price += (*ref)[recipe[i].x].getPrice()*recipe[i].y;
 			}
 		}
 	}

@@ -13,13 +13,13 @@ public:
 	//A simple 2 (x,y) point class
 	struct Point
 	{
-		double id = -1;
-		double qty = 1;
+		double x = -1;
+		double y = 1;
 
-		Point(const int id, const int qty) : id(id), qty(qty) {}
+		Point(const int x, const int y) : x(x), y(y) {}
 		friend bool operator == (const Point & i1, const Point & i2)
 		{
-			return (i1.id == i2.id && i1.qty == i2.qty);
+			return (i1.x == i2.x && i1.y == i2.y);
 		}
 
 		friend bool operator != (const Point & i1, const Point & i2)
@@ -31,8 +31,8 @@ public:
 		{
 			if (*this != other)
 			{
-				id = other.id;
-				qty = other.qty;
+				x = other.x;
+				y = other.y;
 			}
 			return *this;
 		}
