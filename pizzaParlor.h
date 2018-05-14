@@ -53,6 +53,7 @@ void CS_showMenuEntry(const unsigned num, const std::string s, const unsigned co
 void CS_showMenu();
 void CS_printDivider(const char c = '=', const unsigned len = COLS);
 void CS_printHeader(const std::string& title = "title");
+const bool CS_promptUserYN(const std::string & message);
 
 //menu wrappers
 void placeOrder(Menu<Pizza>& menu, bool isOnline = false);
@@ -140,6 +141,21 @@ void CS_printHeader(const std::string& title)
 	std::cout << "\n";
 }
 
+const bool CS_promptUserYN(const std::string & message)
+{
+	std::string ans;
+	std::cout << "\n"<< message << " [da/nu] : ";
+	while (!(std::cin >> ans) || (ans != "da" && ans != "nu"))
+	{
+		std::cin.clear();
+		std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+		std::cout << "Raspuns invalid. Incercati din nou. \n";
+		std::cout << "\n" << message << " [da/nu] : ";
+	}
+
+	return(ans == "da");
+}
+
 //###################################################################################
 
 //TODO prompt user for confirmation
@@ -149,65 +165,87 @@ void placeOrder(Menu<Pizza>& menu, bool isOnline)
 	menu.showProducts();
 	if (!menu.getSize()) { return; }
 
-	int selection = -1;
+	std::vector<Menu<Pizza>::Order> Order;
+	bool isFinal = false;
 
-	std::cout << "\nSelectati produsul: ";
-	while (!(std::cin >> selection) || (selection <= 0 || selection > menu.getSize()))
+	while (!isFinal)
 	{
-		std::cin.clear();
-		std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
-		std::cout << "Numar produs incorect. Incercati din nou. \n";
+		int selection = -1;
+
 		std::cout << "\nSelectati produsul: ";
-	}
-	selection--;
-
-	size_t qty = 1;
-	int size = -1;
-
-	std::cout << "\nDimensiuni: \n";
-	menu.showOrderSizes();
-
-	std::cout << "\nSelectati numarul de produse si dimensiunea comenzii: ";
-	while (!(std::cin >> qty >> size) || (qty < 1 || size < 0 || size - 1 > menu.getOrderSizes()))
-	{
-		std::cin.clear();
-		std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
-		std::cout << "Incercati din nou. \n";
-		std::cout << "\nSelectati numarul de produse si dimensiunea comenzii: ";
-	}
-
-	size -= 2;
-	double dist = 0.;
-	if (isOnline)
-	{
-		std::cout << "\nDati distanta (km) catre destinatie: ";
-		while (!(std::cin >> dist) || (dist < 0))
+		while (!(std::cin >> selection) || (selection <= 0 || selection > menu.getSize()))
 		{
 			std::cin.clear();
 			std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+			std::cout << "Numar produs incorect. Incercati din nou. \n";
+			std::cout << "\nSelectati produsul: ";
+		}
+		selection--;
+
+		size_t qty = 1;
+		int size = -1;
+
+		std::cout << "\nDimensiuni: \n";
+		menu.showOrderSizes();
+
+		std::cout << "\nSelectati numarul de produse si dimensiunea comenzii: ";
+		while (!(std::cin >> qty >> size) || (qty < 1 || size < 0 || size - 1 > menu.getOrderSizes()))
+		{
+			std::cin.clear();
+			std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+			std::cout << "Incercati din nou. \n";
+			std::cout << "\nSelectati numarul de produse si dimensiunea comenzii: ";
+		}
+
+		size -= 2;
+		double dist = 0.;
+		if (isOnline)
+		{
 			std::cout << "\nDati distanta (km) catre destinatie: ";
+			while (!(std::cin >> dist) || (dist < 0))
+			{
+				std::cin.clear();
+				std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+				std::cout << "\nDati distanta (km) catre destinatie: ";
+			}
+		}
+
+		if (CS_promptUserYN("Adaugati produsele la comanda ?"))
+		{
+			auto toAdd = Menu<Pizza>::Order(selection, size, qty, isOnline, dist);
+			Order.push_back(toAdd);
+			std::cout << "Produsele au fost adaugate la comanda.\n";
+
+			isFinal = !(CS_promptUserYN("Adaugati si alte produse?"));
+		}
+		else
+		{
+			if (Order.empty())
+			{
+				isFinal = CS_promptUserYN("Renuntare comanda?");
+			}
+			else
+			{
+				std::cout << "Comanda are : " << Order.size() << " articole.";
+				isFinal = !(CS_promptUserYN("Adaugati si alte produse?"));
+			}
+		}
+
+	}
+
+	if (Order.empty()) { std::cout << "Comanda nu a fost plasata.\n"; }
+	
+	else
+	{
+		//TODO provide order recap for user before confirmation
+		if (CS_promptUserYN("Plasati comanda?"))
+		{
+			for (const auto & item : Order)
+			{
+				menu += item;
+			}
 		}
 	}
-
-	std::string ans;
-
-	std::cout << "\nPlasati comanda? [da/nu] : ";
-	while (!(std::cin >> ans) || (ans !="da" && ans !="nu"))
-	{
-		std::cin.clear();
-		std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
-		std::cout << "Raspuns invalid. Incercati din nou. \n";
-		std::cout << "\nPlasati comanda? [da/nu] : ";
-	}
-
-	if (ans=="da")
-	{
-		menu.sellProduct(selection, size, qty, isOnline, dist);
-		std::cout << "Comanda a fost plasata cu succes.\n";
-		return;
-	}
-	std::cout << "Comanda nu a fost plasata.\n";
-
 }
 
 void showSales(Menu<Pizza> &menu)
@@ -221,7 +259,6 @@ void showIngredients(Menu<Pizza> &menu)
 {
 	CS_printHeader("Ingrediente");
 	menu.showIngredients();
-
 }
 
 //displays splash screen, sets correct terminal width on windows

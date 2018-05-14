@@ -20,8 +20,30 @@ class Menu;
 template<class T>
 class Menu
 {
+public:
+	struct Order
+	{
+		int id;
+		int size = -1;
+		size_t qty = 1;
+		bool isOnline = false;
+		double distance = 0;
+
+		Order(const int id, const int size = static_cast<int>(Menu::OrderSize::S),  
+			const size_t qty = 1, const bool onl = false, const double dist = 0)
+			: id(id), size(size), qty(qty), isOnline(onl), distance(dist){}
+	};
+
 private:
-	
+	//characteristic of order sizes
+	enum class OrderSize : int 
+	{ 
+		S = -1, //small (base)
+		M,		//medium
+		L,		//large
+		NUM		//number of additional sizes
+	};
+
 	std::vector<Ingredient> IngredientRef;
 	std::vector<T> ProductRef;
 
@@ -40,8 +62,6 @@ private:
 	//price of workmanship
 	const double workPrice = 5.;
 
-	enum class OrderSize : int{ S = -1, M, L, NUM };
-
 public:
 
 	inline Menu()
@@ -56,6 +76,7 @@ public:
 	};
 
 	inline ~Menu() {};
+	
 	inline void showIngredients(std::ostream & out = std::cout)
 	{
 		if (IngredientRef.empty())
@@ -84,61 +105,37 @@ public:
 		}
 	}
 
-	inline void sellProduct(const int productID, const int size = -1, const int qty = 1, const bool isOnline = false, const double distance = 9.)
+	inline const size_t getSize() const { return ProductRef.size(); }
+	inline const size_t getOrderSizes() const { return static_cast<int>(OrderSize::NUM); }
+	inline void showOrderSizes(std::ostream & out = std::cout) const
 	{
-		if (productID >= 0 && productID < Ledger.size() && !Ledger.empty())
+		for (int i = 0; i <= getOrderSizes(); i++)
 		{
-			double orderPrice = ProductRef[productID].getPrice() + workPrice;
-			
-			auto qt = qty;
-			if (qty < 1) { qt = 1; }
-
-			if (size <= static_cast<int>(OrderSize::S) || size > static_cast<int>(OrderSize::L))
+			switch (i - 1)
 			{
-				orderPrice *= qt;
+				case static_cast<int>(OrderSize::S) :
+					out << "1. " << "Mica.\n";
+					break;
+					case static_cast<int>(OrderSize::M) :
+						out << "2. " << "Medie.\n";
+						break;
+						case static_cast<int>(OrderSize::L) :
+							out << "3. " << "Mare.\n";
+							break;
+							case static_cast<int>(OrderSize::NUM) :
+								break;
 			}
-			else
-			{
-				orderPrice = orderPrice * mods[size] * qt;
-			}
-			
-			//change entire order's price
-			if (isOnline)
-			{
-				orderPrice += 0.05*orderPrice*(distance / 10);
-			}
-
-			Ledger[productID].x += qt;
-			Ledger[productID].y += orderPrice;
-			
 		}
 	}
+
+
+	void placeOrder(const int productID, const int size = -1, const int qty = 1, const bool isOnline = false, const double distance = 9.);
+	
+	void placeOrder(const Order & order);
 
 	void showSales(std::ostream & out = std::cout);
 
-	inline const size_t getSize() const { return ProductRef.size(); }
-	inline const size_t getOrderSizes() const { return static_cast<int>(OrderSize::NUM); }
-	
-	inline void showOrderSizes(std::ostream & out = std::cout) const 
-	{ 
-		for (int i = 0; i <= getOrderSizes(); i++)
-		{
-			switch (i-1)
-			{
-			case static_cast<int>(OrderSize::S):
-				out << "1. " << "Mica.\n";
-				break;
-			case static_cast<int>(OrderSize::M):
-				out << "2. " << "Medie.\n";
-				break;
-			case static_cast<int>(OrderSize::L):
-				out << "3. " << "Mare.\n";
-				break;
-			case static_cast<int>(OrderSize::NUM):
-				break;
-			}
-		}
-	}
+	Menu & operator+=(const Order& toPlace);
 
 private:
 	void loadIngredients();
@@ -147,9 +144,71 @@ private:
 
 };
 
-//TODO adapt for special orders and price modifiers
 template<>
-inline void Menu<Pizza>::showSales(std::ostream & out)
+void Menu<Pizza>::placeOrder(const int productID, const int size, const int qty, const bool isOnline, const double distance)
+{
+	if (productID >= 0 && productID < Ledger.size() && !Ledger.empty())
+	{
+		double orderPrice = ProductRef[productID].getPrice() + workPrice;
+
+		auto qt = qty;
+		if (qty < 1) { qt = 1; }
+
+		if (size <= static_cast<int>(OrderSize::S) || size > static_cast<int>(OrderSize::L))
+		{
+			orderPrice *= qt;
+		}
+		else
+		{
+			orderPrice = orderPrice * mods[size] * qt;
+		}
+
+		//change entire order's price
+		if (isOnline)
+		{
+			orderPrice += 0.05*orderPrice*(distance / 10);
+		}
+
+		Ledger[productID].x += qt;
+		Ledger[productID].y += orderPrice;
+
+	}
+}
+
+template<>
+void Menu<Pizza>::placeOrder(const Order & ord)
+{
+	if (ord.id >= 0 && ord.id < Ledger.size() && !Ledger.empty())
+	{
+		double orderPrice = ProductRef[ord.id].getPrice() + workPrice;
+
+		auto qt = ord.qty;
+		if (ord.qty < 1) { qt = 1; }
+
+		if (ord.size <= static_cast<int>(OrderSize::S) || ord.size > static_cast<int>(OrderSize::L))
+		{
+			orderPrice *= qt;
+		}
+		else
+		{
+			orderPrice = orderPrice * mods[ord.size] * qt;
+		}
+
+		//change entire order's price
+		if (ord.isOnline)
+		{
+			orderPrice += 0.05*orderPrice*(ord.distance / 10);
+		}
+
+		Ledger[ord.id].x += qt;
+		Ledger[ord.id].y += orderPrice;
+
+	}
+}
+
+
+template<>
+void Menu<Pizza>::showSales(std::ostream & out)
 {
 	double vegTotal = 0., total = 0.;
 
@@ -296,3 +355,9 @@ void Menu<T>::initLedgers()
 	}
 }
 
+template <>
+Menu<Pizza> & Menu<Pizza>::operator+=(const Order & toPlace)
+{
+	this->placeOrder(toPlace);
+	return *this;
+}
