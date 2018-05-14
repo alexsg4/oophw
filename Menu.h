@@ -22,19 +22,8 @@ class Menu
 {
 private:
 	
-	//unused for now
-	struct Section
-	{
-		std::string name;
-		std::vector <double> mods;
-		Section(const std::string & nm, const std::vector<double> md) : name(nm), mods(md) {}
-	};
-
 	std::vector<Ingredient> IngredientRef;
 	std::vector<T> ProductRef;
-
-	//unused for now
-	std::vector<Section> Sections;
 
 	//price modifiers
 	std::vector<double> mods;
@@ -48,7 +37,7 @@ private:
 	//generator files directory
 	std::string genDir;
 
-	enum class OrderSize { S = -1, M, L };
+	enum class OrderSize : int{ S = -1, M, L, NUM };
 
 public:
 
@@ -78,7 +67,7 @@ public:
 		}
 	}
 	
-	inline void showProducts(std::ostream & out = std::cout)
+	inline void showProducts(std::ostream & out = std::cout) const
 	{
 		if (ProductRef.empty())
 		{
@@ -97,15 +86,17 @@ public:
 		if (productID >= 0 && productID < Ledger.size() && !Ledger.empty())
 		{
 			double orderPrice = ProductRef[productID].getPrice();
-			if (qty < 1) { qty = 1; }
+			
+			auto qt = qty;
+			if (qty < 1) { qt = 1; }
 
 			if (size <= static_cast<int>(OrderSize::S) || size > static_cast<int>(OrderSize::L))
 			{
-				orderPrice *= qty;
+				orderPrice *= qt;
 			}
 			else
 			{
-				orderPrice = orderPrice * mods[size] * qty;
+				orderPrice = orderPrice * mods[size] * qt;
 			}
 			
 			//change entire order's price
@@ -114,13 +105,37 @@ public:
 				orderPrice += 0.05*orderPrice*(distance / 10);
 			}
 
-			Ledger[productID].x += qty;
+			Ledger[productID].x += qt;
 			Ledger[productID].y += orderPrice;
 			
 		}
 	}
 
 	void showSales(std::ostream & out = std::cout);
+
+	inline const size_t getSize() const { return ProductRef.size(); }
+	inline const size_t getOrderSizes() const { return static_cast<int>(OrderSize::NUM); }
+	
+	inline void showOrderSizes(std::ostream & out = std::cout) const 
+	{ 
+		for (int i = 0; i <= getOrderSizes(); i++)
+		{
+			switch (i-1)
+			{
+			case static_cast<int>(OrderSize::S):
+				out << "1. " << "Mica.\n";
+				break;
+			case static_cast<int>(OrderSize::M):
+				out << "2. " << "Medie.\n";
+				break;
+			case static_cast<int>(OrderSize::L):
+				out << "3. " << "Mare.\n";
+				break;
+			case static_cast<int>(OrderSize::NUM):
+				break;
+			}
+		}
+	}
 
 private:
 	void loadIngredients();
@@ -133,14 +148,14 @@ private:
 template<>
 inline void Menu<Pizza>::showSales(std::ostream & out)
 {
-	bool hasRecords = false;
+	double vegTotal = 0., total = 0.;
 
 	for (size_t i = 0; i < Ledger.size(); i++)
 	{
 		if (Ledger[i].x && !VLedger.count(i))
 		{
-			hasRecords = true;
 			out << ProductRef[i].getName() << " x " << Ledger[i].x << " : $"<<Ledger[i].y<<"\n";
+			total += Ledger[i].y;
 		}
 	}
 
@@ -148,14 +163,26 @@ inline void Menu<Pizza>::showSales(std::ostream & out)
 	{
 		if (Ledger[i].x)
 		{
-			hasRecords = true;
 			out << ProductRef[i].getName() << " x " << Ledger[i].x << " : $" << Ledger[i].y << "\n";
+			vegTotal += Ledger[i].y;
 		}
 	}
 
-	if (!hasRecords)
+	total += vegTotal;
+
+	if (!total)
 	{
 		out << "Monentan nu s-a inregistrat nicio vanzare. \n";
+	}
+
+	else
+	{
+		out << "\nTotal vanzari: $" << total << "\n";
+	}
+
+	if (vegTotal)
+	{
+		out << "\nTotal vanzari produse Vegetariene: $" << vegTotal << "\n";
 	}
 }
 
@@ -265,3 +292,4 @@ void Menu<T>::updateLedgers()
 		}
 	}
 }
+

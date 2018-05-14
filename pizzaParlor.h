@@ -40,6 +40,7 @@ enum class MenuItem
 { 
 	WAIT,		//no action
 	ORD,		//place order  
+	ORDO,		//place online order
 	SALES,		//show sales figures
 	INGS,		//show ingredients
 	QUIT		//exit program
@@ -51,9 +52,10 @@ void CS_waitUserInput();
 void CS_showMenuEntry(const unsigned num, const std::string s, const unsigned cols = COLS);
 void CS_showMenu();
 void CS_printDivider(const char c = '=', const unsigned len = COLS);
+void CS_printHeader(const std::string& title = "title");
 
 //menu wrappers
-void placeOrder(const Menu<Pizza> &menu);
+void placeOrder(Menu<Pizza>& menu, bool isOnline = false);
 void showSales(const Menu<Pizza> &menu);
 void showIngredients(const Menu<Pizza> &menu);
 
@@ -103,7 +105,8 @@ void CS_waitUserInput()
 
 void CS_showMenuEntry(const unsigned num, const std::string s, const unsigned cols)
 {
-	std::cout << std::setw((cols - s.length() - 4) / 2) << num << ". " + s + ".";
+	//std::cout << std::setw((cols - s.length() - 4) / 2) << num << ". " + s + ".";
+	std::cout << std::setw(cols / 2) << num << ". " + s + ".";
 	std::cout << "\n";
 }
 
@@ -114,6 +117,7 @@ void CS_showMenu()
 	CS_showArt("menu.in", 155, "\t\t\t Meniu \t\t\t");
 
 	CS_showMenuEntry((unsigned)MenuItem::ORD, "Plasare comanda..");
+	CS_showMenuEntry((unsigned)MenuItem::ORDO, "Plasare comanda online..");
 	CS_showMenuEntry((unsigned)MenuItem::SALES, "Afisare vanzari..");
 	CS_showMenuEntry((unsigned)MenuItem::INGS, "Afisare lista ingrediente..");
 	CS_showMenuEntry((unsigned)MenuItem::QUIT, "Iesire");
@@ -128,33 +132,77 @@ void CS_printDivider(const char c, const unsigned len)
 	std::cout << "\n";
 }
 
-//###################################################################################
-
-void placeOrder(const Menu<Pizza>& menu)
+void CS_printHeader(const std::string& title)
 {
 	CS_printDivider();
-	std::cout << "\t\t\t Comanda :\n";
+	std::cout << std::setw(COLS / 2) << title << "\n";
 	CS_printDivider();
-	
-	//TODO implement
+	std::cout << "\n";
+}
+
+//###################################################################################
+
+//TODO prompt user for confirmation
+void placeOrder(Menu<Pizza>& menu, bool isOnline)
+{
+	CS_printHeader("Comanda");
+
+	menu.showProducts();
+	if (!menu.getSize()) { return; }
+
+	int selection = -1;
+
+	std::cout << "\nSelectati produsul: ";
+	while (!(std::cin >> selection) || (selection <= 0 || selection > menu.getSize()))
+	{
+		std::cin.clear();
+		std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+		std::cout << "Numar produs incorect. Incercati din nou. \n";
+		std::cout << "\nSelectati produsul: ";
+	}
+	selection--;
+
+	size_t qty = 1;
+	int size = -1;
+
+	std::cout << "\nDimensiuni: \n";
+	menu.showOrderSizes();
+
+	std::cout << "\nSelectati numarul de produse si dimensiunea comenzii: ";
+	while (!(std::cin >> qty >> size) || (qty < 1 || size < 0 || size-1 > menu.getOrderSizes()))
+	{
+		std::cin.clear();
+		std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+		//std::cout << "Numar produs incorect. Incercati din nou. \n";
+		std::cout << "\nSelectati numarul de produse si dimensiunea comenzii: ";
+	}
+	size -= 2;
+	double dist = 0.;
+	if (isOnline)
+	{
+		std::cout << "\nDati distanta (km) catre destinatie: ";
+		while (!(std::cin >> dist) || (dist < 0))
+		{
+			std::cin.clear();
+			std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+			std::cout << "\nDati distanta (km) catre destinatie: ";
+		}
+	}
+
+	menu.sellProduct(selection, size, qty, isOnline, dist);
+
 }
 
 void showSales(Menu<Pizza> &menu)
 {
-	CS_printDivider();
-	std::cout << "\t\t\t Vanzari \n";
-	CS_printDivider();
-	std::cout << "\n";
+	CS_printHeader("Vanzari");
 	menu.showSales();
 
 }
 
 void showIngredients(Menu<Pizza> &menu)
 {
-	CS_printDivider();
-	std::cout << "\t\t\t Ingrediente :\n";
-	CS_printDivider();
-	std::cout << "\n";
+	CS_printHeader("Ingrediente");
 	menu.showIngredients();
 
 }
@@ -168,6 +216,7 @@ void CS_init()
 	//show splash screen
 	CS_showArt("welcome.in", COLS, "Bun venit la Domino the Hutt, pizzeria dvs. preferata!");
 
-	CS_waitUserInput();
+	WAIT(1.5);
 }
+
 

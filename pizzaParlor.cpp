@@ -11,7 +11,6 @@
 
 int main()
 {
-
 	Menu<Pizza> M1;
 	
 	static unsigned selection = 0;
@@ -39,8 +38,14 @@ int main()
 			CLEAR;
 
 			placeOrder(M1);
-			
-			CS_waitUserInput();
+
+			break;
+
+		case MenuItem::ORDO:
+			CLEAR;
+
+			placeOrder(M1, true);
+
 			break;
 
 		case MenuItem::SALES:
@@ -54,8 +59,6 @@ int main()
 			showIngredients(M1);
 			CS_waitUserInput();
 			break;
-
-		
 
 		case MenuItem::QUIT:
 			CLEAR;
