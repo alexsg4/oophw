@@ -146,7 +146,6 @@ void CS_printHeader(const std::string& title)
 void placeOrder(Menu<Pizza>& menu, bool isOnline)
 {
 	CS_printHeader("Comanda");
-
 	menu.showProducts();
 	if (!menu.getSize()) { return; }
 
@@ -169,13 +168,14 @@ void placeOrder(Menu<Pizza>& menu, bool isOnline)
 	menu.showOrderSizes();
 
 	std::cout << "\nSelectati numarul de produse si dimensiunea comenzii: ";
-	while (!(std::cin >> qty >> size) || (qty < 1 || size < 0 || size-1 > menu.getOrderSizes()))
+	while (!(std::cin >> qty >> size) || (qty < 1 || size < 0 || size - 1 > menu.getOrderSizes()))
 	{
 		std::cin.clear();
 		std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
-		//std::cout << "Numar produs incorect. Incercati din nou. \n";
+		std::cout << "Incercati din nou. \n";
 		std::cout << "\nSelectati numarul de produse si dimensiunea comenzii: ";
 	}
+
 	size -= 2;
 	double dist = 0.;
 	if (isOnline)
@@ -189,7 +189,24 @@ void placeOrder(Menu<Pizza>& menu, bool isOnline)
 		}
 	}
 
-	menu.sellProduct(selection, size, qty, isOnline, dist);
+	std::string ans;
+
+	std::cout << "\nPlasati comanda? [da/nu] : ";
+	while (!(std::cin >> ans) || (ans !="da" && ans !="nu"))
+	{
+		std::cin.clear();
+		std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
+		std::cout << "Raspuns invalid. Incercati din nou. \n";
+		std::cout << "\nPlasati comanda? [da/nu] : ";
+	}
+
+	if (ans=="da")
+	{
+		menu.sellProduct(selection, size, qty, isOnline, dist);
+		std::cout << "Comanda a fost plasata cu succes.\n";
+		return;
+	}
+	std::cout << "Comanda nu a fost plasata.\n";
 
 }
 
