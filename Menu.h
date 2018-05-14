@@ -37,6 +37,9 @@ private:
 	//generator files directory
 	std::string genDir;
 
+	//price of workmanship
+	const double workPrice = 5.;
+
 	enum class OrderSize : int{ S = -1, M, L, NUM };
 
 public:
@@ -46,7 +49,7 @@ public:
 		genDir = std::string(STR(ASSETS)) + "/gen/";
 		loadIngredients();
 		loadProducts();
-		updateLedgers();
+		initLedgers();
 
 		mods.push_back(1.6);
 		mods.push_back(2.0);
@@ -85,7 +88,7 @@ public:
 	{
 		if (productID >= 0 && productID < Ledger.size() && !Ledger.empty())
 		{
-			double orderPrice = ProductRef[productID].getPrice();
+			double orderPrice = ProductRef[productID].getPrice() + workPrice;
 			
 			auto qt = qty;
 			if (qty < 1) { qt = 1; }
@@ -140,7 +143,7 @@ public:
 private:
 	void loadIngredients();
 	void loadProducts();
-	void updateLedgers();
+	void initLedgers();
 
 };
 
@@ -276,7 +279,7 @@ void Menu<Pizza>::loadProducts()
 }
 
 template <class T>
-void Menu<T>::updateLedgers()
+void Menu<T>::initLedgers()
 {
 	if (Ledger.size() < ProductRef.size())
 	{
