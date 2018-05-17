@@ -40,8 +40,8 @@ private:
 	}
 
 public:
-	Parser(const std::string & toParse);
-	~Parser();
+	Parser(const std::string & toParse) : fileToParse(toParse) {}
+	~Parser(){}
 
 	inline const int find(const std::string & toFind, const std::vector <std::string> & src) const
 	{
@@ -51,7 +51,6 @@ public:
 			{
 				return i;
 			}
-
 		}
 		return -1;
 	}
@@ -72,15 +71,6 @@ public:
 	const Status parseFile();
 
 };
-
-template<class T>
-Parser<T>::Parser(const std::string & toParse) : fileToParse(toParse)
-{
-
-}
-
-template<class T>
-Parser<T>::~Parser(){}
 
 template<class T>
 std::vector<std::string> Parser<T>::getStringToken(const std::string& src, const char token)
@@ -140,7 +130,6 @@ const Parser<Ingredient>::Status Parser<Ingredient>::parseFile()
 	return Status::ERR_FOPEN;
 }
 
-//TODO implement
 template<>
 const Parser<Pizza>::Status Parser<Pizza>::parseFile()
 {
