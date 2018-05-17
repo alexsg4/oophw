@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <set>
+#include <stdexcept>
 
 #include "Ingredient.h"
 #include "Pizza.h"
@@ -86,7 +87,6 @@ public:
 		}
 		for (const auto& ing : IngredientRef)
 		{
-			//TODO alter after test
 			out << ing <<": $"<<ing.getPrice()<<"\n";
 		}
 	}
@@ -103,11 +103,11 @@ public:
 		{
 			if (LName)
 			{
-				out << i + 1 << ".\t" << ProductRef[i] << " \n";
+				out << i + 1 << ".\t" << ProductRef[i]<<" \n";
 			}
 			else
 			{
-				out << i + 1 << ".\t" << ProductRef[i].getName() << " \n";
+				out << i + 1 << ".\t" << ProductRef[i].getName()<< " : de la $" << ProductRef[i].getPrice() + workPrice<<"\n";
 			}
 		}
 	}
@@ -126,15 +126,14 @@ public:
 					case static_cast<int>(OrderSize::M) :
 						out << "2. " << "Medie.\n";
 						break;
-						case static_cast<int>(OrderSize::L) :
-							out << "3. " << "Mare.\n";
-							break;
-							case static_cast<int>(OrderSize::NUM) :
-								break;
+					case static_cast<int>(OrderSize::L) :
+						out << "3. " << "Mare.\n";
+						break;
+					case static_cast<int>(OrderSize::NUM) :
+						break;
 			}
 		}
 	}
-
 
 	void placeOrder(const int productID, const int size = -1, const int qty = 1, const bool isOnline = false, const double distance = 9.);
 	
@@ -265,7 +264,7 @@ void Menu<Pizza>::loadIngredients()
 
 	if (status != Parser<Ingredient>::Status::PARSEOK)
 	{
-		return;
+		throw(std::runtime_error("Eroare citire din fisier.!\n"));
 	}
 
 	for (const std::string &elem : src)
@@ -288,7 +287,10 @@ void Menu<Pizza>::loadProducts()
 	std::vector<std::string> toAdd;
 	auto status = P1.getParsedData(toAdd);
 
-	if (status != Parser<Pizza>::Status::PARSEOK) { return; }
+	if (status != Parser<Pizza>::Status::PARSEOK) 
+	{ 
+		throw(std::runtime_error("Eroare citire din fisier.!\n"));
+	}
 
 	//for every pizza
 	for (size_t i = 0; i < toAdd.size(); i+=2)
@@ -307,6 +309,9 @@ void Menu<Pizza>::loadProducts()
 			auto ing = P1.getStringToken(x, '|');
 			
 			P1.trimWhitespace(ing[0]);
+			//lowercase first letter
+			ing[0][0] = static_cast<char>(tolower(ing[0][0]));
+			
 			int qty = 1;
 			
 			if (ing.size() > 1)
@@ -326,7 +331,6 @@ void Menu<Pizza>::loadProducts()
 				}
 
 			}
-
 		}
 
 		Pizza pizzaToAdd(prod[0], tempRecipe, IngredientRef);
