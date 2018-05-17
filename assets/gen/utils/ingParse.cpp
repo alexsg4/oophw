@@ -1,7 +1,11 @@
+//ingParse.cpp: Simple utility for generating a list of (priced) standalone unique* ingredients from a menu.
+//should be run when adding new recipes to the menu (for now) - read 'with new ingredients'
+
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <vector>
+#include <time.h>
 
 std::vector<std::string> getStringToken(const std::string& src, const char token)
 {
@@ -37,11 +41,8 @@ const int find(const std::string & toFind, const std::vector <std::string> & src
 
 void trimWhitespace(std::string& src)
 {
-	size_t beg = 0, end = 0;
-	beg = src.find_first_not_of(" ");
-	end = src.find_last_not_of(" ");
-
-	src = src.substr(beg, src.length() - (src.length() - end)+1);
+	src.erase(src.find_last_not_of(" ") + 1);
+	src.erase(0, src.find_first_not_of(" "));
 }
 
 int main(int argc, char** argv)
@@ -68,7 +69,7 @@ int main(int argc, char** argv)
 
 		// ignore comments
 		bool isComment = false;
-		if (lineSrc[0] == c_com){ isComment = true; }
+		if (lineSrc[0] == c_com || lineSrc.empty()){ isComment = true; }
 
 		if (!isComment)
 		{
@@ -89,9 +90,12 @@ int main(int argc, char** argv)
 
 	if (toWrite.empty()) { return -1; }
 
+	srand(time(nullptr));
+
 	for (const auto & elem : toWrite)
 	{
-		fout << elem <<"\n";
+		//add random product prices
+		fout << elem <<" | "<< 0.05*elem.length()+ rand() % elem.size()<<"\n";
 	}
 
 	fout.close();
