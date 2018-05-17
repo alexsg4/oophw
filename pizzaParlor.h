@@ -161,7 +161,6 @@ const bool CS_promptUserYN(const std::string & message)
 
 //###################################################################################
 
-//TODO prompt user for confirmation
 void placeOrder(Menu<Pizza>& menu, bool isOnline)
 {
 	CS_printHeader("Comanda");
