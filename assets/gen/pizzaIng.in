@@ -1,43 +1,38 @@
-# This is the pizzaIngredient file. Each line respresents an ingredient and its unit price
-
-sos de rosii | 9.6
-branza Mozzarella | 5.85
-ciuperci | 3.4
-sunca | 4.25
-ardei gras | 2 | 0.7
-masline | 2 | 3.55
-porumb | 3 | 4.5
-cubulete cu carne de vita | 10.25
-pepperoni | 8.45
-bacon afumat | 2.6
-ardei gras | 1.5
-masline | 5.35
-ceapa | 1.25
+sos de rosii | 2.6
+branza Mozzarella | 14.85
+ciuperci | 4.4
+sunca | 2.25
+ardei gras | 5.5
+masline | 6.35
+porumb | 2.3
+cubulete cu carne de vita | 25.25
+pepperoni | 1.45
+bacon afumat | 3.6
+ceapa | 0.25
 rosii | 3.25
-carne de pui | 4.6
-porumb | 1.3
-sos alb cu aroma de usturoi | 25.35
-cubulete cu carne de vita si carne de porc | 37.1
-piept de pui la gratar | 17.1
-parmezan | 1.4
-busuioc | 4.35
-branza Mozarella | 10.8
-jalapenos | 3.45
-rosii cubulete | 0.7
+carne de pui | 0.6
+sos alb cu aroma de usturoi | 17.35
+cubulete cu carne de vita si carne de porc | 19.1
+piept de pui la gratar | 11.1
+parmezan | 5.4
+busuioc | 2.35
+branza Mozarella | 14.8
+jalapenos | 1.45
+rosii cubulete | 12.7
 carnati | 6.35
-branza Emmentaler | 3.85
-cheddar | 3.35
-gorgonzola | 1.5
+branza Emmentaler | 13.85
+cheddar | 1.35
+gorgonzola | 4.5
 mozzarella | 2.5
 oregano | 2.35
-carne de pui la gratar | 2.21
-ciuperci marinate | 13.85
-emmentaler | 5.5
-rosii cherry marinate | 15.05
-bacon | 3.25
-ardei | 0.25
-sos pesto cu smantana | 16.05
-prosciutto crudo | 3.8
-rucola | 4.3
-ceapa rosie | 10.55
-salam Chorizo | 9.65
+carne de pui la gratar | 4.1
+ciuperci marinate | 16.85
+emmentaler | 0.5
+rosii cherry marinate | 17.05
+bacon | 0.25
+ardei | 4.25
+sos pesto cu smantana | 8.05
+prosciutto crudo | 7.8
+rucola | 3.3
+ceapa rosie | 4.55
+salam Chorizo | 11.65

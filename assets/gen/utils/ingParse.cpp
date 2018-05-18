@@ -69,13 +69,15 @@ int main(int argc, char** argv)
 
 		// ignore comments
 		bool isComment = false;
-		if (lineSrc[0] == c_com || lineSrc.empty()){ isComment = true; }
+		if (lineSrc[0] == c_com || lineSrc.empty() || lineSrc[0]=='$'){ isComment = true; }
 
 		if (!isComment)
 		{
 			std::vector<std::string> strTok = getStringToken(lineSrc, delim[0]);
 			for (auto & elem : strTok)
 			{
+				auto temp = getStringToken(elem, delim[2]);
+				elem = temp[0];
 				trimWhitespace(elem);
 				elem[0] = tolower(elem[0]);
 				if (find(elem, toWrite) < 0)
