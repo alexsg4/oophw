@@ -165,6 +165,9 @@ void placeOrder(Menu<Pizza>& menu, bool isOnline)
 {
 	CS_printHeader("Comanda");
 	menu.showProducts();
+	std::cout<<"0.\tAnulare comanda.\n";
+
+
 	if (!menu.getSize()) { return; }
 
 	std::vector<Menu<Pizza>::Order> Order;
@@ -175,13 +178,22 @@ void placeOrder(Menu<Pizza>& menu, bool isOnline)
 		int selection = -1;
 
 		std::cout << "\nSelectati produsul: ";
-		while (!(std::cin >> selection) || (selection <= 0 || selection > menu.getSize()))
+		while (!(std::cin >> selection) || (selection < 0 || selection > menu.getSize()))
 		{
 			std::cin.clear();
 			std::cin.ignore((std::numeric_limits<std::streamsize>::max)(), '\n');
 			std::cout << "Numar produs incorect. Incercati din nou. \n";
 			std::cout << "\nSelectati produsul: ";
 		}
+		
+		if(selection == 0)
+		{
+			Order.clear();
+			break;
+		
+		}
+
+
 		selection--;
 
 		size_t qty = 1;
